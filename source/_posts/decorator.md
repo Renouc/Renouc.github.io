@@ -1,9 +1,10 @@
 ---
 title: js装饰器
+date: 2023-10-21 23:05:51
 banner_img: https://w.wallhaven.cc/full/6d/wallhaven-6dejpx.jpg
 index_img: https://w.wallhaven.cc/full/6d/wallhaven-6dejpx.jpg
 categories: js随笔
-tag: [js, 前端]
+tags: [js, 前端]
 ---
 
 装饰器通常采用函数的形式，接受一个目标对象作为参数，然后返回一个新的对象，通常在新对象中会扩展或修改目标对象的功能。装饰器可以应用于类、方法、属性等。
