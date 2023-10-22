@@ -1,8 +1,8 @@
 ---
 title: js装饰器
 date: 2023-10-21 23:05:51
-banner_img: https://w.wallhaven.cc/full/6d/wallhaven-6dejpx.jpg
-index_img: https://w.wallhaven.cc/full/6d/wallhaven-6dejpx.jpg
+banner_img: /img/decorator_banner.jpg
+index_img: /img/decorator_banner.jpg
 categories: js随笔
 tags: [js, 前端]
 ---

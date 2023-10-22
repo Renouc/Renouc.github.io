@@ -1,8 +1,8 @@
 ---
 title: webscoket
 date: 2023-10-22 22:05:51
-banner_img: https://w.wallhaven.cc/full/x6/wallhaven-x69x1o.jpg
-index_img: https://w.wallhaven.cc/full/x6/wallhaven-x69x1o.jpg
+banner_img: img/webscoket_banner.jpg
+index_img: img/webscoket_banner.jpg
 categories: js随笔
 tags: [通信, 前端]
 ---
