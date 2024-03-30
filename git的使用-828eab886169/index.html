@@ -16,25 +16,24 @@
   <meta name="author" content="Renouc">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在 js 中，this 的指向是动态的，根据函数的调用方式不同，this 的指向也不同。">
+    <meta name="description" content="git 是一个分布式版本控制系统，用于敏捷高效地处理项目变化。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js中的this">
-<meta property="og:url" content="http://example.com/this-281c4e7ea4c5/index.html">
+<meta property="og:title" content="git的使用">
+<meta property="og:url" content="http://example.com/git%E7%9A%84%E4%BD%BF%E7%94%A8-828eab886169/index.html">
 <meta property="og:site_name" content="Renouc的博客">
-<meta property="og:description" content="在 js 中，this 的指向是动态的，根据函数的调用方式不同，this 的指向也不同。">
+<meta property="og:description" content="git 是一个分布式版本控制系统，用于敏捷高效地处理项目变化。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/2023-11-14-this/banner.png">
-<meta property="article:published_time" content="2023-11-14T13:22:40.000Z">
-<meta property="article:modified_time" content="2023-11-14T14:53:13.956Z">
+<meta property="og:image" content="http://example.com/img/2024-03-30-git%E7%9A%84%E4%BD%BF%E7%94%A8/banner.jpg">
+<meta property="article:published_time" content="2024-03-30T05:08:00.000Z">
+<meta property="article:modified_time" content="2024-03-30T05:25:45.854Z">
 <meta property="article:author" content="Renouc">
-<meta property="article:tag" content="前端">
-<meta property="article:tag" content="js">
+<meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/2023-11-14-this/banner.png">
+<meta name="twitter:image" content="http://example.com/img/2024-03-30-git%E7%9A%84%E4%BD%BF%E7%94%A8/banner.jpg">
   
   
   
-  <title>js中的this - Renouc的博客</title>
+  <title>git的使用 - Renouc的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -194,13 +193,13 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/img/2023-11-14-this/banner.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/2024-03-30-git%E7%9A%84%E4%BD%BF%E7%94%A8/banner.jpg') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="js中的this"></span>
+            <span id="subtitle" data-typed-text="git的使用"></span>
           
         </div>
 
@@ -211,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-11-14 21:22" pubdate>
-          2023年11月14日 晚上
+        <time datetime="2024-03-30 13:08" pubdate>
+          2024年3月30日 下午
         </time>
       </span>
     
@@ -223,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          2.3k 字
         
       </span>
     
@@ -234,7 +233,7 @@
         
         
         
-          10 分钟
+          19 分钟
         
       </span>
     
@@ -271,28 +270,73 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">js中的this</h1>
+            <h1 id="seo-header">git的使用</h1>
             
             
               <div class="markdown-body">
                 
-                <p>在 js 中，this 的指向是动态的，根据函数的调用方式不同，this 的指向也不同。</p>
+                <p>git 是一个分布式版本控制系统，用于敏捷高效地处理项目变化。</p>
 <span id="more"></span>
 
-<h2 id="1-由-new-调用"><a href="#1-由-new-调用" class="headerlink" title="1. 由 new 调用"></a>1. 由 new 调用</h2><p>当通过 new 关键字调用函数时，this 就会绑定到新创建的实例对象上。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">Counter</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-variable language_">this</span>.<span class="hljs-property">count</span> = <span class="hljs-number">0</span><br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;this: &#x27;</span>, <span class="hljs-variable language_">this</span>)<br>&#125;<br><br><span class="hljs-keyword">new</span> <span class="hljs-title class_">Counter</span>() <span class="hljs-comment">// this: &#123;name: 0&#125;</span><br></code></pre></td></tr></table></figure>
+<h1 id="Git-基本配置"><a href="#Git-基本配置" class="headerlink" title="Git 基本配置"></a>Git 基本配置</h1><h2 id="配置用户信息"><a href="#配置用户信息" class="headerlink" title="配置用户信息"></a>配置用户信息</h2><p>安装完 Git 之后，要做的第一件事就是设置你的用户名和邮件地址。 这一点很重要，因为每一个 Git 提交都会使</p>
+<p>用这些信息，它们会写入到你的每一次提交中，不可更改</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ git config --global user.name <span class="hljs-string">&quot;John Doe&quot;</span><br>$ git config --global user.email johndoe@example.com<br></code></pre></td></tr></table></figure>
 
-<h2 id="2-由-call-或-apply-或-bind-调用绑定到指定的对象"><a href="#2-由-call-或-apply-或-bind-调用绑定到指定的对象" class="headerlink" title="2. 由 call 或 apply 或 bind 调用绑定到指定的对象"></a>2. 由 call 或 apply 或 bind 调用绑定到指定的对象</h2><p>当通过 call 或 apply 或 bind 调用函数时，this 就会绑定到指定的对象上。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> p = &#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;张三&#x27;</span>,<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;this: &#x27;</span>, <span class="hljs-variable language_">this</span>)<br>&#125;<br><br>foo.<span class="hljs-title function_">call</span>(p) <span class="hljs-comment">// this: &#123;name: &#x27;张三&#x27;&#125;</span><br>foo.<span class="hljs-title function_">apply</span>(p) <span class="hljs-comment">// this: &#123;name: &#x27;张三&#x27;&#125;</span><br>foo.<span class="hljs-title function_">bind</span>(p)() <span class="hljs-comment">// this: &#123;name: &#x27;张三&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>再次强调，如果使用了 –global 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事</p>
+<p>情， Git 都会使用那些信息。 当你想针对特定项目使用不同的用户名称与邮件地址时，可以在那个项目目录下运</p>
+<p>行没有 –global 选项的命令来配置。</p>
+</blockquote>
+<h2 id="配置文本编辑器"><a href="#配置文本编辑器" class="headerlink" title="配置文本编辑器"></a>配置文本编辑器</h2><p>配置默认文本编辑器，当 Git 需要你输入信息时会调用它。 如果未配置，Git 会使用操作系统默认的文本编辑器。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ git config --global core.editor 编辑器地址<br></code></pre></td></tr></table></figure>
 
-<h2 id="3-由上下文对象调用"><a href="#3-由上下文对象调用" class="headerlink" title="3. 由上下文对象调用"></a>3. 由上下文对象调用</h2><p>当函数被作为某个对象的属性调用时，this 就会绑定到该对象上。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> dog = &#123;<br>  <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;旺财&#x27;</span>,<br>  <span class="hljs-title function_">say</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;this: &#x27;</span>, <span class="hljs-variable language_">this</span>)<br>  &#125;,<br>&#125;<br><br>dog.<span class="hljs-title function_">say</span>() <span class="hljs-comment">// this: &#123;name: &#x27;旺财&#x27;&#125;</span><br></code></pre></td></tr></table></figure>
+<h2 id="查看配置信息"><a href="#查看配置信息" class="headerlink" title="查看配置信息"></a>查看配置信息</h2><p>如果想要检查你的配置，可以使用 git config –list 命令来列出所有 Git 当时能找到的配置。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ git config --list<br></code></pre></td></tr></table></figure>
 
-<h2 id="4-直接调用"><a href="#4-直接调用" class="headerlink" title="4. 直接调用"></a>4. 直接调用</h2><p>当函数被直接调用时，this 就会绑定到全局对象上。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;this: &#x27;</span>, <span class="hljs-variable language_">this</span>)<br>&#125;<br><br><span class="hljs-title function_">foo</span>() <span class="hljs-comment">// this: window</span><br></code></pre></td></tr></table></figure>
+<p>你可以通过输入 <code>git config &lt;key&gt;</code>： 来检查 Git 的某一项配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ git config user.name<br></code></pre></td></tr></table></figure>
 
-<h2 id="5-箭头函数"><a href="#5-箭头函数" class="headerlink" title="5. 箭头函数"></a>5. 箭头函数</h2><p>箭头函数没有自己的 this，它会继承外层函数的 this。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;this: &#x27;</span>, <span class="hljs-variable language_">this</span>) <span class="hljs-comment">// this: window</span><br>&#125;, <span class="hljs-number">1000</span>)<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;this: &#x27;</span>, <span class="hljs-variable language_">this</span>) <span class="hljs-comment">// this: &#123;name: &#x27;旺财&#x27;&#125;</span><br>  &#125;, <span class="hljs-number">1000</span>)<br>&#125;<br><br>foo.<span class="hljs-title function_">call</span>(&#123; <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;旺财&#x27;</span> &#125;)<br></code></pre></td></tr></table></figure>
+<h2 id="帮助手册"><a href="#帮助手册" class="headerlink" title="帮助手册"></a>帮助手册</h2><p>若你使用 Git 时需要获取帮助，有三种等价的方法可以找到 Git 命令的综合手册（manpage）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git <span class="hljs-built_in">help</span> &lt;verb&gt;<br>$ git &lt;verb&gt; --<span class="hljs-built_in">help</span><br>$ man git-&lt;verb&gt;<br></code></pre></td></tr></table></figure>
+
+<p>例如，要想获得 git config 命令的手册，执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git <span class="hljs-built_in">help</span> config<br></code></pre></td></tr></table></figure>
+
+<p>如果你不需要全面的手册，只需要可用选项的快速参考，那么可以用 -h 选项获得更简明的 “help” 输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git add -h<br>usage: git add [&lt;options&gt;] [--] &lt;pathspec&gt;...<br>  -n, --dry-run dry run<br>  -v, --verbose be verbose<br>  -i, --interactive interactive picking<br>  -p, --patch <span class="hljs-keyword">select</span> hunks interactively<br>  -e, --edit edit current diff and apply<br>  -f, --force allow adding otherwise ignored files<br>  -u, --update update tracked files<br>  --renormalize renormalize EOL of tracked files (implies -u)<br>  -N, --intent-to-add record only the fact that the path will be added<br>later<br>  -A, --all add changes from all tracked and untracked files<br>  --ignore-removal ignore paths removed <span class="hljs-keyword">in</span> the working tree (same<br>as --no-all)<br>  --refresh don<span class="hljs-string">&#x27;t add, only refresh the index</span><br><span class="hljs-string">  --ignore-errors just skip files which cannot be added because of</span><br><span class="hljs-string">errors</span><br><span class="hljs-string">  --ignore-missing check if - even missing - files are ignored in</span><br><span class="hljs-string">dry run</span><br><span class="hljs-string">  --chmod (+|-)x override the executable bit of the listed files</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Git-基本使用"><a href="#Git-基本使用" class="headerlink" title="Git 基本使用"></a>Git 基本使用</h1><h2 id="获取-git-仓库"><a href="#获取-git-仓库" class="headerlink" title="获取 git 仓库"></a>获取 git 仓库</h2><p>通常有两种获取 Git 项目仓库的方式：</p>
+<ol>
+<li><p>将尚未进行版本控制的本地目录转换为 Git 仓库；</p>
+</li>
+<li><p>从其它服务器 <strong>克隆</strong> 一个已存在的 Git 仓库。</p>
+</li>
+</ol>
+<p>两种方式都会在你的本地机器上得到一个工作就绪的 Git 仓库。</p>
+<h3 id="在已存在目录中初始化仓库"><a href="#在已存在目录中初始化仓库" class="headerlink" title="在已存在目录中初始化仓库"></a>在已存在目录中初始化仓库</h3><p>进入到项目目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">cd</span> /c/user/my_project<br></code></pre></td></tr></table></figure>
+
+<p>初始化仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git init<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>该命令将创建一个名为 .git 的子目录，这个子目录含有你初始化的 Git 仓库中所有的必须文件，这些文件是 Git 仓库的骨干。</p>
+<p>但是，在这个时候，我们仅仅是做了一个初始化的操作，你的项目里的文件还没有被跟踪。</p>
+</blockquote>
+<p>如果在一个已存在文件的文件夹（而非空文件夹）中进行版本控制，你应该开始追踪这些文件并进行初始提交。</p>
+<p>可以通过 git add 命令来指定所需的文件来进行追踪，然后执行 git commit ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git add *.c<br>$ git add LICENSE<br>$ git commit -m <span class="hljs-string">&#x27;initial project version&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="克隆现有的仓库"><a href="#克隆现有的仓库" class="headerlink" title="克隆现有的仓库"></a>克隆现有的仓库</h3><p>如果你想获得一份已经存在了的 Git 仓库的拷贝，这时就要用到 git clone 命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git <span class="hljs-built_in">clone</span> https://github.com/libgit2/libgit2<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这会在当前目录下创建一个名为 “libgit2” 的目录，并在这个目录下初始化一个 .git 文件夹， 从远程仓库拉</p>
+<p>取下所有数据放入 .git 文件夹，然后从中读取最新版本的文件的拷贝。 如果你进入到这个新建的 libgit2 文</p>
+<p>件夹，你会发现所有的项目文件已经在里面了，准备就绪等待后续的开发和使用。</p>
+</blockquote>
+<p>如果你想在克隆远程仓库的时候，自定义本地仓库的名字，你可以通过额外的参数指定新的目录名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git <span class="hljs-built_in">clone</span> https://github.com/libgit2/libgit2 mylibgit<br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -311,7 +355,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/js%E9%9A%8F%E7%AC%94/" class="category-chain-item">js随笔</a>
+  <a href="/categories/git/" class="category-chain-item">git</a>
   
   
 
@@ -326,9 +370,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
-      
-        <a href="/tags/js/" class="print-no-link">#js</a>
+        <a href="/tags/git/" class="print-no-link">#git</a>
       
     </div>
   
@@ -340,8 +382,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>js中的this</div>
-      <div>http://example.com/this-281c4e7ea4c5/</div>
+      <div>git的使用</div>
+      <div>http://example.com/git的使用-828eab886169/</div>
     </div>
     <div class="license-meta">
       
@@ -353,7 +395,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年11月14日</div>
+          <div>2024年3月30日</div>
         </div>
       
       
@@ -385,18 +427,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/typescript-0fb7c247d42b/" title="typescript">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">typescript</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/demo-8043476d63c7/" title="磨砂玻璃效果">
-                        <span class="hidden-mobile">磨砂玻璃效果</span>
+                      <a href="/%E6%8B%96%E6%94%BE%E4%BA%8B%E4%BB%B6-1de3700e554a/" title="拖放事件">
+                        <span class="hidden-mobile">拖放事件</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
