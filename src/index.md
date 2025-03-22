@@ -19,10 +19,13 @@ hero:
 
 features:
   - title: 天气好
+    icon: 😎
     details: 天气好不敲代码
   - title: 心情好
+    icon: 🥰
     details: 心情好不敲代码
-  - title: 睡不着
-    details: 睡不着起来敲代码
+  - title: 睡不醒
+    icon: 😴
+    details: 睡不醒不敲代码
 ---
 

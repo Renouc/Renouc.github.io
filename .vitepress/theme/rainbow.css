@@ -1,4 +1,4 @@
-@keyframes rainbow {
+@keyframes renouc {
     0% {
       --vp-c-brand-1: #00a98e;
       --vp-c-brand-light: #4ad1b4;
@@ -656,10 +656,10 @@
     --vp-c-brand-dark: #008269;
     --vp-c-brand-darker: #005d47;
     --vp-c-brand-next: #009ff7;
-    animation: rainbow 40s linear infinite;
+    animation: renouc 40s linear infinite;
   }
   
-  html:not(.rainbow) {
+  html:not(.renouc) {
     --vp-c-brand-1: #00a98e;
     --vp-c-brand-light: #4ad1b4;
     --vp-c-brand-lighter: #78fadc;

@@ -5,10 +5,9 @@ import { nextTick, provide } from 'vue'
 
 const { isDark } = useData()
 
-function enableTransitions() {
-  return 'startViewTransition' in document
-    && window.matchMedia('(prefers-reduced-motion: no-preference)').matches
-}
+const enableTransitions = () =>
+  'startViewTransition' in document &&
+  window.matchMedia('(prefers-reduced-motion: no-preference)').matches
 
 provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
   if (!enableTransitions()) {
@@ -20,8 +19,8 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     `circle(0px at ${x}px ${y}px)`,
     `circle(${Math.hypot(
       Math.max(x, innerWidth - x),
-      Math.max(y, innerHeight - y),
-    )}px at ${x}px ${y}px)`,
+      Math.max(y, innerHeight - y)
+    )}px at ${x}px ${y}px)`
   ]
 
   await document.startViewTransition(async () => {
@@ -34,14 +33,13 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     {
       duration: 300,
       easing: 'ease-in',
-      pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`,
-    },
+      pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`
+    }
   )
 })
 </script>
 
 <template>
-  <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
   <DefaultTheme.Layout />
 </template>
 
@@ -51,10 +49,22 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
   animation: none;
   mix-blend-mode: normal;
 }
-::view-transition-old(root) {
+
+::view-transition-old(root),
+.dark::view-transition-new(root) {
   z-index: 1;
 }
-::view-transition-new(root) {
-  z-index: 2147483646;
+
+::view-transition-new(root),
+.dark::view-transition-old(root) {
+  z-index: 9999;
 }
-</style> 
+
+.VPSwitchAppearance {
+  width: 22px !important;
+}
+
+.VPSwitchAppearance .check {
+  transform: none !important;
+}
+</style>
