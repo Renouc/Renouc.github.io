@@ -657,6 +657,8 @@
     --vp-c-brand-darker: #005d47;
     --vp-c-brand-next: #009ff7;
     animation: renouc 40s linear infinite;
+
+
   }
   
   html:not(.renouc) {
