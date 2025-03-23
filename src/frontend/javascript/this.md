@@ -67,7 +67,7 @@ obj.foo2 = foo2;
 
 obj.foo(); //  2
 obj.foo2(); // 2
-foo2(); // 2
+foo2(); // 1
 ```
 
 对象属性引用链中只有最后一层在调用位置中起作用。
@@ -181,6 +181,24 @@ obj3.foo(); // 1
 bar.call(obj2); // 1
 new bar(); // undefined
 ```
+
+`bind` 具有函数柯里化的功能。
+```js
+function foo(a, b) {
+    console.log(this.num + a + b);
+}
+
+const obj = {
+    num: 1,
+}
+
+const bar = foo.bind(obj, 1)
+bar(2) // 4
+```
+> [!info] 注意：
+> 当 不需要使用this，而只是想使用 `apply` 的参数展开或者 `bind` 的柯里化功能时，可以使用 `null` 来进行占位。
+> 不过此时的绑定是默认绑定，将 `this` 指向全局对象。
+
 
 ## new 绑定
 > [!info]
