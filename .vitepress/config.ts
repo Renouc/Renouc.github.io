@@ -35,7 +35,7 @@ export default defineConfig({
       "/frontend/": [
         {
           text: "JavaScript",
-          items: [{ text: "this 的用法", link: "/frontend/javascript/this" }],
+          items: [{ text: "this 的绑定", link: "/frontend/javascript/this" }],
         },
         {
           text: "React",
