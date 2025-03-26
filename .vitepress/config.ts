@@ -22,6 +22,10 @@ export default defineConfig({
             text: "JavaScript",
             link: "/frontend/javascript",
           },
+          {
+            text: "Next.js",
+            link: "/frontend/next",
+          },
         ],
       },
       {
@@ -41,6 +45,13 @@ export default defineConfig({
           text: "React",
           items: [{ text: "React 的基本使用", link: "/frontend/react/base" }],
         },
+        {
+          text: "Next.js",
+          items: [
+            { text: "Next.js 渲染模式", link: "/frontend/next/render" },
+            { text: "Next.js 中间件", link: "/frontend/next/middleware" },
+          ],
+        },
       ],
       "/devops/": [
         {
@@ -50,8 +61,6 @@ export default defineConfig({
       ],
     },
 
-    socialLinks: [
-      { icon: "github", link: "https://github.com/Renouc" },
-    ],
+    socialLinks: [{ icon: "github", link: "https://github.com/Renouc" }],
   },
 });
