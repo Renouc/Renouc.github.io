@@ -50,6 +50,7 @@ export default defineConfig({
           items: [
             { text: "Next.js 渲染模式", link: "/frontend/next/render" },
             { text: "Next.js 中间件", link: "/frontend/next/middleware" },
+            { text: "pages模式路由相关", link: "/frontend/next/pages-router" },
           ],
         },
       ],
