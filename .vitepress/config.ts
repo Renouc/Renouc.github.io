@@ -57,6 +57,11 @@ export default defineConfig({
           ],
         },
       ],
+      "/fragment/": [
+        {
+          items: [{ text: "GraphQL 的基本使用", link: "/fragment/graphql" }],
+        },
+      ],
       "/devops/": [
         {
           text: "Docker",
