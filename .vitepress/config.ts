@@ -43,7 +43,10 @@ export default defineConfig({
         },
         {
           text: "React",
-          items: [{ text: "React 的基本使用", link: "/frontend/react/base" }],
+          items: [
+            { text: "React 的基本使用", link: "/frontend/react/base" },
+            { text: "JSX 转换", link: "/frontend/react/jsx" },
+          ],
         },
         {
           text: "Next.js",
