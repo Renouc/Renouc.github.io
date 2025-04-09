@@ -10,6 +10,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.png",
+    outline: [2, 3],
     nav: [
       {
         text: "前端知识",
@@ -60,7 +61,11 @@ export default defineConfig({
       ],
       "/fragment/": [
         {
-          items: [{ text: "GraphQL 的基本使用", link: "/fragment/graphql" }],
+          items: [
+            { text: "GraphQL 的基本使用", link: "/fragment/graphql" },
+            { text: "npm 相关", link: "/fragment/npm" },
+            { text: "Monorepo", link: "/fragment/monorepo" },
+          ],
         },
       ],
       "/devops/": [
