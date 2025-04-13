@@ -27,6 +27,10 @@ export default defineConfig({
             text: "Next.js",
             link: "/frontend/next",
           },
+          {
+            text: "TypeScript",
+            link: "/frontend/typescript",
+          },
         ],
       },
       {
@@ -56,6 +60,28 @@ export default defineConfig({
             { text: "Next.js 渲染模式", link: "/frontend/next/render" },
             { text: "Next.js 中间件", link: "/frontend/next/middleware" },
             { text: "pages模式路由相关", link: "/frontend/next/pages-router" },
+          ],
+        },
+        {
+          text: "TypeScript",
+          items: [
+            {
+              text: "类型基础",
+              items: [
+                {
+                  text: "原始类型和对象类型",
+                  link: "/frontend/typescript/base/original_object",
+                },
+                {
+                  text: "字面量与枚举",
+                  link: "/frontend/typescript/base/literal_enum",
+                },
+                {
+                  text: '函数与class',
+                  link: '/frontend/typescript/base/function_class'
+                }
+              ],
+            },
           ],
         },
       ],
