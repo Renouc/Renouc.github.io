@@ -426,7 +426,7 @@ pnpm turbo build
 - [pnpm-monorepo-example](https://github.com/joelbonetr/pnpm-monorepo-example) - 简单易懂的示例
 - [Chakra UI](https://github.com/chakra-ui/chakra-ui) - 真实世界的 Monorepo 案例
 
-> **📚 进阶阅读**: 《Monorepo Tools》by Nrwl 是深入了解各种 Monorepo 工具比较的优秀资源。
+> **📚 进阶阅读**: [《Monorepo Tools》](https://monorepo.tools/)是深入了解各种 Monorepo 工具比较的优秀资源。
 
 ---
 
