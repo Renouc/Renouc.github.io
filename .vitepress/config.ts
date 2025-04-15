@@ -44,7 +44,10 @@ export default defineConfig({
       "/frontend/": [
         {
           text: "JavaScript",
-          items: [{ text: "this 的绑定", link: "/frontend/javascript/this" }],
+          items: [
+            { text: "类型和值", link: "/frontend/javascript/type_value" },
+            { text: "this 的绑定", link: "/frontend/javascript/this" },
+          ],
         },
         {
           text: "React",
@@ -77,9 +80,9 @@ export default defineConfig({
                   link: "/frontend/typescript/base/literal_enum",
                 },
                 {
-                  text: '函数与class',
-                  link: '/frontend/typescript/base/function_class'
-                }
+                  text: "函数与class",
+                  link: "/frontend/typescript/base/function_class",
+                },
               ],
             },
           ],
