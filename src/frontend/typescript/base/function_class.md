@@ -16,9 +16,7 @@ TypeScript 的类型推导非常聪明 🧠，上例中的返回值类型可以�
 
 在 JavaScript 中函数有多种声明方式，让我们看看在 TypeScript 中它们长什么样：
 
-1. 函数声明（经典方式） 👴
-
-**1. 函数声明（Function Declaration）**
+**1. 函数声明（经典方式） 👴**
 
 ```typescript
 function foo(name: string): number {
@@ -26,7 +24,7 @@ function foo(name: string): number {
 }
 ```
 
-2. 函数表达式（有点高级了） 🤓
+**2. 函数表达式（有点高级了） 🤓**
 
 ```typescript
 const foo = function (name: string): number {
@@ -39,7 +37,7 @@ const foo: (name: string) => number = function (name) {
 };
 ```
 
-3. 箭头函数（现代范儿） 🏹
+**3. 箭头函数（现代范儿） 🏹**
 
 ```typescript
 // 直接标注参数和返回值
@@ -79,6 +77,38 @@ interface FuncFooStruct {
 
 这种被称为 Callable Interface，听起来很酷吧！😎
 
+### 函数类型的兼容性 🤝
+
+TypeScript 的函数类型兼容性基于"结构类型"系统，主要考虑参数类型和返回值类型：
+
+```typescript
+// 参数少的可以赋值给参数多的
+type MoreParams = (x: number, y: number) => void;
+type LessParams = (x: number) => void;
+
+const moreFunc: MoreParams = (x, y) => {};
+const lessFunc: LessParams = (x) => {};
+
+// 正确：参数少的可以赋值给参数多的
+const example1: MoreParams = lessFunc; 
+
+// 错误：参数多的不能赋值给参数少的
+// const example2: LessParams = moreFunc; 
+
+// 返回值类型：子类型可以赋值给父类型
+type ReturnString = () => string;
+type ReturnStringOrNumber = () => string | number;
+
+const funcReturnString: ReturnString = () => "hello";
+const funcReturnBoth: ReturnStringOrNumber = () => Math.random() > 0.5 ? "hello" : 42;
+
+// 正确：string 是 string | number 的子类型
+const example3: ReturnStringOrNumber = funcReturnString;
+
+// 错误：string | number 不是 string 的子类型
+// const example4: ReturnString = funcReturnBoth;
+```
+
 ### void 类型 🕳️
 
 在 TypeScript 中，没有返回值的函数应标记为 void 类型（就像黑洞，吞噬一切不返回任何东西）：
@@ -99,7 +129,7 @@ function bar(): void {
 
 ```typescript
 function bar(): undefined {
-  return; // 正式地返回了"无"
+  return undefined; // 正式地返回了"无"
 }
 ```
 
@@ -111,7 +141,7 @@ TypeScript 的参数系统非常灵活，就像变形金刚一样！🤖
 
 ```typescript
 function greet(name: string, age?: number): string {
-  // 使用空值合并运算符处理可选参数
+  // 使用空值合并运算符(??)处理可选参数，该运算符在值为null或undefined时使用默认值
   const userAge = age ?? 18; // 没提供年龄？那就假设是18岁吧！
   return `${name} is ${userAge} years old`;
 }
@@ -158,7 +188,7 @@ createPerson("Bob", 25, true, "extra"); // 错误：参数太多
 
 ### 函数重载
 
-当一个函数根据不同参数类型返回不同类型结果时，可以使用**函数重载**来提供更精确的类型信息：
+当一个函数根据不同参数类型返回不同类型结果时，可以使用**函数重载**来提供更精确的类型信息。这不仅能确保类型安全，还能提供准确的代码提示：
 
 ```typescript
 // 问题：使用联合类型无法准确表达参数与返回值的关系
@@ -226,8 +256,13 @@ TypeScript 对 JavaScript 中的特殊函数类型提供了良好的类型支持
 ```typescript
 // 异步函数总是返回 Promise
 async function fetchData(url: string): Promise<object> {
-  const response = await fetch(url);
-  return response.json();
+  try {
+    const response = await fetch(url);
+    return response.json();
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+    return {}; // 返回空对象作为默认值
+  }
 }
 
 // 使用
@@ -238,6 +273,7 @@ const data = await fetchData("https://api.example.com/data");
 #### 生成器函数 (Generator Functions)
 
 ```typescript
+// 简单生成器函数
 function* createSequence(): Generator<number, void, undefined> {
   let i = 0;
   while (i < 3) {
@@ -245,9 +281,25 @@ function* createSequence(): Generator<number, void, undefined> {
   }
 }
 
+// 实用示例：分页数据生成器
+function* createPagedData<T>(
+  fetchPage: (page: number) => Promise<T[]>,
+  maxPages: number
+): Generator<Promise<T[]>, void, undefined> {
+  for (let page = 1; page <= maxPages; page++) {
+    yield fetchPage(page);
+  }
+}
+
 // 使用
-for (const num of createSequence()) {
-  console.log(num); // 0, 1, 2
+const pageGenerator = createPagedData(
+  (page) => fetch(`/api/items?page=${page}`).then(r => r.json()),
+  5
+);
+
+for (const pagePromise of pageGenerator) {
+  const items = await pagePromise;
+  console.log(items);
 }
 ```
 
@@ -326,9 +378,34 @@ const Person = class {
 const john = new Person("John", 30);
 ```
 
+### 类属性初始化简写
+
+TypeScript 允许在类属性声明时直接初始化，简化代码：
+
+```typescript
+class Product {
+  // 声明时初始化
+  id: number = Math.random();
+  name: string;
+  price: number = 0;
+  isAvailable: boolean = true;
+  
+  constructor(name: string, price?: number) {
+    this.name = name;
+    if (price !== undefined) {
+      this.price = price;
+    }
+  }
+}
+
+const product = new Product("Phone");
+console.log(product.id); // 随机生成的ID
+console.log(product.price); // 0 (默认值)
+```
+
 ### 访问修饰符
 
-TypeScript 提供了三种访问修饰符来控制类成员的可见性：
+TypeScript 提供了多种访问修饰符来控制类成员的可见性：
 
 ```typescript
 class Account {
@@ -338,17 +415,21 @@ class Account {
   // 私有成员 - 仅在类内部可访问
   private transactions: string[];
 
+  // TypeScript 4.0+的私有字段 - 真正的运行时私有，不仅是类型检查
+  #secretKey: string;
+
   // 受保护成员 - 在类和子类中可访问，实例不可直接访问
   protected accountNumber: string;
 
   // 只读成员 - 初始化后不可修改
   readonly id: string;
 
-  constructor(id: string, initialBalance: number, accountNumber: string) {
+  constructor(id: string, initialBalance: number, accountNumber: string, secretKey: string) {
     this.id = id;
     this.balance = initialBalance;
     this.accountNumber = accountNumber;
     this.transactions = [];
+    this.#secretKey = secretKey;
   }
 
   deposit(amount: number): void {
@@ -363,14 +444,40 @@ class Account {
   protected generateStatement(): string {
     return `Account ${this.accountNumber.slice(-4)}: ${this.balance}`;
   }
+  
+  // 访问私有字段
+  validateKey(key: string): boolean {
+    return this.#secretKey === key;
+  }
 }
 
 // 访问修饰符的作用域
-const account = new Account("acc123", 1000, "1234567890");
+const account = new Account("acc123", 1000, "1234567890", "secret123");
 account.balance = 1500; // 正确 - public 成员
 // account.accountNumber = "9876";  // 错误 - protected 成员
 // account.transactions.push(...);  // 错误 - private 成员
+// account.#secretKey = "hack";     // 错误 - 私有字段，语法错误
 // account.id = "newId";            // 错误 - readonly 成员
+```
+
+**私有字段(#)与private修饰符的区别:**
+
+```typescript
+class PrivateExample {
+  private tsPrivate: string = "TypeScript private";
+  #jsPrivate: string = "JavaScript private";
+
+  showPrivates() {
+    console.log(this.tsPrivate); // 访问正常
+    console.log(this.#jsPrivate); // 访问正常
+  }
+}
+
+const example = new PrivateExample();
+// example.tsPrivate; // 类型检查时报错，但运行时可以通过反射访问
+// example.#jsPrivate; // 语法错误，真正的私有性，运行时完全无法访问
+// Object.keys(example).includes("tsPrivate"); // true - 可以在运行时检测到
+// Object.keys(example).includes("#jsPrivate"); // false - 运行时不可见
 ```
 
 **构造函数参数简写**
@@ -401,7 +508,8 @@ console.log(customer.name); // "Alice" - public 属性可以访问
 **访问修饰符总结：**
 
 - `public`：在任何地方都可访问（默认值）
-- `private`：只在类内部可访问
+- `private`：只在类内部可访问（TypeScript类型检查）
+- `#property`：真正的私有字段（JavaScript 运行时私有）
 - `protected`：在类内部和子类中可访问
 - `readonly`：只能在声明或构造函数中赋值，之后不能修改
 
@@ -454,8 +562,33 @@ class StringUtils {
   }
 }
 
-// 使用
-const processed = StringUtils.capitalize("hello"); // "Hello"
+// 单例模式示例
+class Database {
+  private static instance: Database | null = null;
+  private connectionString: string;
+  
+  private constructor(connectionString: string) {
+    this.connectionString = connectionString;
+    console.log(`Connected to: ${connectionString}`);
+  }
+  
+  static getInstance(connectionString: string): Database {
+    if (!Database.instance) {
+      Database.instance = new Database(connectionString);
+    }
+    return Database.instance;
+  }
+  
+  query(sql: string): any[] {
+    console.log(`Executing query: ${sql}`);
+    return [];
+  }
+}
+
+// 使用单例
+const db1 = Database.getInstance("mysql://localhost:3306/mydb");
+const db2 = Database.getInstance("mysql://localhost:3306/mydb");
+console.log(db1 === db2); // true - 同一个实例
 ```
 
 ### 继承、实现与抽象类
@@ -501,6 +634,44 @@ class Dog extends Animal {
 const dog = new Dog("Rex", "German Shepherd");
 dog.move(10); // "Rex is running..." 然后 "Rex moved 10m."
 dog.bark(); // "Woof! Woof!"
+```
+
+#### 类型守卫与instanceof
+
+使用 `instanceof` 操作符可以在继承层次中安全地检查对象类型：
+
+```typescript
+class Animal {
+  eat(): void {
+    console.log("Animal eating...");
+  }
+}
+
+class Bird extends Animal {
+  fly(): void {
+    console.log("Bird flying...");
+  }
+}
+
+class Fish extends Animal {
+  swim(): void {
+    console.log("Fish swimming...");
+  }
+}
+
+function moveAnimal(animal: Animal) {
+  animal.eat(); // 所有动物都能吃
+  
+  // 类型守卫：根据具体类型调用特定方法
+  if (animal instanceof Bird) {
+    animal.fly(); // 安全：已经确认是Bird类型
+  } else if (animal instanceof Fish) {
+    animal.swim(); // 安全：已经确认是Fish类型
+  }
+}
+
+moveAnimal(new Bird()); // "Animal eating..." 然后 "Bird flying..."
+moveAnimal(new Fish()); // "Animal eating..." 然后 "Fish swimming..."
 ```
 
 **继承关系中的重要概念：**
@@ -625,6 +796,48 @@ function createColoredShape(ctor: ShapeConstructor, color?: string): Shape {
 
 const myShape = createColoredShape(Rectangle);
 console.log(myShape.color); // "blue"
+```
+
+### 装饰器
+
+TypeScript 实验性地支持装饰器，可用于修改类、方法、属性或参数的行为：
+
+```typescript
+// 启用experimentalDecorators编译选项后可用
+
+// 类装饰器
+function sealed(constructor: Function) {
+  Object.seal(constructor);
+  Object.seal(constructor.prototype);
+}
+
+// 方法装饰器
+function log(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  
+  descriptor.value = function(...args: any[]) {
+    console.log(`Calling ${propertyKey} with:`, args);
+    const result = originalMethod.apply(this, args);
+    console.log(`Result:`, result);
+    return result;
+  };
+  
+  return descriptor;
+}
+
+@sealed
+class Example {
+  @log
+  multiply(a: number, b: number): number {
+    return a * b;
+  }
+}
+
+const example = new Example();
+example.multiply(2, 3); 
+// 输出:
+// Calling multiply with: [2, 3]
+// Result: 6
 ```
 
 通过接口和抽象类，TypeScript 提供了灵活而强大的方式来定义和实现类之间的关系。

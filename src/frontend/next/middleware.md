@@ -1,12 +1,37 @@
-# Nextjs 中间件
+# Next.js 中间件（Middleware）详解
 
-Next.js 中间件是一个特殊的路由，它允许你定义在请求到达路由之前或之后运行的代码。
+## 1. 基本概念
 
-中间件可以访问请求和响应对象，并允许你修改它们。
+中间件（Middleware）是 Next.js 提供的一个强大功能，允许你在请求到达路由处理之前执行代码，从而实现：
 
-## 示例
+- 请求拦截和修改
+- 响应修改和重定向
+- 鉴权和访问控制
+- 日志记录和监控
+- 缓存控制
+- A/B 测试
 
-在 `app` 或 `pages` 同级目录下创建 `middleware.ts` 文件。
+中间件在应用的边缘网络层执行，而不是在服务器端，这使得它非常适合实现需要在所有页面加载前执行的逻辑。
+
+## 2. 基本用法
+
+### 2.1 创建中间件文件
+
+在 Next.js 项目中创建中间件非常简单，只需在项目根目录（与 `app` 或 `pages` 同级）创建 `middleware.ts` 或 `middleware.js` 文件：
+
+```ts
+// middleware.ts
+import { NextRequest, NextResponse } from "next/server";
+
+export function middleware(request: NextRequest) {
+  // 在这里编写中间件逻辑
+  return NextResponse.next();
+}
+```
+
+### 2.2 基础示例
+
+以下是一个简单的鉴权中间件示例：
 
 ```ts
 // middleware.ts
@@ -15,11 +40,14 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const { searchParams } = request.nextUrl;
 
+  // 检查请求中的角色参数
   const role = searchParams.get("role");
   if (role === "admin") {
+    // 允许请求继续
     return NextResponse.next();
   }
 
+  // 重定向未授权用户到登录页面
   return NextResponse.redirect(new URL("/login", request.url));
 }
 
@@ -29,49 +57,56 @@ export const config = {
 };
 ```
 
-> 上面的示例，会匹配 `/about/:path*` 路径下的所有请求。不满足条件的请求，会重定向到 `/login` 路径。
+这个示例中，中间件会拦截所有 `/about` 开头的请求，检查查询参数中的 `role` 是否为 `admin`，如果不是则重定向到登录页面。
 
-## 匹配路径
+## 3. 路径匹配配置
 
-### 匹配器
+中间件可以配置为只在特定路径上执行，这通过 `config.matcher` 来设置。
 
-`matcher` 可以是一个字符串或字符串数组，被匹配的请求会执行 `middleware` 函数。
-
-`matcher` 的匹配语法来自于 [path-to-regexp](https://github.com/pillarjs/path-to-regexp)。
+### 3.1 基本匹配器
 
 ```ts
-export const config: MiddlewareConfig = {
+export const config = {
+  // 字符串匹配
   matcher: "/about/:path*",
-};
-
-// 还可以使用数组
-export const config: MiddlewareConfig = {
+  
+  // 或使用数组匹配多个路径
   matcher: ["/about/:path*", "/dashboard/:path*"],
 };
 ```
 
-`matcher` 的强大可远不止正则表达式，matcher 还可以判断查询参数、cookies、headers：
+匹配语法基于 [path-to-regexp](https://github.com/pillarjs/path-to-regexp) 库，支持复杂的路径模式。
+
+### 3.2 高级匹配器
+
+匹配器支持更复杂的条件判断，包括检查请求头、查询参数和 Cookie：
 
 ```ts
-export const config: MiddlewareConfig = {
+export const config = {
   matcher: [
     {
-      source: "/api/*",
+      source: "/api/:path*",
       has: [
-        { type: "header", key: "Authorization", value: "Bearer Token" },
-        { type: "query", key: "userId", value: "123" },
+        { type: "header", key: "Authorization", value: "Bearer .*" },
+        { type: "query", key: "userId" },
       ],
-      missing: [{ type: "cookie", key: "session", value: "active" }],
+      missing: [
+        { type: "cookie", key: "session" }
+      ],
     },
   ],
 };
 ```
 
-> 在这个例子中，不仅匹配了路由地址，还要求 `header` 的 `Authorization` 必须是 `Bearer Token`，查询参数的 `userId` 为 123，且 `cookie` 里的 `session` 值不是 active。
+这个示例中，中间件会匹配:
+- 路径以 `/api/` 开头
+- 请求头包含 `Authorization` 且值以 `Bearer ` 开头
+- 查询参数包含 `userId`（值不限）
+- Cookie 中不存在 `session`
 
-### 不使用匹配器
+### 3.3 动态匹配（不使用 matcher）
 
-如果匹配过于复杂，可以不使用匹配器，直接在 `middleware` 函数里判断请求是否满足条件。
+对于更灵活的控制，你可以不使用 `matcher` 配置，而是在中间件函数内部实现逻辑判断：
 
 ```ts
 import { NextRequest, NextResponse } from "next/server";
@@ -79,152 +114,269 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // 只处理特定路径
+  // 仅处理特定路径
   if (pathname.startsWith("/about")) {
+    // 鉴权逻辑
     const { searchParams } = request.nextUrl;
     const role = searchParams.get("role");
 
     if (role === "admin") {
       return NextResponse.next();
     }
-
+    
     return NextResponse.redirect(new URL("/login", request.url));
   }
-
-  // 对于其他路径，直接放行
+  
+  // 所有其他路径直接放行
   return NextResponse.next();
 }
 ```
 
-> 不具名导出 `config` 配置，所有的路径都会执行 `middleware` 函数。
+> 注意：不导出 `config` 配置时，中间件默认对所有路由执行。
 
-## 读取和设置 cookie
+## 4. Cookie 操作
+
+中间件提供了便捷的 API 来读取和设置 Cookie。
+
+### 4.1 读取 Cookie
 
 ```ts
-import { NextRequest, NextResponse } from "next/server";
-
 export function middleware(request: NextRequest) {
-  const cookies = request.cookies;
+  // 读取单个 Cookie
+  const token = request.cookies.get("token");
+  console.log(token); // { name: 'token', value: 'xxx' } 或 undefined
+  
+  // 获取 Cookie 值
+  const tokenValue = token?.value;
+  
+  // 获取所有 Cookie
+  const allCookies = request.cookies.getAll();
+  console.log(allCookies); // [{ name: 'cookie1', value: 'value1' }, ...]
+  
+  // 检查 Cookie 是否存在
+  const hasToken = request.cookies.has("token");
+  
+  return NextResponse.next();
+}
+```
 
-  // 假设 传入的cookie为 name=renouc; age=18
-  // 获取 单个cookie
-  const cookie = cookies.get("name");
-  console.log("🍇 cookie：", cookie); // { name: 'renouc' }
+### 4.2 设置和删除 Cookie
 
-  // 获取 所有cookie
-  const allCookies = cookies.getAll();
-  console.log("🍇 allCookies：", allCookies); // [ { name: 'name', value: 'renouc' }, { name: 'age', value: '18' } ]
-
-  // 判断cookie是否存在
-  const isCookieExist = cookies.has("name");
-  console.log("🍇 isCookieExist：", isCookieExist); // true
-
-  // 设置cookie
+```ts
+export function middleware(request: NextRequest) {
+  // 创建响应对象
   const response = NextResponse.next();
-
-  // 简单设置cookie
-  response.cookies.set("name", "value");
-
-  // 详细的设置cookie
-  response.cookies.set("name", "value", {
-    httpOnly: true,
-    secure: true,
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-    path: "/",
+  
+  // 简单设置 Cookie
+  response.cookies.set("theme", "dark");
+  
+  // 设置带选项的 Cookie
+  response.cookies.set("token", "your-token-value", {
+    httpOnly: true,         // 禁止客户端 JavaScript 访问
+    secure: true,           // 仅通过 HTTPS 发送
+    sameSite: "strict",     // CSRF 保护
+    maxAge: 60 * 60 * 24,   // 1天过期（秒）
+    path: "/",              // Cookie 作用路径
   });
-
-  // 删除cookie
-  response.cookies.delete("name");
-
+  
+  // 删除 Cookie
+  response.cookies.delete("old-cookie");
+  
   return response;
 }
-
-export const config = {
-  matcher: "/about/:path*",
-};
 ```
 
-## 读取和设置 headers
+## 5. Header 操作
 
-### 读取 `headers`
+中间件可以读取和修改 HTTP 头信息。
+
+### 5.1 读取请求头
 
 ```ts
-import { NextRequest, NextResponse } from "next/server";
-
 export function middleware(request: NextRequest) {
-  // 获取请求头
-  console.log(request.headers.get("x-a"));
-
-  // 判断请求头是否存在
-  console.log(request.headers.has("x-a")); // false
-  console.log(request.headers.has("cookie")); // true
-
+  // 读取单个请求头
+  const userAgent = request.headers.get("user-agent");
+  const contentType = request.headers.get("content-type");
+  
+  // 检查请求头是否存在
+  const hasAuth = request.headers.has("authorization");
+  
+  console.log(`User Agent: ${userAgent}`);
+  
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: "/about/:path*",
-};
 ```
 
-### 设置 `headers`
+### 5.2 设置响应头
 
 ```ts
-import { NextResponse } from "next/server";
-
-export function middleware() {
-  const response = NextResponse.next();
-  response.headers.set("x-custom-header", "hello world");
-  return response;
-}
-
-export const config = {
-  matcher: "/about/:path*",
-};
-```
-
-```ts
-import { NextResponse } from "next/server";
-
-export function middleware() {
+export function middleware(request: NextRequest) {
+  // 方法 1: 使用 NextResponse.next() 的选项
   const response = NextResponse.next({
     headers: {
-      "x-custom-header": "hello world",
+      "x-custom-header": "custom-value",
+      "cache-control": "public, max-age=3600",
     },
   });
+  
+  // 方法 2: 使用 response.headers API
+  response.headers.set("x-powered-by", "Next.js");
+  response.headers.append("server-timing", "db;dur=53");
+  
   return response;
 }
-
-export const config = {
-  matcher: "/about/:path*",
-};
 ```
 
-## 直接响应
+## 6. 响应处理
+
+中间件提供多种方式处理请求和生成响应。
+
+### 6.1 请求放行
+
 ```ts
-import { NextRequest, NextResponse } from "next/server";
+// 允许请求继续到目标路由
+return NextResponse.next();
+
+// 带修改的请求放行
+return NextResponse.next({
+  headers: { "x-modified-by": "middleware" },
+  // 可以添加其他修改
+});
+```
+
+### 6.2 重定向
+
+```ts
+// 重定向到其他 URL
+return NextResponse.redirect(new URL("/login", request.url));
+
+// 带状态码的重定向（例如永久重定向）
+return NextResponse.redirect(new URL("/new-page", request.url), { status: 301 });
+```
+
+### 6.3 重写（改变路由而不重定向）
+
+```ts
+// 在不改变浏览器 URL 的情况下，将请求内部重写到另一个路由
+return NextResponse.rewrite(new URL("/internal-page", request.url));
+```
+
+### 6.4 直接返回响应
+
+```ts
+// 返回 JSON 响应
+return NextResponse.json(
+  { message: "Unauthorized", error: "Missing authentication" },
+  { status: 401 }
+);
+
+// 返回自定义响应
+return new NextResponse(
+  JSON.stringify({ success: false }),
+  {
+    status: 403,
+    headers: {
+      "content-type": "application/json",
+    },
+  }
+);
+```
+
+## 7. 实用示例
+
+### 7.1 基础鉴权中间件
+
+```ts
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get("auth-token")?.value;
+  
+  // 保护的路径
+  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+    if (!token) {
+      // 存储原始URL以便登录后重定向回来
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("from", request.nextUrl.pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+  
+  return NextResponse.next();
+}
+```
+
+### 7.2 国际化语言检测
+
+```ts
+export function middleware(request: NextRequest) {
+  // 获取请求中的语言偏好
+  const locale = request.cookies.get("NEXT_LOCALE") || 
+                request.headers.get("accept-language")?.split(',')[0] || 
+                "en";
+  
+  // 当访问根路径时重定向到本地化路径
+  if (request.nextUrl.pathname === "/") {
+    return NextResponse.redirect(new URL(`/${locale}`, request.url));
+  }
+  
+  // 添加语言信息到所有响应中
+  const response = NextResponse.next();
+  response.headers.set("x-locale", locale);
+  
+  return response;
+}
+```
+
+### 7.3 速率限制
+
+```ts
+// 简单的内存缓存实现（生产环境应使用 Redis 等分布式缓存）
+const rateLimit = new Map();
 
 export function middleware(request: NextRequest) {
-  const { searchParams } = request.nextUrl;
-  const role = searchParams.get("role");
-  if (role === "admin") {
-    return NextResponse.next();
+  // 获取客户端 IP
+  const ip = request.ip || "unknown";
+  
+  if (request.nextUrl.pathname.startsWith("/api")) {
+    // 检查限制
+    const currentTimestamp = Date.now();
+    const requestHistory = rateLimit.get(ip) || [];
+    
+    // 只保留最近 60 秒的请求
+    const recentRequests = requestHistory.filter(
+      timestamp => currentTimestamp - timestamp < 60 * 1000
+    );
+    
+    // 判断是否超过限制 (每分钟 30 次)
+    if (recentRequests.length >= 30) {
+      return NextResponse.json(
+        { error: "Too many requests" },
+        { status: 429 }
+      );
+    }
+    
+    // 记录新请求
+    recentRequests.push(currentTimestamp);
+    rateLimit.set(ip, recentRequests);
   }
-
-  //   return new NextResponse(JSON.stringify({ message: "Unauthorized" }), {
-  //     status: 401,
-  //     headers: {
-  //       "content-type": "text/plain",
-  //     },
-  //   });
-
-  // 或者
-  return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  
+  return NextResponse.next();
 }
-
-export const config = {
-  matcher: "/about/:path*",
-};
 ```
 
-> 更多 NextResponse 的信息，参考 [NextResponse](https://nextjs.org/docs/app/api-reference/functions/next-response)。
+## 8. 最佳实践
+
+1. **性能优化**：中间件在每个匹配的请求上执行，应尽量保持轻量和高效。
+
+2. **错误处理**：添加 try-catch 块来捕获错误，避免中间件崩溃影响整个应用。
+
+3. **使用边缘计算功能**：中间件运行在边缘网络，适合处理地理位置检测、A/B 测试等任务。
+
+4. **仅在必要时使用重定向**：重定向会增加额外的网络往返，影响性能。
+
+5. **适当的路径匹配**：使用精确的 matcher 配置，避免不必要的中间件执行。
+
+## 参考资源
+
+- [Next.js 中间件官方文档](https://nextjs.org/docs/advanced-features/middleware)
+- [NextResponse API 参考](https://nextjs.org/docs/app/api-reference/functions/next-response)
+- [Next.js Request API 参考](https://nextjs.org/docs/app/api-reference/functions/next-request)

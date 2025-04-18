@@ -10,7 +10,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.png",
-    outline: [2, 3],
+    outline: "deep",
     nav: [
       {
         text: "前端知识",
@@ -82,6 +82,10 @@ export default defineConfig({
                 {
                   text: "函数与class",
                   link: "/frontend/typescript/base/function_class",
+                },
+                {
+                  text: "内置类型与类型断言",
+                  link: "/frontend/typescript/base/built_in_types",
                 },
               ],
             },
