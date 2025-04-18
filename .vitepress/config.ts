@@ -95,7 +95,11 @@ export default defineConfig({
                 {
                   text: "创建与组合",
                   link: "/frontend/typescript/tool/type_create",
-                }
+                },
+                {
+                  text: "类型保护",
+                  link: "/frontend/typescript/tool/type_safety",
+                },
               ]
             }
           ],
