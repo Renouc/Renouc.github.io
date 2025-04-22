@@ -90,7 +90,7 @@ export default defineConfig({
               ],
             },
             {
-              text:"类型工具",
+              text: "类型工具",
               items: [
                 {
                   text: "创建与组合",
@@ -100,8 +100,12 @@ export default defineConfig({
                   text: "类型保护",
                   link: "/frontend/typescript/tool/type_safety",
                 },
-              ]
-            }
+                {
+                  text: "泛型",
+                  link: "/frontend/typescript/tool/generic",
+                },
+              ],
+            },
           ],
         },
       ],
