@@ -104,6 +104,10 @@ export default defineConfig({
                   text: "泛型",
                   link: "/frontend/typescript/tool/generic",
                 },
+                {
+                  text: "结构化类型系统",
+                  link: "/frontend/typescript/tool/structured_type_system",
+                },
               ],
             },
           ],
