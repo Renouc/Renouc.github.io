@@ -108,6 +108,10 @@ export default defineConfig({
                   text: "结构化类型系统",
                   link: "/frontend/typescript/tool/structured_type_system",
                 },
+                {
+                  text: "类型层级",
+                  link: "/frontend/typescript/tool/type_hierarchy",
+                },
               ],
             },
           ],
