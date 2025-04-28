@@ -112,6 +112,16 @@ export default defineConfig({
                   text: "类型层级",
                   link: "/frontend/typescript/tool/type_hierarchy",
                 },
+
+              ],
+            },
+            {
+              text: "类型小知识",
+              items: [
+                {
+                  text: "对象字面量额外属性检查",
+                  link: "/frontend/typescript/tips/extra_property_check",
+                },
               ],
             },
           ],
