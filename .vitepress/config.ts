@@ -112,7 +112,10 @@ export default defineConfig({
                   text: "类型层级",
                   link: "/frontend/typescript/tool/type_hierarchy",
                 },
-
+                {
+                  text: "条件类型与infer",
+                  link: "/frontend/typescript/tool/conditional_type_infer",
+                },
               ],
             },
             {
