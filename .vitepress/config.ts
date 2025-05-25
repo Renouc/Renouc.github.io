@@ -136,6 +136,8 @@ export default defineConfig({
             { text: "GraphQL 的基本使用", link: "/fragment/graphql" },
             { text: "npm 相关", link: "/fragment/npm" },
             { text: "Monorepo", link: "/fragment/monorepo" },
+            { text: "Koa", link: "/fragment/koa" },
+            { text: "环境变量", link: "/fragment/env" },
           ],
         },
       ],
