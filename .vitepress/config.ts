@@ -139,6 +139,7 @@ export default defineConfig({
             { text: "Koa", link: "/fragment/koa" },
             { text: "环境变量", link: "/fragment/env" },
             { text: "国际化", link: "/fragment/i18n" },
+            { text: "Rollup", link: "/fragment/rollup" },
           ],
         },
       ],
