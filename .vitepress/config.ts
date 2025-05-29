@@ -140,6 +140,7 @@ export default defineConfig({
             { text: "环境变量", link: "/fragment/env" },
             { text: "国际化", link: "/fragment/i18n" },
             { text: "Rollup", link: "/fragment/rollup" },
+            { text: "Node.js 删除 API 使用笔记", link: "/fragment/fs_rm" },
           ],
         },
       ],
