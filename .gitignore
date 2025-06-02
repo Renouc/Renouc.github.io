@@ -20,3 +20,5 @@ yarn-error.log*
 # User-specific files
 docs/daily-notes
 scripts/daily-notes.json
+
+example
