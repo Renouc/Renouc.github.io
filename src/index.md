@@ -11,8 +11,8 @@ hero:
   # tagline: My great project tagline
   actions:
     - theme: brand
-      text: 前端知识
-      link: /frontend/
+      text: React 学习
+      link: /frontend/react/
     - theme: alt
       text: 知识碎片
       link: /fragment/
