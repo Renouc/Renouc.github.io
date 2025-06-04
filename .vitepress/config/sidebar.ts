@@ -16,6 +16,7 @@ const sidebar: DefaultTheme.Sidebar = {
         { text: "国际化", link: "/fragment/i18n" },
         { text: "Node.js 删除 API", link: "/fragment/fs_rm" },
         { text: "SOLID 原则", link: "/fragment/solid" },
+        {text: "前端监控", link: "/fragment/monitor"}
       ],
     },
   ],
