@@ -18,6 +18,7 @@ const sidebar: DefaultTheme.Sidebar = {
         { text: "SOLID 原则", link: "/fragment/solid" },
         { text: "前端监控", link: "/fragment/monitor" },
         { text: "Git 常用操作", link: "/fragment/git" },
+        { text: "中文输入法下的回车搜索", link: "/fragment/input_entry" },
       ],
     },
   ],
