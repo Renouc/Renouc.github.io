@@ -38,6 +38,15 @@ const sidebar: DefaultTheme.Sidebar = {
         },
       ],
     },
+    {
+      text: "Webpack 笔记",
+      items: [
+        {
+          text: "Webpack 配置文件",
+          link: "/frontend/engineering/webpack/config"
+        }
+      ]
+    }
   ],
   "/frontend/typescript/": [
     {
