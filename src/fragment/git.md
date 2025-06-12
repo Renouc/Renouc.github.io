@@ -14,13 +14,13 @@
 git revert HEAD
 
 # 撤销指定提交
-git revert <commit-hash>
+git revert <commit>
 
 # 撤销多个提交
-git revert <commit-hash-1> <commit-hash-2>
+git revert <commit-1> <commit-2>
 
 # 撤销但不立即提交（批量操作时使用）
-git revert -n <commit-hash>
+git revert -n <commit>
 ```
 
 > ✅ 推荐在远程分支或协作分支上使用。
@@ -28,7 +28,7 @@ git revert -n <commit-hash>
 ### 使用 git reset（适合本地开发）
 
 ```bash
-git reset <commit> [--flag]
+git reset <commit> [--arg]
 ```
 
 ![git_reset.png](https://img-bed.renouc.cn/v2/QoSD11L.png)
