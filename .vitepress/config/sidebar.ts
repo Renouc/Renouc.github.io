@@ -19,6 +19,8 @@ const sidebar: DefaultTheme.Sidebar = {
         { text: "前端监控", link: "/fragment/monitor" },
         { text: "Git 常用操作", link: "/fragment/git" },
         { text: "中文输入法下的回车搜索", link: "/fragment/input_entry" },
+        // { text: "模块化", link: "/fragment/module" },
+        { text: "前端库开发", link: "/fragment/library_development" },
       ],
     },
   ],
