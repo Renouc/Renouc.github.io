@@ -122,3 +122,7 @@ git branch -d <branch-name>
 # 强制删除未合并分支
 git branch -D <branch-name>
 ```
+
+## 约定式提交
+
+https://www.conventionalcommits.org/zh-hans/v1.0.0/
