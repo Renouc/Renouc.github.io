@@ -116,6 +116,7 @@ const sidebar: DefaultTheme.Sidebar = {
     { text: "JSX 转换", link: "/frontend/react/jsx" },
     { text: "useState 原理", link: "/frontend/react/useState" },
     { text: "Fiber 结构", link: "/frontend/react/fiber" },
+    { text: "Zustand", link: "/frontend/react/zustand" },
   ],
   "/frontend/next/": [
     { text: "Next.js 渲染模式", link: "/frontend/next/render" },
