@@ -45,10 +45,10 @@ const sidebar: DefaultTheme.Sidebar = {
       items: [
         {
           text: "Webpack 配置文件",
-          link: "/frontend/engineering/webpack/config"
-        }
-      ]
-    }
+          link: "/frontend/engineering/webpack/config",
+        },
+      ],
+    },
   ],
   "/frontend/typescript/": [
     {
@@ -112,7 +112,6 @@ const sidebar: DefaultTheme.Sidebar = {
     },
   ],
   "/frontend/react/": [
-    { text: "React 的基本使用", link: "/frontend/react/base" },
     { text: "JSX 转换", link: "/frontend/react/jsx" },
     { text: "useState 原理", link: "/frontend/react/useState" },
     { text: "Fiber 结构", link: "/frontend/react/fiber" },
