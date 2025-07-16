@@ -119,9 +119,7 @@ const sidebar: DefaultTheme.Sidebar = {
     { text: "Zustand", link: "/frontend/react/zustand" },
   ],
   "/frontend/next/": [
-    { text: "Next.js 渲染模式", link: "/frontend/next/render" },
-    { text: "Next.js 中间件", link: "/frontend/next/middleware" },
-    { text: "pages模式路由相关", link: "/frontend/next/pages-router" },
+    { text: "文件系统", link: "/frontend/next/file-system" },
   ],
 };
 
