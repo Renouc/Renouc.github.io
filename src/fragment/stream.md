@@ -1,8 +1,8 @@
 # 使用 SSE 实现流式 AI 回复
 
-在构建 AI 聊天应用时，**流式输出（streaming response）**是提升用户体验的关键手段之一。用户无需等待完整响应，而是可以“逐字”看到 AI 的回答，仿佛正在与人对话。
+在构建 AI 聊天应用时，**流式输出（streaming response）** 是提升用户体验的关键手段之一。用户无需等待完整响应，而是可以“逐字”看到 AI 的回答，仿佛正在与人对话。
 
-实现流式输出有多种方式：WebSocket、HTTP Chunked、SSE 等。其中 SSE（Server-Sent Events） 是一种轻量、基于 HTTP 的单向流技术，非常适合实现流式 AI 回复。
+实现流式输出有多种方式：`WebSocket`、`HTTP Chunked`、`SSE` 等。其中 SSE（Server-Sent Events） 是一种轻量、基于 HTTP 的单向流技术，非常适合实现流式 AI 回复。
 
 ## 💻 server.js 示例代码
 
