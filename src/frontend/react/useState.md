@@ -23,7 +23,7 @@ let stateCursor = 0;
 function useState(initialValue) {
   // 保存当前状态的索引位置
   const currentIndex = stateCursor;
-  
+
   // 仅在首次渲染时初始化状态
   if (states[currentIndex] === undefined) {
     states[currentIndex] = initialValue;
@@ -33,23 +33,23 @@ function useState(initialValue) {
   function setState(newValue) {
     // 支持函数式更新
     const valueToStore =
-      typeof newValue === "function"
+      typeof newValue === 'function'
         ? newValue(states[currentIndex])
         : newValue;
-    
+
     // 更新状态值
     states[currentIndex] = valueToStore;
-    
+
     // 触发组件重新渲染
     render();
   }
 
   // 获取当前状态值
   const value = states[currentIndex];
-  
+
   // 移动到下一个状态
   stateCursor++;
-  
+
   // 返回状态值和更新函数
   return [value, setState];
 }
@@ -61,24 +61,24 @@ let currentAppInstance;
 function render() {
   // 重置状态索引，确保每次渲染时从头开始
   stateCursor = 0;
-  
+
   // 重新执行组件函数，获取最新渲染结果
   currentAppInstance = App();
-  
-  console.log("渲染结果：", currentAppInstance);
+
+  console.log('渲染结果：', currentAppInstance);
 }
 
 // 示例组件
 function App() {
   // 多个状态的使用示例
   const [count, setCount] = useState(0);
-  const [text, setText] = useState("Hello");
+  const [text, setText] = useState('Hello');
 
   return {
     count,
     text,
     increment: () => setCount((prev) => prev + 1),
-    changeText: () => setText("World"),
+    changeText: () => setText('World'),
   };
 }
 
@@ -99,12 +99,12 @@ React 要求 Hook 必须在组件顶层调用，并且不能在条件语句、�
 ```js
 function BadComponent() {
   const [count, setCount] = useState(0);
-  
+
   // 🚫 错误：条件渲染会破坏 useState 的调用顺序
   if (count > 0) {
     const [additionalState, setAdditionalState] = useState('');
   }
-  
+
   // ...
 }
 ```

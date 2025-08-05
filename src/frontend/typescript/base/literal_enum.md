@@ -5,20 +5,20 @@
 字面量类型是 TypeScript 提供的超强类型约束能力，它允许你将类型精确到**具体的值**！主要包括**字符串字面量类型**、**数字字面量类型**、**布尔字面量类型**和**对象字面量类型**：
 
 ```ts
-const str: "typescript" = "typescript";  // 只能是这个具体的字符串
-const num: 599 = 599;                    // 只能是这个具体的数字
-const bool: true = true;                 // 只能是 true，不能是 false
+const str: 'typescript' = 'typescript'; // 只能是这个具体的字符串
+const num: 599 = 599; // 只能是这个具体的数字
+const bool: true = true; // 只能是 true，不能是 false
 ```
 
 为什么说字面量类型比原始类型更精确？看这个例子就明白了：
 
 ```ts
 // 报错！不能将类型""linbudu599""分配给类型""linbudu""
-const str1: "linbudu" = "linbudu599";
+const str1: 'linbudu' = 'linbudu599';
 
 // 这两个都没问题，因为 string 类型可以接受任何字符串
-const str2: string = "linbudu";
-const str3: string = "linbudu599";
+const str2: string = 'linbudu';
+const str3: string = 'linbudu599';
 ```
 
 原始类型就像一个大篮子🧺，可以装下各种同类型的值，而字面量类型就像一个只能装特定物品的精确模具🔒，要求**值和类型完全一致**。
@@ -28,15 +28,15 @@ const str3: string = "linbudu599";
 ```ts
 // 限制属性只能是特定的值
 interface Tmp {
-  bool: true | false;           // 等同于 boolean，但语义更明确
-  num: 1 | 2 | 3;               // 只能是这三个数字之一
-  str: "js" | "ts" | "react";   // 只能是这三个字符串之一
+  bool: true | false; // 等同于 boolean，但语义更明确
+  num: 1 | 2 | 3; // 只能是这三个数字之一
+  str: 'js' | 'ts' | 'react'; // 只能是这三个字符串之一
 }
 
 // 实际应用：定义请求状态
-type RequestStatus = "loading" | "success" | "error";
+type RequestStatus = 'loading' | 'success' | 'error';
 // 实际应用：定义按钮大小
-type ButtonSize = "small" | "medium" | "large";
+type ButtonSize = 'small' | 'medium' | 'large';
 ```
 
 ## 联合类型 ⚔️
@@ -64,12 +64,12 @@ interface Tmp {
 interface User {
   user:
     | {
-        vip: true;           // 是VIP用户
-        expires: string;     // 有过期时间
+        vip: true; // 是VIP用户
+        expires: string; // 有过期时间
       }
     | {
-        vip: false;          // 非VIP用户
-        promotion: string;   // 有促销信息
+        vip: false; // 非VIP用户
+        promotion: string; // 有促销信息
       };
 }
 
@@ -77,7 +77,7 @@ declare var tmp: User;
 
 // TypeScript能够通过判断进行类型收窄！
 if (tmp.user.vip) {
-  console.log(tmp.user.expires);  // ✅ 类型安全访问
+  console.log(tmp.user.expires); // ✅ 类型安全访问
   // console.log(tmp.user.promotion);  // ❌ 错误，VIP用户没有promotion属性
 }
 ```
@@ -89,7 +89,7 @@ if (tmp.user.vip) {
 type ApiCode = 10000 | 10001 | 50000;
 
 // 定义请求状态
-type Status = "success" | "failure" | "pending";
+type Status = 'success' | 'failure' | 'pending';
 ```
 
 ## 对象字面量类型 🧩
@@ -99,14 +99,14 @@ type Status = "success" | "failure" | "pending";
 ```ts
 interface Tmp {
   obj: {
-    name: "王富贵";  // 必须精确匹配这个值
-    age: 18;        // 必须精确匹配这个值
+    name: '王富贵'; // 必须精确匹配这个值
+    age: 18; // 必须精确匹配这个值
   };
 }
 
 const tmp: Tmp = {
   obj: {
-    name: "王富贵",
+    name: '王富贵',
     age: 18,
   },
 };
@@ -125,16 +125,16 @@ const tmp: Tmp = {
 ```js
 // 传统的常量定义方式
 export default {
-  Home_Page_Url: "url1",
-  Setting_Page_Url: "url2",
-  Share_Page_Url: "url3",
+  Home_Page_Url: 'url1',
+  Setting_Page_Url: 'url2',
+  Share_Page_Url: 'url3',
 };
 
 // 或是这样：
 export const PageUrl = {
-  Home_Page_Url: "url1",
-  Setting_Page_Url: "url2",
-  Share_Page_Url: "url3",
+  Home_Page_Url: 'url1',
+  Setting_Page_Url: 'url2',
+  Share_Page_Url: 'url3',
 };
 ```
 
@@ -142,15 +142,16 @@ export const PageUrl = {
 
 ```ts
 enum PageUrl {
-  Home_Page_Url = "url1",
-  Setting_Page_Url = "url2",
-  Share_Page_Url = "url3",
+  Home_Page_Url = 'url1',
+  Setting_Page_Url = 'url2',
+  Share_Page_Url = 'url3',
 }
 
 const home = PageUrl.Home_Page_Url; // "url1"
 ```
 
 枚举的优势非常明显：
+
 1. 提供更好的类型提示和自动补全 ✨
 2. 这些常量被真正地约束在一个命名空间下
 3. 可以让代码更有语义化和可读性
@@ -161,24 +162,25 @@ const home = PageUrl.Home_Page_Url; // "url1"
 
 ```ts
 enum Items {
-  Foo,  // 0
-  Bar,  // 1
-  Baz,  // 2
+  Foo, // 0
+  Bar, // 1
+  Baz, // 2
 }
 
 // 访问方式
-const foo = Items.Foo;  // 0
+const foo = Items.Foo; // 0
 ```
 
 如果只为部分成员指定了枚举值，规则是：
+
 - 未赋值的成员会从0开始自增
 - 某个成员赋值后，之后的成员会从该值开始自增
 
 ```ts
 enum Items {
-  Foo,      // 0
+  Foo, // 0
   Bar = 599,
-  Baz,      // 600 (自动递增)
+  Baz, // 600 (自动递增)
 }
 ```
 
@@ -188,9 +190,9 @@ enum Items {
 const returnNum = () => 100 + 499;
 
 enum Items {
-  Foo = returnNum(),  // 599，使用计算值（延迟求值）
-  Bar = 599,          // 必须显式赋值
-  Baz,                // 600 (自动递增)
+  Foo = returnNum(), // 599，使用计算值（延迟求值）
+  Bar = 599, // 必须显式赋值
+  Baz, // 600 (自动递增)
 }
 ```
 
@@ -200,24 +202,24 @@ enum Items {
 // 正确示例：计算值后面的成员有显式初始化
 const getValue = () => 100;
 enum Correct {
-  A = getValue(),   // 计算值作为第一个成员
-  B = 10,           // B必须显式初始化
-  C                 // 现在C可以自动递增，值为11
+  A = getValue(), // 计算值作为第一个成员
+  B = 10, // B必须显式初始化
+  C, // 现在C可以自动递增，值为11
 }
 
 // 错误示例：计算值后面未显式初始化成员
 enum Wrong {
-  A = getValue(),   // 计算值
-  B,                // 错误！B没有初始化器，编译器无法确定B的值
-  C                 // C同样有问题
+  A = getValue(), // 计算值
+  B, // 错误！B没有初始化器，编译器无法确定B的值
+  C, // C同样有问题
 }
 
 // 正确示例：中间使用计算值
 enum AlsoCorrect {
-  A = 0,            // 显式初始化
-  B = getValue(),   // 计算值
-  C = 20,           // C必须显式初始化
-  D                 // D可以自动递增，值为21
+  A = 0, // 显式初始化
+  B = getValue(), // 计算值
+  C = 20, // C必须显式初始化
+  D, // D可以自动递增，值为21
 }
 ```
 
@@ -228,16 +230,16 @@ TypeScript也支持字符串枚举值和混合枚举：
 ```ts
 // 字符串枚举
 enum Direction {
-  Up = "UP",
-  Down = "DOWN",
-  Left = "LEFT",
-  Right = "RIGHT",
+  Up = 'UP',
+  Down = 'DOWN',
+  Left = 'LEFT',
+  Right = 'RIGHT',
 }
 
 // 混合枚举
 enum Mixed {
   Num = 599,
-  Str = "王富贵",
+  Str = '王富贵',
 }
 ```
 
@@ -247,24 +249,24 @@ enum Mixed {
 
 ```ts
 enum Items {
-  Foo,  // 0
-  Bar,  // 1
-  Baz,  // 2
+  Foo, // 0
+  Bar, // 1
+  Baz, // 2
 }
 
-const fooValue = Items.Foo;  // 0，从名称到值
-const fooKey = Items[0];     // "Foo"，从值到名称
+const fooValue = Items.Foo; // 0，从名称到值
+const fooKey = Items[0]; // "Foo"，从值到名称
 ```
 
 这是怎么实现的？看看编译后的代码就明白了：
 
 ```js
-"use strict";
+'use strict';
 var Items;
 (function (Items) {
-  Items[(Items["Foo"] = 0)] = "Foo";  // 同时赋值 Items["Foo"]=0 和 Items[0]="Foo"
-  Items[(Items["Bar"] = 1)] = "Bar";
-  Items[(Items["Baz"] = 2)] = "Baz";
+  Items[(Items['Foo'] = 0)] = 'Foo'; // 同时赋值 Items["Foo"]=0 和 Items[0]="Foo"
+  Items[(Items['Bar'] = 1)] = 'Bar';
+  Items[(Items['Baz'] = 2)] = 'Baz';
 })(Items || (Items = {}));
 ```
 
@@ -276,9 +278,9 @@ var Items;
 
 ```ts
 const enum Items {
-  Foo,  // 0
-  Bar,  // 1
-  Baz,  // 2
+  Foo, // 0
+  Bar, // 1
+  Baz, // 2
 }
 
 const fooValue = Items.Foo; // 0
@@ -304,12 +306,12 @@ const fooValue = 0; /* Foo */
 TypeScript有时会自动推导出字面量类型，看这个例子：
 
 ```ts
-let str1 = "hello";    // 被推导为 string
-const str2 = "hello";  // 被推导为字面量类型 'hello'
+let str1 = 'hello'; // 被推导为 string
+const str2 = 'hello'; // 被推导为字面量类型 'hello'
 
 const user = {
-  name: "王富贵",  // 被推导为 string
-  age: 18,       // 被推导为 number
+  name: '王富贵', // 被推导为 string
+  age: 18, // 被推导为 number
 };
 ```
 
@@ -323,27 +325,29 @@ const user = {
 
 ```ts
 const user = {
-  name: "王富贵",
+  name: '王富贵',
   age: 18,
-} as const;  // 现在user.name是字面量类型 "王富贵"，而不是string
+} as const; // 现在user.name是字面量类型 "王富贵"，而不是string
 ```
 
 ## 最佳实践 💯
 
 1. **使用联合类型收窄接口**
+
    ```ts
    // 不好：使用string，太宽泛
-   interface Config { 
+   interface Config {
      theme: string;
    }
-   
+
    // 好：使用字面量联合类型，提供精确约束
    interface Config {
-     theme: "light" | "dark" | "system";
+     theme: 'light' | 'dark' | 'system';
    }
    ```
 
 2. **使用枚举管理应用常量**
+
    ```ts
    // 为API状态码定义枚举
    enum ApiStatusCode {
@@ -351,9 +355,9 @@ const user = {
      BadRequest = 400,
      Unauthorized = 401,
      NotFound = 404,
-     ServerError = 500
+     ServerError = 500,
    }
-   
+
    // 使用
    if (response.code === ApiStatusCode.Success) {
      // 处理成功情况
@@ -361,12 +365,13 @@ const user = {
    ```
 
 3. **优先使用常量枚举减少生成的代码**
+
    ```ts
    const enum Direction {
      Up,
      Down,
      Left,
-     Right
+     Right,
    }
    ```
 

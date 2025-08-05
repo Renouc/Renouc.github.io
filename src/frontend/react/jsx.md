@@ -5,7 +5,6 @@
 - 本质 ：
   `JSX` 是语法糖，通过工具（如 Babel/TypeScript）转换为 `React.createElement()` 或 `jsx/jsxs` 函数调用，最终生成虚拟 DOM 对象 。
 - React 17 前后差异 ：
-
   - Classic 模式 ：直接转换为 `React.createElement(...)`，需显式导入 `React`。
   - Automatic 模式 （React 17+）：通过新运行时函数（如 `jsx/jsxs`）生成虚拟 DOM，无需显式导入 `React`。
 
@@ -39,9 +38,9 @@ npm install --save-dev @babel/cli @babel/plugin-transform-react-jsx
 module.exports = {
   presets: [
     [
-      "@babel/preset-react",
+      '@babel/preset-react',
       {
-        runtime: "classic",
+        runtime: 'classic',
         pure: false, // 是否开启纯函数模式（为了便于阅读编译后的代码，这里设置为false）
       },
     ],
@@ -55,9 +54,9 @@ module.exports = {
 module.exports = {
   plugins: [
     [
-      "@babel/plugin-transform-react-jsx",
+      '@babel/plugin-transform-react-jsx',
       {
-        runtime: "automatic",
+        runtime: 'automatic',
         pure: false,
       },
     ],
@@ -102,20 +101,20 @@ const element = (
 
 ```js
 var element = React.createElement(
-  "div",
-  { id: "foo" },
-  React.createElement("a", null, "bar"),
-  React.createElement("b", null)
+  'div',
+  { id: 'foo' },
+  React.createElement('a', null, 'bar'),
+  React.createElement('b', null)
 );
 ```
 
 `automatic` 模式下，编译结果为:
 
 ```js
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-var element = _jsxs("div", {
-  id: "foo",
-  children: [_jsx("a", { children: "bar" }), _jsx("b", {})],
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+var element = _jsxs('div', {
+  id: 'foo',
+  children: [_jsx('a', { children: 'bar' }), _jsx('b', {})],
 });
 ```
 

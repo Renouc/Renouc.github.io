@@ -40,8 +40,8 @@ type Person = {
 };
 
 const user: Person = {
-  name: "TypeScript",
-  age: 11  // 永远年轻！🎂
+  name: 'TypeScript',
+  age: 11, // 永远年轻！🎂
 };
 ```
 
@@ -86,7 +86,7 @@ function ensureArray<T>(input: MaybeArray<T>): T[] {
 type StringOrNumber = string | number;
 
 // 可以是字符串
-const value1: StringOrNumber = "Hello";
+const value1: StringOrNumber = 'Hello';
 // 也可以是数字
 const value2: StringOrNumber = 42;
 // 但不能是其他类型
@@ -102,16 +102,16 @@ function printId(id: number | string) {
 }
 
 // 可能的API响应状态（生活就像API，充满了各种状态 😂）
-type ApiResponse = 
-  | { status: "success"; data: any }
-  | { status: "error"; error: string }
-  | { status: "loading" };
+type ApiResponse =
+  | { status: 'success'; data: any }
+  | { status: 'error'; error: string }
+  | { status: 'loading' };
 
 // 使用联合类型处理复杂场景
-type Route = 
-  | { path: "/users"; search: { sortBy: "name" | "age" } }
-  | { path: "/user"; params: { id: string } }
-  | { path: "/settings" };
+type Route =
+  | { path: '/users'; search: { sortBy: 'name' | 'age' } }
+  | { path: '/user'; params: { id: string } }
+  | { path: '/settings' };
 ```
 
 ### 类型收窄 🔍
@@ -129,7 +129,7 @@ function process(value: string | number) {
   // return value.toUpperCase();
 
   // 正确：使用类型守卫进行类型收窄
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return value.toUpperCase(); // 这里 value 的类型被收窄为 string
   } else {
     return value * 2; // 这里 value 的类型被收窄为 number
@@ -156,8 +156,8 @@ interface AgeStruct {
 type ProfileStruct = NameStruct & AgeStruct;
 
 const profile: ProfileStruct = {
-  name: "TypeScript",
-  age: 11
+  name: 'TypeScript',
+  age: 11,
 }; // ✅ 同时包含两个接口的所有属性
 ```
 
@@ -189,10 +189,10 @@ type Struct2 = {
 type Composed = Struct1 & Struct2;
 
 // 同名原始类型属性交叉为 never（水火不容 💧🔥）
-type PrimitivePropType = Composed["primitiveProp"]; // never
+type PrimitivePropType = Composed['primitiveProp']; // never
 
 // 同名对象类型属性会合并（和平共处 ☮️）
-type ObjectPropType = Composed["objectProp"]; // { name: string; age: number; }
+type ObjectPropType = Composed['objectProp']; // { name: string; age: number; }
 ```
 
 3. **联合类型交叉**：两个联合类型的交叉结果是它们的交集（就像两个集合取共同部分）。就像朋友圈的共同好友 👥：
@@ -206,15 +206,13 @@ type UnionIntersection2 = (string | number | symbol) & string; // string
 
 联合类型和交叉类型看似相反，但各有适用场景，就像刀叉一样，各司其职 🍴：
 
-
-| 特性 | 联合类型 (\|) | 交叉类型 (&) |
-|------|--------------|--------------|
-| 表达的关系 | "或" - 满足任一成员类型 | "与" - 同时满足所有成员类型 |
-| 主要用途 | 表示值可以是多种类型之一 | 合并多个类型的特性 |
-| 对象类型时 | 只能访问共有属性 | 包含所有类型的所有属性 |
-| 原始类型时 | 可以是任一原始类型 | 通常得到 `never` |
-| 示例 | `string \| number` | `NameStruct & AgeStruct` |
-
+| 特性       | 联合类型 (\|)            | 交叉类型 (&)                |
+| ---------- | ------------------------ | --------------------------- |
+| 表达的关系 | "或" - 满足任一成员类型  | "与" - 同时满足所有成员类型 |
+| 主要用途   | 表示值可以是多种类型之一 | 合并多个类型的特性          |
+| 对象类型时 | 只能访问共有属性         | 包含所有类型的所有属性      |
+| 原始类型时 | 可以是任一原始类型       | 通常得到 `never`            |
+| 示例       | `string \| number`       | `NameStruct & AgeStruct`    |
 
 ```typescript
 // 联合类型：可以是任一类型（就像选择题 ✅）
@@ -241,8 +239,8 @@ interface StringRecord {
 }
 
 const dictionary: StringRecord = {
-  name: "TypeScript",
-  version: "4.7",  // 必须是字符串
+  name: 'TypeScript',
+  version: '4.7', // 必须是字符串
   // count: 42      // 错误：类型必须是字符串
 };
 ```
@@ -253,8 +251,8 @@ const dictionary: StringRecord = {
 
 ```typescript
 interface StringRecord {
-  id: string;              // 具体属性
-  [key: string]: string;   // 索引签名
+  id: string; // 具体属性
+  [key: string]: string; // 索引签名
 }
 ```
 
@@ -262,9 +260,9 @@ interface StringRecord {
 
 ```typescript
 interface ValidRecord {
-  [key: string]: any;   // ✅
-  [key: number]: any;   // ✅
-  [key: symbol]: any;   // ✅
+  [key: string]: any; // ✅
+  [key: number]: any; // ✅
+  [key: symbol]: any; // ✅
 }
 ```
 
@@ -272,7 +270,7 @@ interface ValidRecord {
 
 ```typescript
 interface MixedRecord {
-  name: string;            // ✅ string 是 string 的子类型
+  name: string; // ✅ string 是 string 的子类型
   // count: number;        // ❌ number 不是 string 的子类型
   [key: string]: string;
 }
@@ -281,7 +279,7 @@ interface MixedRecord {
 interface BetterMixedRecord {
   name: string;
   count: number;
-  [key: string]: string | number;  // 使用联合类型
+  [key: string]: string | number; // 使用联合类型
 }
 ```
 
@@ -323,12 +321,12 @@ interface Person {
 }
 
 // 使用字面量类型进行访问
-type NameType = Person["name"]; // string
-type AgeType = Person["age"];   // number
+type NameType = Person['name']; // string
+type AgeType = Person['age']; // number
 
 // 使用类型变量进行访问
 type PropType<T, K extends keyof T> = T[K];
-type PersonNameType = PropType<Person, "name">; // string
+type PersonNameType = PropType<Person, 'name'>; // string
 ```
 
 当使用联合类型进行索引访问时，结果是每个成员访问结果的联合（用一串钥匙打开一排锁 🔐）：
@@ -455,7 +453,7 @@ interface Person {
   address: string;
 }
 
-type NameAndAge = Pick<Person, "name" | "age">;
+type NameAndAge = Pick<Person, 'name' | 'age'>;
 /* 等价于：
 {
   name: string;
@@ -483,4 +481,3 @@ TypeScript 的类型创建工具让我们能够基于现有类型构建更复杂
 5. **复用内置类型** 📦：TypeScript 提供了许多实用的内置类型工具，如 `Partial`、`Readonly`、`Pick` 等。不要重复造轮子，站在巨人的肩膀上前进 🚀
 
 熟练掌握这些类型工具，是进行 TypeScript 高级类型编程的关键。在实际开发中合理使用这些工具，可以极大提高代码的类型安全性和可维护性。加油！你已经向成为 TS 类型忍者迈出了重要一步了！🥷 学完这些，你的代码一定会变得更加强壮，就像喝了蛋白粉的程序 💪😄
-

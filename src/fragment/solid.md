@@ -18,7 +18,7 @@
 // 示例：将用户列表页拆分成多个职责单一的部分
 
 // 1. useUsers.js（自定义 Hook，负责数据获取与状态管理）
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export function useUsers() {
   const [users, setUsers] = useState([]);
@@ -27,7 +27,7 @@ export function useUsers() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/api/users")
+    fetch('/api/users')
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => setError(err))
@@ -38,7 +38,7 @@ export function useUsers() {
 }
 
 // 2. UserList.jsx（纯展示组件，只负责把数据渲染成列表）
-import React from "react";
+import React from 'react';
 
 export function UserList({ users }) {
   return (
@@ -51,9 +51,9 @@ export function UserList({ users }) {
 }
 
 // 3. UserListPage.jsx（组合组件，负责把 Hook 与展示组件结合，并处理加载/错误状态）
-import React from "react";
-import { useUsers } from "./useUsers";
-import { UserList } from "./UserList";
+import React from 'react';
+import { useUsers } from './useUsers';
+import { UserList } from './UserList';
 
 export function UserListPage() {
   const { users, loading, error } = useUsers();
@@ -100,8 +100,8 @@ export function UserListPage() {
 
 ```jsx
 // 基础的 Button 组件
-export function Button({ variant = "primary", onClick, children }) {
-  const className = variant === "primary" ? "btn-primary" : "btn-secondary";
+export function Button({ variant = 'primary', onClick, children }) {
+  const className = variant === 'primary' ? 'btn-primary' : 'btn-secondary';
   return (
     <button className={className} onClick={onClick}>
       {children}
@@ -110,8 +110,8 @@ export function Button({ variant = "primary", onClick, children }) {
 }
 
 // 在不修改 Button 源码的情况下，通过组合扩展
-import { Button } from "./Button";
-import { ReactComponent as LoadingIcon } from "./loading.svg";
+import { Button } from './Button';
+import { ReactComponent as LoadingIcon } from './loading.svg';
 
 export function LoadingButton(props) {
   return (
@@ -129,8 +129,8 @@ export function LoadingButton(props) {
 
 ```jsx
 // usePermission.js：一个示例 Hook，用于检查用户权限
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export function usePermission(requiredRole) {
   const { user } = useContext(AuthContext);
@@ -138,11 +138,11 @@ export function usePermission(requiredRole) {
 }
 
 // 在业务组件中扩展权限检查，而不修改业务组件内部代码太多
-import React from "react";
-import { usePermission } from "../hooks/usePermission";
+import React from 'react';
+import { usePermission } from '../hooks/usePermission';
 
 export function AdminPanel({ children }) {
-  const hasAccess = usePermission("admin");
+  const hasAccess = usePermission('admin');
 
   if (!hasAccess) return <p>无权限访问</p>;
   return <div>{children}</div>;
@@ -155,7 +155,7 @@ export function AdminPanel({ children }) {
 
 ```jsx
 // useDebounce.js：通用节流 Hook
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export function useDebounce(value, delay = 300) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -172,11 +172,11 @@ export function useDebounce(value, delay = 300) {
 }
 
 // 在某个搜索组件中使用
-import React, { useState } from "react";
-import { useDebounce } from "../hooks/useDebounce";
+import React, { useState } from 'react';
+import { useDebounce } from '../hooks/useDebounce';
 
 export function SearchInput({ onSearch }) {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const debouncedInput = useDebounce(input, 500);
 
   React.useEffect(() => {
@@ -225,8 +225,8 @@ export function BaseButton({ onClick, disabled, children }) {
 }
 
 // IconButton.jsx：在不改变接口的情况下扩展
-import { BaseButton } from "./BaseButton";
-import { ReactComponent as Icon } from "./icon.svg";
+import { BaseButton } from './BaseButton';
+import { ReactComponent as Icon } from './icon.svg';
 
 export function IconButton({ onClick, disabled, children }) {
   return (
@@ -238,13 +238,13 @@ export function IconButton({ onClick, disabled, children }) {
 }
 
 // LinkButton.jsx：在不改变接口的情况下扩展为链接样式
-import { BaseButton } from "./BaseButton";
+import { BaseButton } from './BaseButton';
 
 export function LinkButton({ onClick, disabled, children, href }) {
   if (href) {
     // 将按钮表现为链接
     return (
-      <a href={href} className={disabled ? "link-disabled" : "link-active"}>
+      <a href={href} className={disabled ? 'link-disabled' : 'link-active'}>
         {children}
       </a>
     );
@@ -260,13 +260,13 @@ export function LinkButton({ onClick, disabled, children, href }) {
 这样在父组件里可以这样写，而不需要关注具体是哪个按钮实现：
 
 ```jsx
-import { IconButton } from "./IconButton";
-import { LinkButton } from "./LinkButton";
+import { IconButton } from './IconButton';
+import { LinkButton } from './LinkButton';
 
 export function Toolbar() {
   return (
     <div>
-      <IconButton onClick={() => alert("图标按钮")} disabled={false}>
+      <IconButton onClick={() => alert('图标按钮')} disabled={false}>
         图标按钮
       </IconButton>
       <LinkButton href="/home" disabled={false}>
@@ -285,24 +285,24 @@ export function Toolbar() {
 // useUserData.js
 export function useUserData() {
   // 实际从后端获取
-  return { data: { name: "Alice" }, loading: false, error: null };
+  return { data: { name: 'Alice' }, loading: false, error: null };
 }
 
 // useMockUserData.js
 export function useMockUserData() {
   // 测试环境下使用，模拟延迟和错误等
-  return { data: { name: "TestUser" }, loading: false, error: null };
+  return { data: { name: 'TestUser' }, loading: false, error: null };
 }
 ```
 
 在组件里可以这样写：
 
 ```jsx
-import { useUserData as useUserDataReal } from "../hooks/useUserData";
-import { useMockUserData } from "../hooks/useMockUserData";
+import { useUserData as useUserDataReal } from '../hooks/useUserData';
+import { useMockUserData } from '../hooks/useMockUserData';
 
 const useUserData =
-  process.env.NODE_ENV === "production" ? useUserDataReal : useMockUserData;
+  process.env.NODE_ENV === 'production' ? useUserDataReal : useMockUserData;
 
 export function Profile() {
   const { data, loading, error } = useUserData();
@@ -355,8 +355,8 @@ function Modal({
   title,
   content,
   onClose,
-  footerButtons = [{ text: "关闭", onClick: onClose }],
-  size = "medium",
+  footerButtons = [{ text: '关闭', onClick: onClose }],
+  size = 'medium',
   maskClosable = true,
   visible,
 }) {
@@ -369,8 +369,8 @@ function Modal({
   content={<p>确定要删除吗？</p>}
   onClose={() => setShowModal(false)}
   footerButtons={[
-    { text: "取消", onClick: () => setShowModal(false) },
-    { text: "确定", onClick: handleDelete },
+    { text: '取消', onClick: () => setShowModal(false) },
+    { text: '确定', onClick: handleDelete },
   ]}
   size="small"
   maskClosable={false}
@@ -390,7 +390,7 @@ function Modal({
 
 ```jsx
 // useFormValues.js
-import { useState } from "react";
+import { useState } from 'react';
 
 export function useFormValues(initialValues) {
   const [values, setValues] = useState(initialValues);
@@ -408,7 +408,7 @@ export function useFormValues(initialValues) {
 }
 
 // useFormValidation.js
-import { useState } from "react";
+import { useState } from 'react';
 
 export function useFormValidation(values, validateFn) {
   const [errors, setErrors] = useState({});
@@ -424,20 +424,20 @@ export function useFormValidation(values, validateFn) {
 }
 
 // 在组件里需要才组合
-import { useFormValues } from "../hooks/useFormValues";
-import { useFormValidation } from "../hooks/useFormValidation";
+import { useFormValues } from '../hooks/useFormValues';
+import { useFormValidation } from '../hooks/useFormValidation';
 
 function LoginForm() {
   const { values, handleChange, handleBlur } = useFormValues({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
   const { errors, isValid, validateField } = useFormValidation(
     values,
     (name, val) => {
       // 简单示例：非空校验
       if (!val) return `${name} 不能为空`;
-      return "";
+      return '';
     }
   );
 
@@ -471,7 +471,7 @@ function LoginForm() {
 // DataService.js：一个具体的数据服务实现
 export class DataService {
   fetchUsers() {
-    return fetch("/api/users").then((res) => res.json());
+    return fetch('/api/users').then((res) => res.json());
   }
 }
 
@@ -479,7 +479,7 @@ export class DataService {
 // 在 JS 中可以用文档说明，或在 TS 中写 interface IUserService { fetchUsers(): Promise<User[]>; }
 
 // UserList.jsx：接受一个抽象的 service，调用它来获取数据
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 export function UserList({ userService }) {
   const [users, setUsers] = useState([]);
@@ -497,9 +497,9 @@ export function UserList({ userService }) {
 }
 
 // 在更高层注入具体实现
-import React from "react";
-import { DataService } from "./DataService";
-import { UserList } from "./UserList";
+import React from 'react';
+import { DataService } from './DataService';
+import { UserList } from './UserList';
 
 const dataService = new DataService();
 
@@ -516,10 +516,10 @@ export function App() {
 
 ```jsx
 // useToken.js：将 storage 依赖抽象出来
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-export function useToken(storage, key = "token") {
-  const [token, setToken] = useState(storage.getItem(key) || "");
+export function useToken(storage, key = 'token') {
+  const [token, setToken] = useState(storage.getItem(key) || '');
 
   function saveToken(newToken) {
     storage.setItem(key, newToken);
@@ -528,15 +528,15 @@ export function useToken(storage, key = "token") {
 
   function clearToken() {
     storage.removeItem(key);
-    setToken("");
+    setToken('');
   }
 
   return { token, saveToken, clearToken };
 }
 
 // 在组件中，只需要按需传入 window.localStorage 或者某个测试时的 mockStorage
-import React from "react";
-import { useToken } from "../hooks/useToken";
+import React from 'react';
+import { useToken } from '../hooks/useToken';
 
 export function AuthButton() {
   const { token, saveToken, clearToken } = useToken(window.localStorage);
@@ -545,7 +545,7 @@ export function AuthButton() {
       {token ? (
         <button onClick={clearToken}>退出登录</button>
       ) : (
-        <button onClick={() => saveToken("my-token")}>登录</button>
+        <button onClick={() => saveToken('my-token')}>登录</button>
       )}
     </div>
   );
@@ -558,7 +558,7 @@ export function AuthButton() {
 
 ```jsx
 // AuthContext.jsx
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext } from 'react';
 
 const AuthContext = createContext(null);
 
@@ -571,7 +571,7 @@ export function AuthProvider({ authService, children }) {
 export function useAuthService() {
   const service = useContext(AuthContext);
   if (!service) {
-    throw new Error("必须在 AuthProvider 中使用 useAuthService");
+    throw new Error('必须在 AuthProvider 中使用 useAuthService');
   }
   return service;
 }
@@ -580,10 +580,10 @@ export function useAuthService() {
 在应用根组件里注入具体实现：
 
 ```jsx
-import React from "react";
-import { AuthProvider } from "./AuthContext";
-import { RealAuthService } from "./RealAuthService";
-import { AppRoutes } from "./AppRoutes";
+import React from 'react';
+import { AuthProvider } from './AuthContext';
+import { RealAuthService } from './RealAuthService';
+import { AppRoutes } from './AppRoutes';
 
 export default function App() {
   const authService = new RealAuthService();
@@ -598,8 +598,8 @@ export default function App() {
 在任意子组件里使用：
 
 ```jsx
-import React from "react";
-import { useAuthService } from "../context/AuthContext";
+import React from 'react';
+import { useAuthService } from '../context/AuthContext';
 
 export function ProfilePage() {
   const auth = useAuthService();

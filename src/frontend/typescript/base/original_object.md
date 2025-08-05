@@ -5,15 +5,15 @@
 嘿！JavaScript 的原始类型有 8 种（感谢 ES2020 给我们带来的 BigInt 👏），这些类型在 TypeScript 中都有对应的类型注解。除了 `null` 和 `undefined` 这两个"特殊宝贝"外，其他类型基本上与 JavaScript 中的数据类型概念一一对应。
 
 ```ts
-const name: string = "renouc";      // 字符串，你好呀~ 👋
-const age: number = 24;             // 数字，计算必备 🔢
-const male: boolean = false;        // 布尔值，不是 true 就是 false 🤔
+const name: string = 'renouc'; // 字符串，你好呀~ 👋
+const age: number = 24; // 数字，计算必备 🔢
+const male: boolean = false; // 布尔值，不是 true 就是 false 🤔
 const undef: undefined = undefined; // 未定义，空空如也 🌫️
-const nul: null = null;             // 空值，有盒子但没东西 📦
+const nul: null = null; // 空值，有盒子但没东西 📦
 const obj: object = { name, age, male }; // 对象，万物皆对象 🧰
 const bigintVar1: bigint = 9007199254740991n; // 超大整数，大到天花板都不够高 🚀
 const bigintVar2: bigint = BigInt(9007199254740991);
-const symbolVar: symbol = Symbol("unique"); // 独一无二的值 ✨
+const symbolVar: symbol = Symbol('unique'); // 独一无二的值 ✨
 ```
 
 ## null 和 undefined 🤷‍♂️
@@ -27,7 +27,7 @@ const tmp1: null = null;
 const tmp2: undefined = undefined;
 
 // 下面这两行代码只有在你"放松警惕"（关闭 strictNullChecks）时才行得通 😉
-const tmp3: string = null;      // 仅在关闭 strictNullChecks 时成立
+const tmp3: string = null; // 仅在关闭 strictNullChecks 时成立
 const tmp4: string = undefined; // 仅在关闭 strictNullChecks 时成立
 ```
 
@@ -42,7 +42,7 @@ const tmp4: string = undefined; // 仅在关闭 strictNullChecks 时成立
 ```js
 void expression;
 // 或者这样也可以
-void(expression);
+void expression;
 ```
 
 无论 expression 是什么复杂的表达式，void 都会冷酷地返回 undefined 🥶。
@@ -60,27 +60,28 @@ void(expression);
 ```
 
 立即执行函数表达式（IIFE）- 前端老炮儿都懂的技巧 😏
+
 ```js
 // 传统写法
-void function() {
-  console.log("我立刻就执行了！");
-}();
+void (function () {
+  console.log('我立刻就执行了！');
+})();
 
 // 现代写法（更常见）
-(function() {
-  console.log("我也立刻执行了，但我更时髦！");
+(function () {
+  console.log('我也立刻执行了，但我更时髦！');
 })();
 ```
 
 在 TypeScript 中，`void` 摇身一变成了**类型**，表示函数**不关心返回什么**或**压根儿不返回**：
 
 ```ts
-function fn1(): void {}                // 啥也不返回 🤐
+function fn1(): void {} // 啥也不返回 🤐
 function fn2(): void {
-  return;                              // 空手而归 🙌
+  return; // 空手而归 🙌
 }
 function fn3(): undefined {
-  return undefined;                    // 明确地返回了"无" 👻
+  return undefined; // 明确地返回了"无" 👻
 }
 ```
 
@@ -112,7 +113,7 @@ const arr2: Array<string> = []; // 用泛型的高级写法，有些场景更清
 
 ```ts
 // 普通数组：类型相同，长度随意
-const arr3: string[] = ["王", "富", "贵"];
+const arr3: string[] = ['王', '富', '贵'];
 
 console.log(arr3[599]); // TypeScript不会拦你，但运行时会得到undefined 😅
 ```
@@ -121,7 +122,7 @@ console.log(arr3[599]); // TypeScript不会拦你，但运行时会得到undefin
 
 ```ts
 // 元组：固定长度，每个位置类型可以不同
-const arr4: [string, string, string] = ["王", "富", "贵"];
+const arr4: [string, string, string] = ['王', '富', '贵'];
 
 console.log(arr4[599]); // TypeScript直接报错：别想越界访问！🚨
 ```
@@ -129,7 +130,7 @@ console.log(arr4[599]); // TypeScript直接报错：别想越界访问！🚨
 你甚至可以把元组的某些位置标记为可选的（带问号）：
 
 ```ts
-const arr6: [string, number?, boolean?] = ["王富贵"];
+const arr6: [string, number?, boolean?] = ['王富贵'];
 // 也可以这么写，逗号更明显
 // const arr6: [string, number?, boolean?] = ['王富贵', , ,];
 ```
@@ -144,7 +145,7 @@ TypeScript 4.0 还加入了**具名元组**，让你的代码可读性爆表 �
 
 ```ts
 // 每个元素都有名字，看着就明白是啥
-const person: [name: string, age: number, male: boolean] = ["王富贵", 25, true];
+const person: [name: string, age: number, male: boolean] = ['王富贵', 25, true];
 ```
 
 ## 对象 🏗️
@@ -153,19 +154,20 @@ const person: [name: string, age: number, male: boolean] = ["王富贵", 25, tru
 
 ```ts
 interface IDescription {
-  name: string;        // 必须有名字
-  age: number;         // 必须有年龄
-  male: boolean;       // 必须有性别标识
+  name: string; // 必须有名字
+  age: number; // 必须有年龄
+  male: boolean; // 必须有性别标识
 }
 
 const obj1: IDescription = {
-  name: "王富贵",
+  name: '王富贵',
   age: 25,
   male: true,
 };
 ```
 
 这意味着：
+
 - 每个属性必须**类型匹配**，就像拼图一样要对上 🧩
 - 不能随便加属性或少属性，无论是直接声明还是后续赋值，都要遵守蓝图！
 
@@ -177,15 +179,15 @@ const obj1: IDescription = {
 
 ```ts
 interface IDescription {
-  name: string;         // 这个必须有
-  age: number;          // 这个也必须有  
-  male?: boolean;       // 可有可无，看心情 🤔
-  func?: Function;      // 也是可选的
+  name: string; // 这个必须有
+  age: number; // 这个也必须有
+  male?: boolean; // 可有可无，看心情 🤔
+  func?: Function; // 也是可选的
 }
 
 const obj2: IDescription = {
-  name: "张三",
-  age: 25
+  name: '张三',
+  age: 25,
   // male和func没写，但没关系，它们是可选的～ 😌
 };
 ```
@@ -199,12 +201,12 @@ interface IDescription {
 }
 
 const obj3: IDescription = {
-  name: "张三",
+  name: '张三',
   age: 25,
 };
 
 // 想改名字？不存在的！TypeScript会阻止你 🛑
-obj3.name = "李四"; // 错误：name是只读的，别想动它！
+obj3.name = '李四'; // 错误：name是只读的，别想动它！
 ```
 
 数组和元组也能标记为只读，但与对象不同：
@@ -214,12 +216,12 @@ obj3.name = "李四"; // 错误：name是只读的，别想动它！
 
 ```ts
 // 只读数组，别想改我！
-const readonlyArr: readonly string[] = ["a", "b", "c"];
+const readonlyArr: readonly string[] = ['a', 'b', 'c'];
 // 或者这么写
-const readonlyArr2: ReadonlyArray<string> = ["a", "b", "c"];
+const readonlyArr2: ReadonlyArray<string> = ['a', 'b', 'c'];
 
 // 想push？没门！🚪
-readonlyArr.push("d"); // 错误：ReadonlyArray上没有push方法
+readonlyArr.push('d'); // 错误：ReadonlyArray上没有push方法
 ```
 
 ## type vs interface 🥊
@@ -236,13 +238,14 @@ interface User {
 }
 
 // type：百变星君，各种类型都能定义
-type UserId = string;                  // 类型别名
-type UserOrAdmin = User | Admin;       // 联合类型，二选一
-type GetUser = () => User;             // 函数类型
+type UserId = string; // 类型别名
+type UserOrAdmin = User | Admin; // 联合类型，二选一
+type GetUser = () => User; // 函数类型
 type UserRecord = Record<string, User>; // 字典类型
 ```
 
 主要区别（选择困难症看这里 👀）：
+
 - `interface` 能被继承和实现，像是家族传承
 - `interface` 能合并声明，多次定义会自动合并
 - `type` 支持联合类型、交叉类型等高级操作，更灵活
@@ -263,9 +266,9 @@ const tmp2: Object = null;
 const tmp3: Object = void 0;
 
 // 以下在任何情况下都有效，Object真的很包容
-const tmp4: Object = "王富贵";
+const tmp4: Object = '王富贵';
 const tmp5: Object = 599;
-const tmp6: Object = { name: "王富贵" };
+const tmp6: Object = { name: '王富贵' };
 const tmp7: Object = () => {};
 const tmp8: Object = [];
 ```
@@ -278,12 +281,12 @@ const tmp9: String = undefined;
 const tmp10: String = null;
 
 // 只接受字符串和String对象
-const tmp12: String = "王富贵";
-const tmp13: String = new String("王富贵");
+const tmp12: String = '王富贵';
+const tmp13: String = new String('王富贵');
 
 // 其他类型？没门！
 const tmp14: String = 599; // 错误！
-const tmp15: String = { name: "王富贵" }; // 错误！
+const tmp15: String = { name: '王富贵' }; // 错误！
 ```
 
 > **最佳实践**：别用这些装箱类型，它们只会让生活更复杂！用小写版本（string, number等）就好 👍
@@ -292,12 +295,12 @@ const tmp15: String = { name: "王富贵" }; // 错误！
 
 ```ts
 // 原始类型统统拒绝！（关闭 strictNullChecks 后可以）
-const tmp20: object = "王富贵"; // 错误！
+const tmp20: object = '王富贵'; // 错误！
 const tmp21: object = 599; // 错误！
 const tmp22: object = true; // 错误！
 
 // 非原始类型欢迎光临！
-const tmp23: object = { name: "王富贵" }; // ✅
+const tmp23: object = { name: '王富贵' }; // ✅
 const tmp24: object = () => {}; // ✅
 const tmp25: object = []; // ✅
 ```
@@ -310,15 +313,15 @@ const tmp26: {} = undefined;
 const tmp27: {} = null;
 
 // 惊喜：几乎什么都能赋值！
-const tmp28: {} = "王富贵"; // ✅
+const tmp28: {} = '王富贵'; // ✅
 const tmp29: {} = 599; // ✅
-const tmp30: {} = { name: "王富贵" }; // ✅
+const tmp30: {} = { name: '王富贵' }; // ✅
 ```
 
 但是！虽然能赋值，却不能访问或修改任何自定义属性，这很"坑" 😱：
 
 ```ts
-const obj: {} = { name: "王富贵" };
+const obj: {} = { name: '王富贵' };
 
 // 以下全部报错！
 console.log(obj.name); // 错误：{}上不存在属性"name"

@@ -21,7 +21,7 @@
 
 ```ts
 // middleware.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
   // 在这里编写中间件逻辑
@@ -35,25 +35,25 @@ export function middleware(request: NextRequest) {
 
 ```ts
 // middleware.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const { searchParams } = request.nextUrl;
 
   // 检查请求中的角色参数
-  const role = searchParams.get("role");
-  if (role === "admin") {
+  const role = searchParams.get('role');
+  if (role === 'admin') {
     // 允许请求继续
     return NextResponse.next();
   }
 
   // 重定向未授权用户到登录页面
-  return NextResponse.redirect(new URL("/login", request.url));
+  return NextResponse.redirect(new URL('/login', request.url));
 }
 
 // 设置匹配路径
 export const config = {
-  matcher: "/about/:path*",
+  matcher: '/about/:path*',
 };
 ```
 
@@ -68,10 +68,10 @@ export const config = {
 ```ts
 export const config = {
   // 字符串匹配
-  matcher: "/about/:path*",
-  
+  matcher: '/about/:path*',
+
   // 或使用数组匹配多个路径
-  matcher: ["/about/:path*", "/dashboard/:path*"],
+  matcher: ['/about/:path*', '/dashboard/:path*'],
 };
 ```
 
@@ -85,20 +85,19 @@ export const config = {
 export const config = {
   matcher: [
     {
-      source: "/api/:path*",
+      source: '/api/:path*',
       has: [
-        { type: "header", key: "Authorization", value: "Bearer .*" },
-        { type: "query", key: "userId" },
+        { type: 'header', key: 'Authorization', value: 'Bearer .*' },
+        { type: 'query', key: 'userId' },
       ],
-      missing: [
-        { type: "cookie", key: "session" }
-      ],
+      missing: [{ type: 'cookie', key: 'session' }],
     },
   ],
 };
 ```
 
 这个示例中，中间件会匹配:
+
 - 路径以 `/api/` 开头
 - 请求头包含 `Authorization` 且值以 `Bearer ` 开头
 - 查询参数包含 `userId`（值不限）
@@ -109,24 +108,24 @@ export const config = {
 对于更灵活的控制，你可以不使用 `matcher` 配置，而是在中间件函数内部实现逻辑判断：
 
 ```ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // 仅处理特定路径
-  if (pathname.startsWith("/about")) {
+  if (pathname.startsWith('/about')) {
     // 鉴权逻辑
     const { searchParams } = request.nextUrl;
-    const role = searchParams.get("role");
+    const role = searchParams.get('role');
 
-    if (role === "admin") {
+    if (role === 'admin') {
       return NextResponse.next();
     }
-    
-    return NextResponse.redirect(new URL("/login", request.url));
+
+    return NextResponse.redirect(new URL('/login', request.url));
   }
-  
+
   // 所有其他路径直接放行
   return NextResponse.next();
 }
@@ -143,19 +142,19 @@ export function middleware(request: NextRequest) {
 ```ts
 export function middleware(request: NextRequest) {
   // 读取单个 Cookie
-  const token = request.cookies.get("token");
+  const token = request.cookies.get('token');
   console.log(token); // { name: 'token', value: 'xxx' } 或 undefined
-  
+
   // 获取 Cookie 值
   const tokenValue = token?.value;
-  
+
   // 获取所有 Cookie
   const allCookies = request.cookies.getAll();
   console.log(allCookies); // [{ name: 'cookie1', value: 'value1' }, ...]
-  
+
   // 检查 Cookie 是否存在
-  const hasToken = request.cookies.has("token");
-  
+  const hasToken = request.cookies.has('token');
+
   return NextResponse.next();
 }
 ```
@@ -166,22 +165,22 @@ export function middleware(request: NextRequest) {
 export function middleware(request: NextRequest) {
   // 创建响应对象
   const response = NextResponse.next();
-  
+
   // 简单设置 Cookie
-  response.cookies.set("theme", "dark");
-  
+  response.cookies.set('theme', 'dark');
+
   // 设置带选项的 Cookie
-  response.cookies.set("token", "your-token-value", {
-    httpOnly: true,         // 禁止客户端 JavaScript 访问
-    secure: true,           // 仅通过 HTTPS 发送
-    sameSite: "strict",     // CSRF 保护
-    maxAge: 60 * 60 * 24,   // 1天过期（秒）
-    path: "/",              // Cookie 作用路径
+  response.cookies.set('token', 'your-token-value', {
+    httpOnly: true, // 禁止客户端 JavaScript 访问
+    secure: true, // 仅通过 HTTPS 发送
+    sameSite: 'strict', // CSRF 保护
+    maxAge: 60 * 60 * 24, // 1天过期（秒）
+    path: '/', // Cookie 作用路径
   });
-  
+
   // 删除 Cookie
-  response.cookies.delete("old-cookie");
-  
+  response.cookies.delete('old-cookie');
+
   return response;
 }
 ```
@@ -195,14 +194,14 @@ export function middleware(request: NextRequest) {
 ```ts
 export function middleware(request: NextRequest) {
   // 读取单个请求头
-  const userAgent = request.headers.get("user-agent");
-  const contentType = request.headers.get("content-type");
-  
+  const userAgent = request.headers.get('user-agent');
+  const contentType = request.headers.get('content-type');
+
   // 检查请求头是否存在
-  const hasAuth = request.headers.has("authorization");
-  
+  const hasAuth = request.headers.has('authorization');
+
   console.log(`User Agent: ${userAgent}`);
-  
+
   return NextResponse.next();
 }
 ```
@@ -214,15 +213,15 @@ export function middleware(request: NextRequest) {
   // 方法 1: 使用 NextResponse.next() 的选项
   const response = NextResponse.next({
     headers: {
-      "x-custom-header": "custom-value",
-      "cache-control": "public, max-age=3600",
+      'x-custom-header': 'custom-value',
+      'cache-control': 'public, max-age=3600',
     },
   });
-  
+
   // 方法 2: 使用 response.headers API
-  response.headers.set("x-powered-by", "Next.js");
-  response.headers.append("server-timing", "db;dur=53");
-  
+  response.headers.set('x-powered-by', 'Next.js');
+  response.headers.append('server-timing', 'db;dur=53');
+
   return response;
 }
 ```
@@ -239,7 +238,7 @@ return NextResponse.next();
 
 // 带修改的请求放行
 return NextResponse.next({
-  headers: { "x-modified-by": "middleware" },
+  headers: { 'x-modified-by': 'middleware' },
   // 可以添加其他修改
 });
 ```
@@ -248,17 +247,19 @@ return NextResponse.next({
 
 ```ts
 // 重定向到其他 URL
-return NextResponse.redirect(new URL("/login", request.url));
+return NextResponse.redirect(new URL('/login', request.url));
 
 // 带状态码的重定向（例如永久重定向）
-return NextResponse.redirect(new URL("/new-page", request.url), { status: 301 });
+return NextResponse.redirect(new URL('/new-page', request.url), {
+  status: 301,
+});
 ```
 
 ### 6.3 重写（改变路由而不重定向）
 
 ```ts
 // 在不改变浏览器 URL 的情况下，将请求内部重写到另一个路由
-return NextResponse.rewrite(new URL("/internal-page", request.url));
+return NextResponse.rewrite(new URL('/internal-page', request.url));
 ```
 
 ### 6.4 直接返回响应
@@ -266,20 +267,17 @@ return NextResponse.rewrite(new URL("/internal-page", request.url));
 ```ts
 // 返回 JSON 响应
 return NextResponse.json(
-  { message: "Unauthorized", error: "Missing authentication" },
+  { message: 'Unauthorized', error: 'Missing authentication' },
   { status: 401 }
 );
 
 // 返回自定义响应
-return new NextResponse(
-  JSON.stringify({ success: false }),
-  {
-    status: 403,
-    headers: {
-      "content-type": "application/json",
-    },
-  }
-);
+return new NextResponse(JSON.stringify({ success: false }), {
+  status: 403,
+  headers: {
+    'content-type': 'application/json',
+  },
+});
 ```
 
 ## 7. 实用示例
@@ -288,18 +286,18 @@ return new NextResponse(
 
 ```ts
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("auth-token")?.value;
-  
+  const token = request.cookies.get('auth-token')?.value;
+
   // 保护的路径
-  if (request.nextUrl.pathname.startsWith("/dashboard")) {
+  if (request.nextUrl.pathname.startsWith('/dashboard')) {
     if (!token) {
       // 存储原始URL以便登录后重定向回来
-      const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("from", request.nextUrl.pathname);
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('from', request.nextUrl.pathname);
       return NextResponse.redirect(loginUrl);
     }
   }
-  
+
   return NextResponse.next();
 }
 ```
@@ -309,19 +307,20 @@ export function middleware(request: NextRequest) {
 ```ts
 export function middleware(request: NextRequest) {
   // 获取请求中的语言偏好
-  const locale = request.cookies.get("NEXT_LOCALE") || 
-                request.headers.get("accept-language")?.split(',')[0] || 
-                "en";
-  
+  const locale =
+    request.cookies.get('NEXT_LOCALE') ||
+    request.headers.get('accept-language')?.split(',')[0] ||
+    'en';
+
   // 当访问根路径时重定向到本地化路径
-  if (request.nextUrl.pathname === "/") {
+  if (request.nextUrl.pathname === '/') {
     return NextResponse.redirect(new URL(`/${locale}`, request.url));
   }
-  
+
   // 添加语言信息到所有响应中
   const response = NextResponse.next();
-  response.headers.set("x-locale", locale);
-  
+  response.headers.set('x-locale', locale);
+
   return response;
 }
 ```
@@ -334,31 +333,28 @@ const rateLimit = new Map();
 
 export function middleware(request: NextRequest) {
   // 获取客户端 IP
-  const ip = request.ip || "unknown";
-  
-  if (request.nextUrl.pathname.startsWith("/api")) {
+  const ip = request.ip || 'unknown';
+
+  if (request.nextUrl.pathname.startsWith('/api')) {
     // 检查限制
     const currentTimestamp = Date.now();
     const requestHistory = rateLimit.get(ip) || [];
-    
+
     // 只保留最近 60 秒的请求
     const recentRequests = requestHistory.filter(
-      timestamp => currentTimestamp - timestamp < 60 * 1000
+      (timestamp) => currentTimestamp - timestamp < 60 * 1000
     );
-    
+
     // 判断是否超过限制 (每分钟 30 次)
     if (recentRequests.length >= 30) {
-      return NextResponse.json(
-        { error: "Too many requests" },
-        { status: 429 }
-      );
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     }
-    
+
     // 记录新请求
     recentRequests.push(currentTimestamp);
     rateLimit.set(ip, recentRequests);
   }
-  
+
   return NextResponse.next();
 }
 ```

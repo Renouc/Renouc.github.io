@@ -90,17 +90,18 @@ const moreFunc: MoreParams = (x, y) => {};
 const lessFunc: LessParams = (x) => {};
 
 // 正确：参数少的可以赋值给参数多的
-const example1: MoreParams = lessFunc; 
+const example1: MoreParams = lessFunc;
 
 // 错误：参数多的不能赋值给参数少的
-// const example2: LessParams = moreFunc; 
+// const example2: LessParams = moreFunc;
 
 // 返回值类型：子类型可以赋值给父类型
 type ReturnString = () => string;
 type ReturnStringOrNumber = () => string | number;
 
-const funcReturnString: ReturnString = () => "hello";
-const funcReturnBoth: ReturnStringOrNumber = () => Math.random() > 0.5 ? "hello" : 42;
+const funcReturnString: ReturnString = () => 'hello';
+const funcReturnBoth: ReturnStringOrNumber = () =>
+  Math.random() > 0.5 ? 'hello' : 42;
 
 // 正确：string 是 string | number 的子类型
 const example3: ReturnStringOrNumber = funcReturnString;
@@ -147,8 +148,8 @@ function greet(name: string, age?: number): string {
 }
 
 // 调用方式
-greet("Alice"); // 有效
-greet("Bob", 25); // 有效
+greet('Alice'); // 有效
+greet('Bob', 25); // 有效
 ```
 
 #### 默认参数（懒人的福音）👏
@@ -182,8 +183,8 @@ function createPerson(name: string, ...details: [number, boolean]): object {
   return { name, age, employed };
 }
 
-createPerson("Alice", 30, true); // 有效
-createPerson("Bob", 25, true, "extra"); // 错误：参数太多
+createPerson('Alice', 30, true); // 有效
+createPerson('Bob', 25, true, 'extra'); // 错误：参数太多
 ```
 
 ### 函数重载
@@ -193,14 +194,14 @@ createPerson("Bob", 25, true, "extra"); // 错误：参数太多
 ```typescript
 // 问题：使用联合类型无法准确表达参数与返回值的关系
 function format(value: string | number): string | number {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return value.trim();
   }
   return value.toFixed(2);
 }
 
 // 调用时无法确定返回值类型
-const result = format("hello"); // string | number
+const result = format('hello'); // string | number
 ```
 
 使用函数重载可以解决这个问题：
@@ -211,14 +212,14 @@ function format(value: string): string;
 function format(value: number): string;
 // 实现签名 - 包含所有重载情况的实际实现
 function format(value: string | number): string {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return value.trim();
   }
   return value.toFixed(2);
 }
 
 // 调用时能够准确推断返回类型
-const str = format("hello"); // string
+const str = format('hello'); // string
 const num = format(42); // string
 ```
 
@@ -243,8 +244,8 @@ function getElement(id: string, parent?: HTMLElement): HTMLElement | null {
 }
 
 // 使用时类型安全
-const element1 = getElement("header"); // 从document查找
-const element2 = getElement("item", someContainer); // 从指定容器查找
+const element1 = getElement('header'); // 从document查找
+const element2 = getElement('item', someContainer); // 从指定容器查找
 ```
 
 ### 特殊函数类型
@@ -260,13 +261,13 @@ async function fetchData(url: string): Promise<object> {
     const response = await fetch(url);
     return response.json();
   } catch (error) {
-    console.error("Failed to fetch data:", error);
+    console.error('Failed to fetch data:', error);
     return {}; // 返回空对象作为默认值
   }
 }
 
 // 使用
-const data = await fetchData("https://api.example.com/data");
+const data = await fetchData('https://api.example.com/data');
 // 类型为 object
 ```
 
@@ -293,7 +294,7 @@ function* createPagedData<T>(
 
 // 使用
 const pageGenerator = createPagedData(
-  (page) => fetch(`/api/items?page=${page}`).then(r => r.json()),
+  (page) => fetch(`/api/items?page=${page}`).then((r) => r.json()),
   5
 );
 
@@ -368,14 +369,17 @@ class User {
 
 ```typescript
 const Person = class {
-  constructor(public name: string, public age: number) {}
+  constructor(
+    public name: string,
+    public age: number
+  ) {}
 
   greet(): string {
     return `Hello, I'm ${this.name}`;
   }
 };
 
-const john = new Person("John", 30);
+const john = new Person('John', 30);
 ```
 
 ### 类属性初始化简写
@@ -389,7 +393,7 @@ class Product {
   name: string;
   price: number = 0;
   isAvailable: boolean = true;
-  
+
   constructor(name: string, price?: number) {
     this.name = name;
     if (price !== undefined) {
@@ -398,7 +402,7 @@ class Product {
   }
 }
 
-const product = new Product("Phone");
+const product = new Product('Phone');
 console.log(product.id); // 随机生成的ID
 console.log(product.price); // 0 (默认值)
 ```
@@ -424,7 +428,12 @@ class Account {
   // 只读成员 - 初始化后不可修改
   readonly id: string;
 
-  constructor(id: string, initialBalance: number, accountNumber: string, secretKey: string) {
+  constructor(
+    id: string,
+    initialBalance: number,
+    accountNumber: string,
+    secretKey: string
+  ) {
     this.id = id;
     this.balance = initialBalance;
     this.accountNumber = accountNumber;
@@ -444,7 +453,7 @@ class Account {
   protected generateStatement(): string {
     return `Account ${this.accountNumber.slice(-4)}: ${this.balance}`;
   }
-  
+
   // 访问私有字段
   validateKey(key: string): boolean {
     return this.#secretKey === key;
@@ -452,7 +461,7 @@ class Account {
 }
 
 // 访问修饰符的作用域
-const account = new Account("acc123", 1000, "1234567890", "secret123");
+const account = new Account('acc123', 1000, '1234567890', 'secret123');
 account.balance = 1500; // 正确 - public 成员
 // account.accountNumber = "9876";  // 错误 - protected 成员
 // account.transactions.push(...);  // 错误 - private 成员
@@ -464,8 +473,8 @@ account.balance = 1500; // 正确 - public 成员
 
 ```typescript
 class PrivateExample {
-  private tsPrivate: string = "TypeScript private";
-  #jsPrivate: string = "JavaScript private";
+  private tsPrivate: string = 'TypeScript private';
+  #jsPrivate: string = 'JavaScript private';
 
   showPrivates() {
     console.log(this.tsPrivate); // 访问正常
@@ -500,7 +509,7 @@ class Customer {
   }
 }
 
-const customer = new Customer("Alice", "alice@example.com", "cust-001");
+const customer = new Customer('Alice', 'alice@example.com', 'cust-001');
 console.log(customer.name); // "Alice" - public 属性可以访问
 // console.log(customer.email); // 错误 - 私有属性不能从外部访问
 ```
@@ -558,7 +567,7 @@ class StringUtils {
   }
 
   static reverse(str: string): string {
-    return str.split("").reverse().join("");
+    return str.split('').reverse().join('');
   }
 }
 
@@ -566,19 +575,19 @@ class StringUtils {
 class Database {
   private static instance: Database | null = null;
   private connectionString: string;
-  
+
   private constructor(connectionString: string) {
     this.connectionString = connectionString;
     console.log(`Connected to: ${connectionString}`);
   }
-  
+
   static getInstance(connectionString: string): Database {
     if (!Database.instance) {
       Database.instance = new Database(connectionString);
     }
     return Database.instance;
   }
-  
+
   query(sql: string): any[] {
     console.log(`Executing query: ${sql}`);
     return [];
@@ -586,8 +595,8 @@ class Database {
 }
 
 // 使用单例
-const db1 = Database.getInstance("mysql://localhost:3306/mydb");
-const db2 = Database.getInstance("mysql://localhost:3306/mydb");
+const db1 = Database.getInstance('mysql://localhost:3306/mydb');
+const db2 = Database.getInstance('mysql://localhost:3306/mydb');
 console.log(db1 === db2); // true - 同一个实例
 ```
 
@@ -627,11 +636,11 @@ class Dog extends Animal {
   }
 
   bark(): void {
-    console.log("Woof! Woof!");
+    console.log('Woof! Woof!');
   }
 }
 
-const dog = new Dog("Rex", "German Shepherd");
+const dog = new Dog('Rex', 'German Shepherd');
 dog.move(10); // "Rex is running..." 然后 "Rex moved 10m."
 dog.bark(); // "Woof! Woof!"
 ```
@@ -643,25 +652,25 @@ dog.bark(); // "Woof! Woof!"
 ```typescript
 class Animal {
   eat(): void {
-    console.log("Animal eating...");
+    console.log('Animal eating...');
   }
 }
 
 class Bird extends Animal {
   fly(): void {
-    console.log("Bird flying...");
+    console.log('Bird flying...');
   }
 }
 
 class Fish extends Animal {
   swim(): void {
-    console.log("Fish swimming...");
+    console.log('Fish swimming...');
   }
 }
 
 function moveAnimal(animal: Animal) {
   animal.eat(); // 所有动物都能吃
-  
+
   // 类型守卫：根据具体类型调用特定方法
   if (animal instanceof Bird) {
     animal.fly(); // 安全：已经确认是Bird类型
@@ -720,12 +729,12 @@ class Circle extends Shape {
 
   // 实现抽象访问器
   get name(): string {
-    return "circle";
+    return 'circle';
   }
 }
 
 // const shape = new Shape();  // 错误：不能创建抽象类的实例
-const circle = new Circle(5, "red");
+const circle = new Circle(5, 'red');
 circle.displayInfo(); // "This is a circle with area 78.54sq units"
 ```
 
@@ -750,7 +759,10 @@ interface Vehicle {
 class Car implements Vehicle {
   fuelLevel: number = 100;
 
-  constructor(public make: string, public model: string) {}
+  constructor(
+    public make: string,
+    public model: string
+  ) {}
 
   start(): void {
     console.log(`${this.make} ${this.model} started`);
@@ -761,7 +773,7 @@ class Car implements Vehicle {
   }
 }
 
-const myCar = new Car("Toyota", "Corolla");
+const myCar = new Car('Toyota', 'Corolla');
 myCar.start(); // "Toyota Corolla started"
 ```
 
@@ -779,7 +791,7 @@ interface ShapeConstructor {
 }
 
 class Rectangle implements Shape {
-  static defaultColor: string = "blue";
+  static defaultColor: string = 'blue';
 
   constructor(public color: string) {}
 
@@ -814,14 +826,14 @@ function sealed(constructor: Function) {
 // 方法装饰器
 function log(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
-  
-  descriptor.value = function(...args: any[]) {
+
+  descriptor.value = function (...args: any[]) {
     console.log(`Calling ${propertyKey} with:`, args);
     const result = originalMethod.apply(this, args);
     console.log(`Result:`, result);
     return result;
   };
-  
+
   return descriptor;
 }
 
@@ -834,7 +846,7 @@ class Example {
 }
 
 const example = new Example();
-example.multiply(2, 3); 
+example.multiply(2, 3);
 // 输出:
 // Calling multiply with: [2, 3]
 // Result: 6

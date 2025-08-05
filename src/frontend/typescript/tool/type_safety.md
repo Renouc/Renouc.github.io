@@ -14,9 +14,9 @@ TypeScript 中存在两种不同的 `typeof` 操作符：
 下面是 TypeScript 类型查询操作符的示例：
 
 ```typescript
-const str = "typescript";
+const str = 'typescript';
 
-const obj = { name: "typescript" };
+const obj = { name: 'typescript' };
 
 const nullVar = null;
 const undefinedVar = undefined;
@@ -43,7 +43,7 @@ const func = (input: string) => {
 
 // 复用函数类型
 const func2: typeof func = (name: string) => {
-  return name === "typescript";
+  return name === 'typescript';
 };
 
 // 在工具类型中使用 typeof
@@ -60,7 +60,7 @@ const isInputValid = (input: string) => {
 }
 
 // ❌ 错误：不允许在类型查询操作符后使用表达式
-let isValid: typeof isInputValid("typescript"); 
+let isValid: typeof isInputValid("typescript");
 ```
 
 ## 类型守卫 🛡️
@@ -73,7 +73,7 @@ TypeScript 提供了强大的类型控制流分析能力，它会根据代码逻
 
 ```typescript
 function processValue(value: string | number) {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     // 在这个分支中，TypeScript 知道 value 是 string 类型
     return value.toUpperCase();
   } else {
@@ -88,13 +88,13 @@ function processValue(value: string | number) {
 ```typescript
 declare const strOrNumOrBool: string | number | boolean;
 
-if (typeof strOrNumOrBool === "string") {
+if (typeof strOrNumOrBool === 'string') {
   // 在这里 strOrNumOrBool 是 string 类型
   strOrNumOrBool.charAt(1);
-} else if (typeof strOrNumOrBool === "number") {
+} else if (typeof strOrNumOrBool === 'number') {
   // 在这里 strOrNumOrBool 是 number 类型
   strOrNumOrBool.toFixed();
-} else if (typeof strOrNumOrBool === "boolean") {
+} else if (typeof strOrNumOrBool === 'boolean') {
   // 在这里 strOrNumOrBool 是 boolean 类型
   strOrNumOrBool === true;
 } else {
@@ -112,12 +112,12 @@ if (typeof strOrNumOrBool === "string") {
 ```typescript
 // ❌ 不会传递类型信息的函数
 function isStringSimple(input: unknown): boolean {
-  return typeof input === "string";
+  return typeof input === 'string';
 }
 
 // ✅ 使用 is 关键字创建类型守卫
 function isString(input: unknown): input is string {
-  return typeof input === "string";
+  return typeof input === 'string';
 }
 
 function processInput(input: string | number) {
@@ -126,7 +126,7 @@ function processInput(input: string | number) {
     // ❌ 错误：TypeScript 不知道 input 是 string 类型
     // input.toUpperCase();
   }
-  
+
   // 使用类型守卫，TypeScript 可以收窄类型
   if (isString(input)) {
     // ✅ 正确：TypeScript 知道 input 是 string 类型
@@ -139,6 +139,7 @@ function processInput(input: string | number) {
 ```
 
 自定义类型守卫的语法是 `parameterName is Type`，其中：
+
 - `parameterName` 是函数的参数名
 - `is Type` 表示如果函数返回 `true`，则参数的类型可以被收窄为 `Type`
 
@@ -148,7 +149,7 @@ function processInput(input: string | number) {
 // 危险但有效的类型守卫：逻辑与类型声明不匹配
 function isNumber(input: unknown): input is number {
   // 错误的实现：即使返回 true，input 也可能不是 number 类型
-  return typeof input === "string";
+  return typeof input === 'string';
 }
 
 function process(input: string | number) {
@@ -165,13 +166,13 @@ function process(input: string | number) {
 
 ```typescript
 // 判断是否为空值（false、""、0、null、undefined）
-export type Falsy = false | "" | 0 | null | undefined;
+export type Falsy = false | '' | 0 | null | undefined;
 export const isFalsy = (val: unknown): val is Falsy => !val;
 
 // 判断是否为原始类型
 export type Primitive = string | number | boolean | undefined;
 export const isPrimitive = (val: unknown): val is Primitive =>
-  ["string", "number", "boolean", "undefined"].includes(typeof val);
+  ['string', 'number', 'boolean', 'undefined'].includes(typeof val);
 ```
 
 ### 基于 in 的类型守卫
@@ -194,12 +195,12 @@ interface Admin {
 
 function displayDetails(account: User | Admin) {
   console.log(`Name: ${account.name}, Email: ${account.email}`);
-  
+
   // 使用 in 操作符区分类型
-  if ("adminSince" in account) {
+  if ('adminSince' in account) {
     // account 是 Admin 类型
     console.log(`Admin since: ${account.adminSince.toDateString()}`);
-    console.log(`Privileges: ${account.privileges.join(", ")}`);
+    console.log(`Privileges: ${account.privileges.join(', ')}`);
   } else {
     // account 是 User 类型
     console.log(`Login count: ${account.loginCount}`);
@@ -213,8 +214,11 @@ function displayDetails(account: User | Admin) {
 
 ```typescript
 class BasicUser {
-  constructor(public name: string, public email: string) {}
-  
+  constructor(
+    public name: string,
+    public email: string
+  ) {}
+
   displayInfo() {
     console.log(`User: ${this.name}, ${this.email}`);
   }
@@ -225,12 +229,12 @@ class PremiumUser extends BasicUser {
     name: string,
     email: string,
     public memberSince: Date,
-    public subscriptionTier: "silver" | "gold" | "platinum"
+    public subscriptionTier: 'silver' | 'gold' | 'platinum'
   ) {
     super(name, email);
   }
-  
-  upgradeTier(newTier: "silver" | "gold" | "platinum") {
+
+  upgradeTier(newTier: 'silver' | 'gold' | 'platinum') {
     this.subscriptionTier = newTier;
   }
 }
@@ -238,16 +242,16 @@ class PremiumUser extends BasicUser {
 function processUser(user: BasicUser | PremiumUser) {
   // 基础信息对所有用户通用
   user.displayInfo();
-  
+
   // 使用 instanceof 收窄类型
   if (user instanceof PremiumUser) {
     // 这里 TypeScript 知道 user 是 PremiumUser 类型
     console.log(`Member since: ${user.memberSince.toDateString()}`);
     console.log(`Tier: ${user.subscriptionTier}`);
-    
+
     // 可以调用 PremiumUser 特有的方法
-    if (user.subscriptionTier === "silver") {
-      user.upgradeTier("gold");
+    if (user.subscriptionTier === 'silver') {
+      user.upgradeTier('gold');
     }
   }
 }
@@ -260,17 +264,17 @@ function processUser(user: BasicUser | PremiumUser) {
 ```typescript
 // 使用 kind 属性作为可辨识属性
 interface Circle {
-  kind: "circle";  // 字面量类型作为标记
+  kind: 'circle'; // 字面量类型作为标记
   radius: number;
 }
 
 interface Square {
-  kind: "square";  // 字面量类型作为标记
+  kind: 'square'; // 字面量类型作为标记
   sideLength: number;
 }
 
 interface Rectangle {
-  kind: "rectangle";  // 字面量类型作为标记
+  kind: 'rectangle'; // 字面量类型作为标记
   width: number;
   height: number;
 }
@@ -282,18 +286,18 @@ type Shape = Circle | Square | Rectangle;
 function calculateArea(shape: Shape): number {
   // 使用可辨识属性区分不同的形状
   switch (shape.kind) {
-    case "circle":
+    case 'circle':
       // 这里 TypeScript 知道 shape 是 Circle 类型
       return Math.PI * shape.radius ** 2;
-      
-    case "square":
+
+    case 'square':
       // 这里 TypeScript 知道 shape 是 Square 类型
       return shape.sideLength ** 2;
-      
-    case "rectangle":
+
+    case 'rectangle':
       // 这里 TypeScript 知道 shape 是 Rectangle 类型
       return shape.width * shape.height;
-      
+
     default:
       // 穷尽检查：如果添加了新的形状类型但忘记处理，这里会捕获错误
       const _exhaustiveCheck: never = shape;
@@ -302,11 +306,11 @@ function calculateArea(shape: Shape): number {
 }
 
 // 使用示例
-const circle: Circle = { kind: "circle", radius: 5 };
-console.log(calculateArea(circle));  // 78.54...
+const circle: Circle = { kind: 'circle', radius: 5 };
+console.log(calculateArea(circle)); // 78.54...
 
-const square: Square = { kind: "square", sideLength: 4 };
-console.log(calculateArea(square));  // 16
+const square: Square = { kind: 'square', sideLength: 4 };
+console.log(calculateArea(square)); // 16
 ```
 
 可辨识联合类型的关键在于每个类型都有一个**可辨识属性**（Discriminant Property），这个属性通常是字面量类型，且在每个类型成员中取值不同。
@@ -341,13 +345,13 @@ function processConfig(config: Config) {
 
 ```typescript
 interface Dog {
-  kind: "dog";
+  kind: 'dog';
   bark(): void;
   dogName: string;
 }
 
 interface Cat {
-  kind: "cat";
+  kind: 'cat';
   meow(): void;
   catName: string;
 }
@@ -356,13 +360,13 @@ type Pet = Dog | Cat;
 
 function handlePet(pet: Pet) {
   // ❌ 这种检查不起作用，因为两者的 diffType 属性类型不同但都是对象类型
-  if (typeof pet.dogName === "string") {
+  if (typeof pet.dogName === 'string') {
     // 错误：TypeScript 不能确定 pet 是 Dog 类型
     // pet.bark();
   }
-  
+
   // ✅ 正确的做法是使用可辨识属性
-  if (pet.kind === "dog") {
+  if (pet.kind === 'dog') {
     // 正确：TypeScript 知道 pet 是 Dog 类型
     pet.bark();
     console.log(pet.dogName);
@@ -383,12 +387,12 @@ TypeScript 3.7 引入了一种特殊的类型守卫 —— **类型断言守卫*
 断言守卫使用 `asserts` 关键字声明，表示如果函数成功返回（没有抛出错误），则其断言条件必定为真：
 
 ```typescript
-import assert from "assert";
+import assert from 'assert';
 
-let name: any = "typescript";
+let name: any = 'typescript';
 
 // 使用 Node.js 的 assert 函数
-assert(typeof name === "number");
+assert(typeof name === 'number');
 
 // 如果断言通过（运行时不会），name 的类型在后续代码中被视为 number
 name.toFixed();
@@ -400,14 +404,14 @@ TypeScript 3.7 引入了 `asserts` 关键字，专门用于声明断言守卫函
 // 声明一个简单的断言函数
 function assert(condition: any, message?: string): asserts condition {
   if (!condition) {
-    throw new Error(message || "Assertion failed");
+    throw new Error(message || 'Assertion failed');
   }
 }
 
-let value: unknown = "hello";
+let value: unknown = 'hello';
 
 // 使用断言
-assert(typeof value === "string");
+assert(typeof value === 'string');
 
 // 断言通过后，TypeScript 知道 value 一定是 string 类型
 value.toUpperCase();
@@ -422,7 +426,7 @@ value.toUpperCase();
 ```typescript
 // 声明一个断言 value 是 number 类型的函数
 function assertIsNumber(value: unknown): asserts value is number {
-  if (typeof value !== "number") {
+  if (typeof value !== 'number') {
     throw new Error(`Expected number, got ${typeof value}`);
   }
 }
@@ -443,38 +447,40 @@ console.log(data.toFixed(2));
 ```typescript
 // 创建一系列类型断言函数
 function assertIsString(value: unknown): asserts value is string {
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     throw new Error(`Expected string, got ${typeof value}`);
   }
 }
 
 function assertIsArray<T>(value: unknown): asserts value is T[] {
   if (!Array.isArray(value)) {
-    throw new Error("Expected array");
+    throw new Error('Expected array');
   }
 }
 
 function assertIsObject(value: unknown): asserts value is object {
-  if (typeof value !== "object" || value === null) {
-    throw new Error(`Expected object, got ${value === null ? "null" : typeof value}`);
+  if (typeof value !== 'object' || value === null) {
+    throw new Error(
+      `Expected object, got ${value === null ? 'null' : typeof value}`
+    );
   }
 }
 
 // 使用断言守卫处理 API 响应
 function processAPIResponse(response: unknown) {
   assertIsObject(response);
-  
+
   // 现在 TypeScript 知道 response 是对象类型
-  if ("data" in response) {
+  if ('data' in response) {
     const { data } = response as { data: unknown };
-    
+
     assertIsArray<unknown>(data);
     // 现在 TypeScript 知道 data 是数组类型
-    
+
     console.log(`Processing ${data.length} items`);
-    
+
     // 处理数组中的每个元素
-    data.forEach(item => {
+    data.forEach((item) => {
       // 进一步使用断言守卫细化类型...
     });
   }

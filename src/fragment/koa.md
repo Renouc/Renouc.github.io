@@ -13,11 +13,11 @@ npm install koa
 ### Hello World
 
 ```js
-const Koa = require("koa");
+const Koa = require('koa');
 const app = new Koa();
 
 app.use((ctx) => {
-  ctx.body = "Hello World";
+  ctx.body = 'Hello World';
 });
 
 app.listen(3000);
@@ -28,47 +28,47 @@ app.listen(3000);
 洋葱模型是一种软件设计模式，它允许多个组件按顺序运行，每个组件都处理一部分任务。
 
 ```js
-const Koa = require("koa");
+const Koa = require('koa');
 
 const app = new Koa();
 
 const middleware1 = async (ctx, next) => {
-  console.log("----middleware1 start----");
+  console.log('----middleware1 start----');
   await next();
   ctx.body = {
     ...ctx.body,
-    data: "middleware1",
+    data: 'middleware1',
   };
-  console.log("----middleware1 end----");
+  console.log('----middleware1 end----');
 };
 
 const middleware2 = async (ctx, next) => {
-  console.log("----middleware2 start----");
+  console.log('----middleware2 start----');
   await next();
-  console.log("----middleware2 end----");
+  console.log('----middleware2 end----');
 };
 
 const middleware3 = async (ctx, next) => {
-  console.log("----middleware3 start----");
+  console.log('----middleware3 start----');
   await next();
-  console.log("----middleware3 end----");
+  console.log('----middleware3 end----');
 };
 
 const middleware4 = async (ctx, next) => {
-  console.log("----middleware4 start----");
-  console.log("----middleware4 body start----");
+  console.log('----middleware4 start----');
+  console.log('----middleware4 body start----');
   ctx.body = {
     code: 200,
-    message: "Hello World",
+    message: 'Hello World',
   };
-  console.log("----middleware4 body end----");
-  console.log("----middleware4 end----");
+  console.log('----middleware4 body end----');
+  console.log('----middleware4 end----');
   next();
 };
 
 const middleware5 = async (ctx, next) => {
-  console.log("----middleware5 start----");
-  console.log("----middleware5 end----");
+  console.log('----middleware5 start----');
+  console.log('----middleware5 end----');
 };
 
 app.use(middleware1);
@@ -78,7 +78,7 @@ app.use(middleware4);
 app.use(middleware5);
 
 app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+  console.log('Server is running on port 3000');
 });
 ```
 
@@ -126,11 +126,11 @@ const Router = require('@koa/router');
 const app = new Koa();
 const router = new Router();
 
-router.get('/', ctx => {
+router.get('/', (ctx) => {
   ctx.body = '管理员首页';
 });
 
-router.get('/dashboard', ctx => {
+router.get('/dashboard', (ctx) => {
   ctx.body = '管理仪表盘';
 });
 
@@ -138,5 +138,5 @@ app.use(router.routes()).use(router.allowedMethods()); // 添加路由中间件
 
 app.listen(3000, () => {
   console.log('Server is running at http://localhost:3000');
-})
+});
 ```

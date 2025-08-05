@@ -13,5 +13,5 @@ npx vitepress init
 config.ts
 
 ```ts
-srcDir: "src"
+srcDir: 'src';
 ```

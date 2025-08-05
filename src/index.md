@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "Renouc"
-  text: "积累知识碎片"
+  name: 'Renouc'
+  text: '积累知识碎片'
   image:
     src: /avatar.png
     alt: Renouc
@@ -32,4 +32,3 @@ features:
     details: 我的图床
     link: https://img-bed.renouc.cn
 ---
-

@@ -23,9 +23,9 @@ function printArticle(article: Article) {
 
 ```ts
 printArticle({
-  title: "Hello",
-  content: "World",
-  author: "John" // ❌ 报错：对象字面量有多余属性 author
+  title: 'Hello',
+  content: 'World',
+  author: 'John', // ❌ 报错：对象字面量有多余属性 author
 });
 ```
 
@@ -40,9 +40,9 @@ Argument of type '{ title: string; content: string; author: string; }' is not as
 
 ```ts
 const obj = {
-  title: "Hello",
-  content: "World",
-  author: "John"
+  title: 'Hello',
+  content: 'World',
+  author: 'John',
 };
 
 printArticle(obj); // ✅ 不报错
@@ -63,9 +63,9 @@ printArticle(obj); // ✅ 不报错
 
 ```ts
 printArticle({
-  title: "Hello",
-  content: "World",
-  author: "John"
+  title: 'Hello',
+  content: 'World',
+  author: 'John',
 } as Article); // ✅ 使用类型断言
 ```
 
@@ -73,8 +73,8 @@ printArticle({
 
 ```ts
 printArticle({
-  title: "Hello",
-  content: "World"
+  title: 'Hello',
+  content: 'World',
 }); // ✅ 只传必要的属性
 ```
 

@@ -77,24 +77,32 @@ feedCat(new Dog()); // 报错！返回类型不兼容
 ### 结构化类型系统的应用场景
 
 1. **接口实现**：
+
 ```ts
 interface Animal {
   eat(): void;
 }
 
 class Cat implements Animal {
-  eat() { console.log('Cat is eating'); }
+  eat() {
+    console.log('Cat is eating');
+  }
 }
 
 class Dog {
-  eat() { console.log('Dog is eating'); }
-  bark() { console.log('Woof!'); }
+  eat() {
+    console.log('Dog is eating');
+  }
+  bark() {
+    console.log('Woof!');
+  }
 }
 
 const animal: Animal = new Dog(); // ✅ 可以
 ```
 
 2. **对象字面量**：
+
 ```ts
 interface Point {
   x: number;
@@ -106,6 +114,7 @@ const point2: Point = { x: 1, y: 2, z: 3 }; // ✅ 可以，额外属性不影�
 ```
 
 3. **函数参数**：
+
 ```ts
 interface Config {
   url: string;
@@ -146,8 +155,8 @@ addCNY(CNYCount, USDCount); // 在标称类型系统中，这应该报错！
 在标称类型系统中，类型之间的继承关系必须显式声明：
 
 ```ts
-class Cat { }
-class ShorthairCat extends Cat { } // 显式声明继承关系
+class Cat {}
+class ShorthairCat extends Cat {} // 显式声明继承关系
 ```
 
 ### TypeScript 中的标称类型
@@ -173,6 +182,7 @@ addCNY(CNYCount, USDCount); // 现在会报错！
 ### 标称类型的实际应用
 
 1. **货币单位**：
+
 ```ts
 type USD = number & { readonly __brand: unique symbol };
 type CNY = number & { readonly __brand: unique symbol };
@@ -186,6 +196,7 @@ function convertUSDToCNY(usd: USD): CNY {
 ```
 
 2. **物理单位**：
+
 ```ts
 type Meter = number & { readonly __brand: unique symbol };
 type Kilometer = number & { readonly __brand: unique symbol };
@@ -199,12 +210,13 @@ function convertMeterToKm(m: Meter): Kilometer {
 ```
 
 3. **ID 类型**：
+
 ```ts
 type UserID = string & { readonly __brand: unique symbol };
 type OrderID = string & { readonly __brand: unique symbol };
 
-const userId: UserID = "123" as UserID;
-const orderId: OrderID = "456" as OrderID;
+const userId: UserID = '123' as UserID;
+const orderId: OrderID = '456' as OrderID;
 
 function getUserOrders(userId: UserID): OrderID[] {
   // ...
@@ -213,12 +225,12 @@ function getUserOrders(userId: UserID): OrderID[] {
 
 ### 两种类型系统的比较
 
-| 特性 | 结构化类型系统 | 标称类型系统 |
-|------|--------------|------------|
-| 类型兼容性判断 | 基于结构 | 基于名称 |
-| 灵活性 | 高 | 低 |
-| 类型安全 | 相对较低 | 相对较高 |
-| 常见语言 | TypeScript, Python | Java, C++ |
+| 特性           | 结构化类型系统     | 标称类型系统 |
+| -------------- | ------------------ | ------------ |
+| 类型兼容性判断 | 基于结构           | 基于名称     |
+| 灵活性         | 高                 | 低           |
+| 类型安全       | 相对较低           | 相对较高     |
+| 常见语言       | TypeScript, Python | Java, C++    |
 
 ### 如何选择类型系统？
 

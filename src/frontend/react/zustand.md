@@ -8,7 +8,7 @@
 
 ```ts
 // stores/counter.ts
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface CounterStore {
   count: number;
@@ -33,13 +33,13 @@ export default useCounterStore;
 
 ```tsx
 // components/Counter.tsx
-import React from "react";
-import useCounterStore from "@/stores/counter";
+import React from 'react';
+import useCounterStore from '@/stores/counter';
 
 function Counter() {
   const count = useCounterStore((state) => state.count);
   const { increment, decrement, incrementBy, reset } = useCounterStore();
-  
+
   return (
     <div>
       <h3>计数器: {count}</h3>
@@ -61,12 +61,13 @@ export default Counter;
 ### 1. 正确订阅状态才会触发组件更新
 
 ❌ **错误示例：**
+
 ```tsx
 function Counter() {
   // getState() 获取的是快照，不会订阅状态变化
   const count = useCounterStore.getState().count;
   const increment = useCounterStore((state) => state.increment);
-  
+
   return (
     <div>
       <div>{count}</div> {/* 状态更新时不会重新渲染 */}
@@ -77,12 +78,13 @@ function Counter() {
 ```
 
 ✅ **正确示例：**
+
 ```tsx
 function Counter() {
   // 通过 selector 订阅状态
   const count = useCounterStore((state) => state.count);
   const increment = useCounterStore((state) => state.increment);
-  
+
   return (
     <div>
       <div>{count}</div> {/* 状态更新时会重新渲染 */}
@@ -95,21 +97,23 @@ function Counter() {
 ### 2. 精确订阅状态避免不必要的重新渲染
 
 ❌ **订阅整个 store：**
+
 ```tsx
 function UserProfile() {
   // 订阅了整个 store，任何状态变化都会触发重新渲染
   const store = useUserStore();
-  
+
   return <div>{store.user.name}</div>;
 }
 ```
 
 ✅ **精确订阅特定状态：**
+
 ```tsx
 function UserProfile() {
   // 只订阅 user.name，只有这个值变化才会重新渲染
   const userName = useUserStore((state) => state.user.name);
-  
+
   return <div>{userName}</div>;
 }
 ```
@@ -117,6 +121,7 @@ function UserProfile() {
 ### 3. 使用浅比较优化性能
 
 **方法一：使用 `useStoreWithEqualityFn`**
+
 ```tsx
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 import { shallow } from 'zustand/shallow';
@@ -131,10 +136,10 @@ function TodoList() {
     }),
     shallow
   );
-  
+
   return (
     <div>
-      {todos.map(todo => (
+      {todos.map((todo) => (
         <div key={todo.id}>
           {todo.text}
           <button onClick={() => removeTodo(todo.id)}>删除</button>
@@ -147,6 +152,7 @@ function TodoList() {
 ```
 
 **方法二：使用 `subscribeWithSelector` 中间件**
+
 ```tsx
 import { subscribeWithSelector } from 'zustand/middleware';
 import { shallow } from 'zustand/shallow';
@@ -154,12 +160,14 @@ import { shallow } from 'zustand/shallow';
 const useTodoStore = create(
   subscribeWithSelector((set) => ({
     todos: [],
-    addTodo: (text) => set((state) => ({
-      todos: [...state.todos, { id: Date.now(), text }]
-    })),
-    removeTodo: (id) => set((state) => ({
-      todos: state.todos.filter(todo => todo.id !== id)
-    })),
+    addTodo: (text) =>
+      set((state) => ({
+        todos: [...state.todos, { id: Date.now(), text }],
+      })),
+    removeTodo: (id) =>
+      set((state) => ({
+        todos: state.todos.filter((todo) => todo.id !== id),
+      })),
   }))
 );
 
@@ -172,10 +180,10 @@ function TodoList() {
     }),
     shallow
   );
-  
+
   return (
     <div>
-      {todos.map(todo => (
+      {todos.map((todo) => (
         <div key={todo.id}>
           {todo.text}
           <button onClick={() => removeTodo(todo.id)}>删除</button>
@@ -188,6 +196,7 @@ function TodoList() {
 ```
 
 **说明：**
+
 - 在 Zustand v4+ 中，默认的 store hook 不再接受第二个相等性函数参数
 - 如果需要使用自定义相等性函数，有两种方式：
   1. 使用 `useStoreWithEqualityFn` from `zustand/traditional`
@@ -195,16 +204,17 @@ function TodoList() {
 - `shallow` 用于浅比较 selector 返回的对象，避免因为对象引用变化导致的不必要重新渲染
 
 **最佳实践（推荐）：**
+
 ```tsx
 // 分别订阅每个状态（最简单，性能最好）
 function TodoList() {
   const todos = useTodoStore((state) => state.todos);
   const addTodo = useTodoStore((state) => state.addTodo);
   const removeTodo = useTodoStore((state) => state.removeTodo);
-  
+
   return (
     <div>
-      {todos.map(todo => (
+      {todos.map((todo) => (
         <div key={todo.id}>
           {todo.text}
           <button onClick={() => removeTodo(todo.id)}>删除</button>

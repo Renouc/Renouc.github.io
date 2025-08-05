@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'vitepress'
+import { DefaultTheme } from 'vitepress';
 
 const sidebar: DefaultTheme.Sidebar = {
   '/frontend/javascript/': [
@@ -120,6 +120,6 @@ const sidebar: DefaultTheme.Sidebar = {
     { text: 'Zustand', link: '/frontend/react/zustand' },
   ],
   '/frontend/next/': [{ text: '文件系统', link: '/frontend/next/file-system' }],
-}
+};
 
-export default sidebar
+export default sidebar;

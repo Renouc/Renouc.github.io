@@ -16,9 +16,9 @@ TypeA extends TypeB ? Result1 : Result2;
 条件类型绝大部分场景下会和泛型一起使用，我们知道，泛型参数的实际类型会在实际调用时才被填充（类型别名中显式传入，或者函数中隐式提取），而条件类型在这一基础上，可以基于填充后的泛型参数做进一步的类型操作，比如这个例子：
 
 ```ts
-type LiteralType<T> = T extends string ? "string" : "other";
+type LiteralType<T> = T extends string ? 'string' : 'other';
 
-type Res1 = LiteralType<"linbudu">; // "string"
+type Res1 = LiteralType<'linbudu'>; // "string"
 type Res2 = LiteralType<599>; // "other"
 ```
 
@@ -26,18 +26,18 @@ type Res2 = LiteralType<599>; // "other"
 
 ```ts
 export type LiteralType<T> = T extends string
-  ? "string"
+  ? 'string'
   : T extends number
-  ? "number"
-  : T extends boolean
-  ? "boolean"
-  : T extends null
-  ? "null"
-  : T extends undefined
-  ? "undefined"
-  : never;
+    ? 'number'
+    : T extends boolean
+      ? 'boolean'
+      : T extends null
+        ? 'null'
+        : T extends undefined
+          ? 'undefined'
+          : never;
 
-type Res1 = LiteralType<"linbudu">; // "string"
+type Res1 = LiteralType<'linbudu'>; // "string"
 type Res2 = LiteralType<599>; // "number"
 type Res3 = LiteralType<true>; // "boolean"
 ```
@@ -56,7 +56,7 @@ function universalAdd<T extends number | bigint | string>(x: T, y: T) {
 
 ```ts
 universalAdd(599, 1); // T 填充为 599 | 1
-universalAdd("linbudu", "599"); // T 填充为 "linbudu" | "599"
+universalAdd('linbudu', '599'); // T 填充为 "linbudu" | "599"
 ```
 
 那么此时的返回值类型就需要从这个字面量联合类型中推导回其原本的基础类型。在类型层级一节中，我们知道**同一基础类型的字面量联合类型，其可以被认为是此基础类型的子类型**，即 `599 | 1` 是 number 的子类型。
@@ -74,12 +74,12 @@ function universalAdd<T extends number | bigint | string>(
 export type LiteralToPrimitive<T> = T extends number
   ? number
   : T extends bigint
-  ? bigint
-  : T extends string
-  ? string
-  : never;
+    ? bigint
+    : T extends string
+      ? string
+      : never;
 
-universalAdd("linbudu", "599"); // string
+universalAdd('linbudu', '599'); // string
 universalAdd(599, 1); // number
 universalAdd(10n, 10n); // bigint
 ```
@@ -94,8 +94,8 @@ type Func = (...args: any[]) => any;
 type FunctionConditionType<T extends Func> = T extends (
   ...args: any[]
 ) => string
-  ? "A string return func!"
-  : "A non-string return func!";
+  ? 'A string return func!'
+  : 'A non-string return func!';
 
 //  "A string return func!"
 type StringResult = FunctionConditionType<() => string>;
@@ -110,6 +110,7 @@ type NonStringResult2 = FunctionConditionType<() => number>;
 ### 泛型约束与条件类型的区别
 
 与此同时，存在泛型约束和条件类型两个 extends 可能会让你感到疑惑，但它们产生作用的时机完全不同：
+
 - 泛型约束要求你传入符合结构的类型参数，相当于**参数校验**
 - 条件类型使用类型参数进行条件判断（就像 if else），相当于**实际内部逻辑**
 
@@ -150,7 +151,7 @@ type SwapResult2 = Swap<[1, 2, 3]>; // 不符合结构，没有发生替换，�
 type ExtractStartAndEnd<T extends any[]> = T extends [
   infer Start,
   ...any[],
-  infer End
+  infer End,
 ]
   ? [Start, End]
   : T;
@@ -159,7 +160,7 @@ type ExtractStartAndEnd<T extends any[]> = T extends [
 type SwapStartAndEnd<T extends any[]> = T extends [
   infer Start,
   ...infer Middle,
-  infer End
+  infer End,
 ]
   ? [End, ...Middle, Start]
   : T;
@@ -168,7 +169,7 @@ type SwapStartAndEnd<T extends any[]> = T extends [
 type SwapFirstTwo<T extends any[]> = T extends [
   infer Start1,
   infer Start2,
-  ...infer Rest
+  ...infer Rest,
 ]
   ? [Start2, Start1, ...Rest]
   : T;
@@ -178,9 +179,8 @@ type SwapFirstTwo<T extends any[]> = T extends [
 
 ```ts
 // 将数组类型转换为其元素的联合类型
-type ArrayItemType<T> = T extends Array<infer ElementType>
-  ? ElementType
-  : never;
+type ArrayItemType<T> =
+  T extends Array<infer ElementType> ? ElementType : never;
 
 type ArrayItemTypeResult1 = ArrayItemType<[]>; // never
 type ArrayItemTypeResult2 = ArrayItemType<string[]>; // string
@@ -199,18 +199,14 @@ type PropType<T, K extends keyof T> = T extends { [Key in K]: infer R }
   ? R
   : never;
 
-type PropTypeResult1 = PropType<{ name: string }, "name">; // string
-type PropTypeResult2 = PropType<{ name: string; age: number }, "name" | "age">; // string | number
+type PropTypeResult1 = PropType<{ name: string }, 'name'>; // string
+type PropTypeResult2 = PropType<{ name: string; age: number }, 'name' | 'age'>; // string | number
 
 // 反转键名与键值
-type ReverseKeyValue<T extends Record<string, unknown>> = T extends Record<
-  infer K,
-  infer V
->
-  ? Record<V & string, K>
-  : never;
+type ReverseKeyValue<T extends Record<string, unknown>> =
+  T extends Record<infer K, infer V> ? Record<V & string, K> : never;
 
-type ReverseKeyValueResult1 = ReverseKeyValue<{ key: "value" }>; // { "value": "key" }
+type ReverseKeyValueResult1 = ReverseKeyValue<{ key: 'value' }>; // { "value": "key" }
 ```
 
 在这里，为了体现 infer 作为类型工具的属性，我们结合了索引类型与映射类型，以及使用 `& string` 来确保属性名为 string 类型的小技巧。
@@ -219,12 +215,8 @@ type ReverseKeyValueResult1 = ReverseKeyValue<{ key: "value" }>; // { "value": "
 
 ```ts
 // 类型"V"不满足约束"string | number | symbol"。
-type ReverseKeyValue<T extends Record<string, string>> = T extends Record<
-  infer K,
-  infer V
->
-  ? Record<V, K>
-  : never;
+type ReverseKeyValue<T extends Record<string, string>> =
+  T extends Record<infer K, infer V> ? Record<V, K> : never;
 ```
 
 明明约束已经声明了 V 的类型是 string，为什么还是报错了？
@@ -254,11 +246,8 @@ type PromiseValueResult3 = PromiseValue<Promise<Promise<boolean>>>; // Promise<b
 这种时候我们就需要进行嵌套地提取了：
 
 ```ts
-type PromiseValue<T> = T extends Promise<infer V>
-  ? V extends Promise<infer N>
-    ? N
-    : V
-  : T;
+type PromiseValue<T> =
+  T extends Promise<infer V> ? (V extends Promise<infer N> ? N : V) : T;
 ```
 
 当然，在这时应该使用递归来处理任意嵌套深度：
@@ -290,7 +279,11 @@ type FirstElement<T extends any[]> = T extends [infer F, ...any[]] ? F : never;
 type First = FirstElement<[string, number, boolean]>; // string
 
 // 提取函数返回值中的Promise值类型
-type UnwrapPromiseFromFunction<T> = T extends (...args: any[]) => Promise<infer R> ? R : never;
+type UnwrapPromiseFromFunction<T> = T extends (
+  ...args: any[]
+) => Promise<infer R>
+  ? R
+  : never;
 type Result = UnwrapPromiseFromFunction<() => Promise<string>>; // string
 ```
 
@@ -304,26 +297,28 @@ type StringChars<S extends string> = S extends `${infer Char}${infer Rest}`
   ? Char | StringChars<Rest>
   : never;
 
-type Chars = StringChars<"hello">; // "h" | "e" | "l" | "o"
+type Chars = StringChars<'hello'>; // "h" | "e" | "l" | "o"
 
 // 提取以特定前缀开头的字符串的剩余部分
-type ExtractAfterPrefix<S extends string, P extends string> = 
-  S extends `${P}${infer Rest}` ? Rest : never;
+type ExtractAfterPrefix<
+  S extends string,
+  P extends string,
+> = S extends `${P}${infer Rest}` ? Rest : never;
 
-type AfterPrefix = ExtractAfterPrefix<"prefixedString", "prefixed">; // "String"
+type AfterPrefix = ExtractAfterPrefix<'prefixedString', 'prefixed'>; // "String"
 
 // 模拟字符串替换
 type ReplaceAll<
-  S extends string, 
-  From extends string, 
-  To extends string
-> = From extends "" 
-  ? S 
+  S extends string,
+  From extends string,
+  To extends string,
+> = From extends ''
+  ? S
   : S extends `${infer Prefix}${From}${infer Suffix}`
     ? `${Prefix}${To}${ReplaceAll<Suffix, From, To>}`
     : S;
 
-type Replaced = ReplaceAll<"Hello World", "o", "0">; // "Hell0 W0rld"
+type Replaced = ReplaceAll<'Hello World', 'o', '0'>; // "Hell0 W0rld"
 ```
 
 > **小结**：infer 关键字为条件类型提供了"类型提取"的能力，让我们能够从复杂类型中分离出需要的部分。通过在条件类型中使用 infer，我们可以优雅地实现函数返回值提取、数组元素提取、Promise 解包等高级类型操作，是 TypeScript 类型编程中的强大工具。
@@ -354,9 +349,9 @@ type Res2 = 1 | 2 | 3 | 4 | 5 extends 1 | 2 | 3 ? 1 | 2 | 3 | 4 | 5 : never;
 
 ```ts
 // 示例3：在条件类型中直接使用裸泛型参数
-type Naked<T> = T extends boolean ? "Y" : "N";
+type Naked<T> = T extends boolean ? 'Y' : 'N';
 // 示例4：在条件类型中包装泛型参数
-type Wrapped<T> = [T] extends [boolean] ? "Y" : "N";
+type Wrapped<T> = [T] extends [boolean] ? 'Y' : 'N';
 
 // 结果: "N" | "Y"
 // 分别判断 number 和 boolean 是否extends boolean
@@ -386,7 +381,7 @@ type Res4 = Wrapped<number | boolean>;
 这里的自动分发，我们可以这么理解：
 
 ```ts
-type Naked<T> = T extends boolean ? "Y" : "N";
+type Naked<T> = T extends boolean ? 'Y' : 'N';
 
 // 伪代码表示自动分发的过程
 // (number extends boolean ? "Y" : "N") | (boolean extends boolean ? "Y" : "N")
@@ -417,7 +412,7 @@ for(const input of [number, boolean]){
 // 使用交叉类型包装泛型参数，也能禁用分布式特性
 export type NoDistribute<T> = T & {};
 
-type Wrapped<T> = NoDistribute<T> extends [boolean] ? "Y" : "N";
+type Wrapped<T> = NoDistribute<T> extends [boolean] ? 'Y' : 'N';
 ```
 
 需要注意的是，我们并不是只会通过裸露泛型参数，来确保分布式特性能够发生。在某些情况下，我们也会需要包裹泛型参数来禁用掉分布式特性。最常见的场景也许还是联合类型的判断，即我们不希望进行联合类型成员的分布判断，而是希望直接判断这两个联合类型的兼容性判断，就像在最初的 Res2 中那样：
@@ -441,7 +436,7 @@ type CompareRes2 = CompareUnion<1 | 2, 1>; // false
 type IsNever<T> = [T] extends [never] ? true : false;
 
 type IsNeverRes1 = IsNever<never>; // true
-type IsNeverRes2 = IsNever<"linbudu">; // false
+type IsNeverRes2 = IsNever<'linbudu'>; // false
 ```
 
 这里的原因其实并不是因为分布式条件类型。我们此前在类型层级中了解过，当条件类型的判断参数为 any，会直接返回条件类型两个结果的联合类型。而在这里其实类似，当通过泛型传入的参数为 never，则会直接返回 never。
@@ -501,8 +496,7 @@ type Union<A, B> = A | B;
 type Diff<A, B> = A extends B ? never : A;
 
 // A相对于B的补集：从整体U中去除B，再取A与结果的交集
-type Complement<A, B, U = unknown> = 
-  Intersection<A, Diff<U, B>>;
+type Complement<A, B, U = unknown> = Intersection<A, Diff<U, B>>;
 
 type DiffRes = Diff<1 | 2 | 3, 2 | 3 | 4>; // 1
 type ComplementRes = Complement<1 | 2 | 3 | 5, 2 | 3 | 4>; // 1 | 5
@@ -537,12 +531,12 @@ type CommonPersonEmployee = ObjectIntersection<Person, Employee>;
 ```ts
 // 对象的并集（合并对象）
 type ObjectUnion<T, U> = {
-  [K in keyof T | keyof U]: K extends keyof T & keyof U 
-    ? T[K] | U[K] 
-    : K extends keyof T 
-      ? T[K] 
-      : K extends keyof U 
-        ? U[K] 
+  [K in keyof T | keyof U]: K extends keyof T & keyof U
+    ? T[K] | U[K]
+    : K extends keyof T
+      ? T[K]
+      : K extends keyof U
+        ? U[K]
         : never;
 };
 

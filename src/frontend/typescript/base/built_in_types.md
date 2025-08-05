@@ -32,15 +32,15 @@ function func(foo, bar) {}
 
 ```ts
 // any 类型，随便怎么搞都行
-let anyVar: any = "随便写点啥";
+let anyVar: any = '随便写点啥';
 
-anyVar = false;         // 变成布尔值？没问题！
-anyVar = "再来点字符串"; // 再变回字符串？也没问题！
+anyVar = false; // 变成布尔值？没问题！
+anyVar = '再来点字符串'; // 再变回字符串？也没问题！
 anyVar = {
-  name: "张三",         // 变成对象？完全OK！
+  name: '张三', // 变成对象？完全OK！
 };
 
-anyVar = () => {};      // 变成函数？也行！
+anyVar = () => {}; // 变成函数？也行！
 
 // 其他具体类型的变量也能接受 any 类型的值（这很危险！⚡）
 const val1: string = anyVar;
@@ -77,12 +77,12 @@ anyVar[0][1][2].prop1;
 `unknown` 类型像是 `any` 的谨慎表弟。它同样可以被赋予任何值，但当你想用它时，就没那么随意了：
 
 ```ts
-let unknownVar: unknown = "Hello";
+let unknownVar: unknown = 'Hello';
 
-unknownVar = false;       // ✅ 可以赋值任何类型
-unknownVar = "再来一次";   // ✅ 没问题
+unknownVar = false; // ✅ 可以赋值任何类型
+unknownVar = '再来一次'; // ✅ 没问题
 unknownVar = {
-  name: "Renouc",
+  name: 'Renouc',
 };
 
 unknownVar = () => {};
@@ -94,7 +94,7 @@ const val3: () => {} = unknownVar; // ❌ 报错
 const val4: {} = unknownVar; // ❌ 报错
 
 // 只能赋值给 any 和 unknown 类型
-const val5: any = unknownVar;    // ✅ 可以
+const val5: any = unknownVar; // ✅ 可以
 const val6: unknown = unknownVar; // ✅ 可以
 ```
 
@@ -115,7 +115,7 @@ unknownVar.foo(); // ❌ 报错：对象类型为 unknown
 ```ts
 function processValue(value: unknown) {
   // 类型守卫：typeof 操作符
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     // 在这个分支内，TypeScript 知道 value 是 string 类型
     return value.toUpperCase(); // ✅ 安全！
   }
@@ -145,8 +145,8 @@ interface Product {
 function isProduct(value: any): value is Product {
   return (
     value != null &&
-    typeof value.name === "string" &&
-    typeof value.price === "number"
+    typeof value.name === 'string' &&
+    typeof value.price === 'number'
   );
 }
 ```
@@ -158,12 +158,13 @@ function isProduct(value: any): value is Product {
 `unknown` 适合以下场景：
 
 1. **处理 API 响应** - 从外部获取的数据，类型不确定
+
    ```ts
    async function fetchData(): Promise<unknown> {
      const response = await fetch('https://api.example.com/data');
      return response.json(); // 返回 unknown 而不是 any
    }
-   
+
    // 安全地使用返回结果
    const data = await fetchData();
    if (typeof data === 'object' && data && 'users' in data) {
@@ -180,7 +181,7 @@ function isProduct(value: any): value is Product {
 `never` 类型表示那些永远不会出现的值。它是类型系统中的"幽灵" 👻，例如在联合类型中，它会直接消失：
 
 ```ts
-type UnionWithNever = "hello" | 123 | true | void | never;
+type UnionWithNever = 'hello' | 123 | true | void | never;
 ```
 
 如果你把鼠标放在这个类型上，你会发现显示的只有 `"hello" | 123 | true | void`，`never` 类型不见了！这是因为 `void` 表示"空类型"，就像函数不返回值时的类型；而 `never` 则是"什么都没有"的类型，它连"空"都不是。
@@ -203,12 +204,12 @@ v2 = v1; // ✅ 可以：never 可以赋给任何类型
 
 ```ts
 function throwError(): never {
-  throw new Error("出错啦！💥");
+  throw new Error('出错啦！💥');
 }
 
 function infiniteLoop(): never {
   while (true) {
-    console.log("我永远不会停下来 🔄");
+    console.log('我永远不会停下来 🔄');
   }
 }
 ```
@@ -220,9 +221,9 @@ type Shape = Circle | Square;
 
 function getArea(shape: Shape) {
   switch (shape.kind) {
-    case "circle":
+    case 'circle':
       return Math.PI * shape.radius ** 2;
-    case "square":
+    case 'square':
       return shape.size ** 2;
     default:
       // 如果 Shape 新增了成员但忘了处理，这里会报错 🚨
@@ -254,7 +255,7 @@ function processEvent(event: 'click' | 'scroll' | 'mousemove') {
 ```ts
 const arr = [];
 
-arr.push("hello"); // ❌ 类型"string"的参数不能赋给类型"never"的参数
+arr.push('hello'); // ❌ 类型"string"的参数不能赋给类型"never"的参数
 ```
 
 这里空数组被推导为 `never[]` 类型。解决方法很简单：给数组声明一个具体类型就好了 👍。
@@ -272,15 +273,15 @@ TypeScript 中交叉类型（用 `&` 连接）表示同时满足多个类型。�
 type ImpossibleType = number & string; // never
 
 // 有互斥属性的对象类型
-type A = { type: 'a', valueA: string };
-type B = { type: 'b', valueB: number };
+type A = { type: 'a'; valueA: string };
+type B = { type: 'b'; valueB: number };
 type Intersection = A & B; // 包含互相冲突的 type 属性
 
 // 使用互斥的交叉类型
 const impossible: Intersection = {
   type: 'a', // ❌ 无法同时满足 'a' 和 'b'
   valueA: 'hello',
-  valueB: 123
+  valueB: 123,
 };
 ```
 
@@ -312,7 +313,7 @@ type NonNullTypes = NonNullable<Types>; // string | number
 ```ts
 // 提取对象中特定类型的属性键
 type ExtractPropertyKeys<T, U> = {
-  [K in keyof T]: T[K] extends U ? K : never
+  [K in keyof T]: T[K] extends U ? K : never;
 }[keyof T];
 
 // 使用示例
@@ -343,7 +344,7 @@ type Result = RemoveVoid<string | number | void>; // string | number
 
 // 一个更复杂的例子：提取对象类型的可选键
 type OptionalKeys<T> = {
-  [K in keyof T]: {} extends Pick<T, K> ? K : never
+  [K in keyof T]: {} extends Pick<T, K> ? K : never;
 }[keyof T];
 
 interface User {
@@ -363,7 +364,7 @@ type UserOptionalKeys = OptionalKeys<User>; // "email" | "avatar"
 ```ts
 // 一个确保对象具有且仅具有特定键的类型工具
 type StrictObject<T, K extends keyof any> = {
-  [P in K]: P extends keyof T ? T[P] : never
+  [P in K]: P extends keyof T ? T[P] : never;
 } & { [P in Exclude<keyof T, K>]?: never };
 
 interface Config {
@@ -408,11 +409,11 @@ let unknownVar: unknown;
 
 ```ts
 // 类型断言：只在编译时存在，运行时不会有任何效果
-const value: unknown = "123";
+const value: unknown = '123';
 const length: number = (value as string).length; // ✅ 编译通过
 
 // 类型转换：实际在运行时转换值的类型
-const value = "123";
+const value = '123';
 const num = Number(value); // 123，实际转换为数字
 ```
 
@@ -428,7 +429,7 @@ const num = Number(value); // 123，实际转换为数字
 如果原类型和断言类型差太多，TypeScript 会提醒你可能出错：
 
 ```ts
-const str: string = "你好";
+const str: string = '你好';
 
 // ❌ 报错：从string到带handler方法的对象，差太远了吧？
 (str as { handler: () => {} }).handler();
@@ -437,7 +438,7 @@ const str: string = "你好";
 此时需要先断言到 `unknown` 或 `any`，再断言到目标类型：
 
 ```ts
-const str: string = "你好";
+const str: string = '你好';
 
 // 双重断言：先变成unknown，再变成目标类型 🔄
 (str as unknown as { handler: () => {} }).handler();
@@ -492,10 +493,10 @@ const point = { x: 10, y: 20 };
 const pointExact = { x: 10, y: 20 } as const;
 
 // 普通数组：string[]
-const arr = ["a", "b", "c"];
+const arr = ['a', 'b', 'c'];
 
 // 使用as const：readonly ["a", "b", "c"]，变成了元组
-const tupleArr = ["a", "b", "c"] as const;
+const tupleArr = ['a', 'b', 'c'] as const;
 ```
 
 `as const` 在处理不可变数据、字面量类型和元组时特别有用，让你的类型更精确，代码更安全。🔐

@@ -19,7 +19,7 @@ export default config;
 
 ```js
 // rollup.config.js
-import { defineConfig } from "rollup";
+import { defineConfig } from 'rollup';
 
 export default defineConfig({
   /* 你的配置 */
@@ -29,7 +29,7 @@ export default defineConfig({
 通过 `--configPlugin` 选项直接使用 TypeScript 编写配置文件。
 
 ```ts
-import type { RollupOptions } from "rollup";
+import type { RollupOptions } from 'rollup';
 
 const config: RollupOptions = {
   /* 你的配置 */

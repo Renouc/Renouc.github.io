@@ -32,23 +32,23 @@ let w: string = z as string; // OK，通过类型断言
 让我们先通过一个完整的类型层级链来了解 TypeScript 的类型层级关系：
 
 ```ts
-type TypeChain = never extends 'renouc'  // 1: never 是所有类型的子类型
-  ? 'renouc' extends 'renouc' | '599'    // 2: 字面量类型是其联合类型的子类型
-  ? 'renouc' | '599' extends string      // 3: 联合类型是原始类型的子类型
-  ? string extends String                // 4: 原始类型是其包装类型的子类型
-  ? String extends Object                // 5: 包装类型是 Object 的子类型
-  ? Object extends any                   // 6: Object 是 any 的子类型
-  ? any extends unknown                  // 7: any 是 unknown 的子类型
-  ? unknown extends any                  // 8: unknown 也是 any 的子类型
-  ? 8
-  : 7
-  : 6
-  : 5
-  : 4
-  : 3
-  : 2
-  : 1
-  : 0
+type TypeChain = never extends 'renouc' // 1: never 是所有类型的子类型
+  ? 'renouc' extends 'renouc' | '599' // 2: 字面量类型是其联合类型的子类型
+    ? 'renouc' | '599' extends string // 3: 联合类型是原始类型的子类型
+      ? string extends String // 4: 原始类型是其包装类型的子类型
+        ? String extends Object // 5: 包装类型是 Object 的子类型
+          ? Object extends any // 6: Object 是 any 的子类型
+            ? any extends unknown // 7: any 是 unknown 的子类型
+              ? unknown extends any // 8: unknown 也是 any 的子类型
+                ? 8
+                : 7
+              : 6
+            : 5
+          : 4
+        : 3
+      : 2
+    : 1
+  : 0;
 ```
 
 ## 从底层到顶层：类型层级详解 📊
@@ -103,13 +103,13 @@ any 和 unknown 是 TypeScript 类型系统中最顶层的类型，它们可以�
 ```ts
 // any 类型（不推荐使用）⚠️
 let x: any = 'hello';
-x = 123;        // OK，可以接受任何类型的值
+x = 123; // OK，可以接受任何类型的值
 x.toUpperCase(); // OK，可以调用任何方法（但运行时可能出错）
 let y: number = x; // OK，any 可以赋值给任何类型
 
 // unknown 类型（推荐使用）✅
 let a: unknown = 'hello';
-a = 123;        // OK，可以接受任何类型的值
+a = 123; // OK，可以接受任何类型的值
 // a.toUpperCase(); // Error，不能直接调用方法
 // let b: number = a; // Error，不能直接赋值给其他类型
 if (typeof a === 'string') {

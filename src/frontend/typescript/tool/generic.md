@@ -13,7 +13,7 @@
 type ExcludeType<T, U> = T extends U ? never : T;
 
 // 使用示例
-type Result = ExcludeType<"a" | "b" | "c", "a">; // "b" | "c"
+type Result = ExcludeType<'a' | 'b' | 'c', 'a'>; // "b" | "c"
 ```
 
 ### 泛型约束与默认值
@@ -25,13 +25,13 @@ type Result = ExcludeType<"a" | "b" | "c", "a">; // "b" | "c"
 type Factory<T = string> = T | number | boolean;
 
 // 使用默认值
-const value1: Factory = "default"; // 使用默认类型 string
+const value1: Factory = 'default'; // 使用默认类型 string
 const value2: Factory<number> = 42; // 显式指定类型
 
 // 带有约束的泛型
 type StatusCode<T extends number> = T extends 200 | 404 | 500
-  ? "valid"
-  : "invalid";
+  ? 'valid'
+  : 'invalid';
 
 // 使用约束
 type ValidStatus = StatusCode<200>; // "valid"
@@ -69,14 +69,14 @@ type Conditional<Type, Condition, TruthyResult, FalsyResult> =
   Type extends Condition ? TruthyResult : FalsyResult;
 
 // 使用示例
-type Result1 = Conditional<"typescript", string, "valid", "invalid">; // "valid"
-type Result2 = Conditional<42, string, "valid", "invalid">; // "invalid"
+type Result1 = Conditional<'typescript', string, 'valid', 'invalid'>; // "valid"
+type Result2 = Conditional<42, string, 'valid', 'invalid'>; // "invalid"
 
 // 关联泛型参数
 type ProcessInput<
   Input,
   SecondInput extends Input = Input,
-  ThirdInput extends Input = SecondInput
+  ThirdInput extends Input = SecondInput,
 > = {
   first: Input;
   second: SecondInput;
@@ -85,7 +85,7 @@ type ProcessInput<
 
 // 使用示例
 type Result3 = ProcessInput<string>; // { first: string; second: string; third: string }
-type Result4 = ProcessInput<string, "literal">; // { first: string; second: "literal"; third: "literal" }
+type Result4 = ProcessInput<string, 'literal'>; // { first: string; second: "literal"; third: "literal" }
 ```
 
 ## 对象类型中的泛型 📦
@@ -147,7 +147,7 @@ function fn1<T>(arg: T): T {
 }
 
 // 使用时自动推断类型
-const result1 = fn1("hello"); // 类型是 "hello"
+const result1 = fn1('hello'); // 类型是 "hello"
 const result2 = fn1(42); // 类型是 42
 ```
 
@@ -170,7 +170,6 @@ const processor2: Fn2<number> = (arg) => arg;
 这两种方式的区别和适用场景：
 
 - **调用时确定的泛型**：
-
   - 泛型参数在函数调用时才确定
   - 可以保持输入值的字面量类型
   - 提供更精确的类型推断
@@ -193,7 +192,7 @@ const processor2: Fn2<number> = (arg) => arg;
 type ValidationRule<T> = {
   field: keyof T;
   required?: boolean;
-  type?: "string" | "number" | "boolean";
+  type?: 'string' | 'number' | 'boolean';
   min?: number;
   max?: number;
 };
@@ -218,18 +217,18 @@ const validate: Validator = (data, rules) => {
 };
 
 // 验证用户数据
-const user = { name: "typescript", age: 5 };
+const user = { name: 'typescript', age: 5 };
 
 const userResult = validate(user, [
-  { field: "name", required: true },
-  { field: "age", min: 0 },
+  { field: 'name', required: true },
+  { field: 'age', min: 0 },
 ]); // 自动推断类型
 
 // 验证产品数据
 const product = { id: 1, price: 99.99 };
 const productResult = validate(product, [
-  { field: "id", type: "number" },
-  { field: "price", min: 0 },
+  { field: 'id', type: 'number' },
+  { field: 'price', min: 0 },
 ]); // 自动推断类型
 ```
 
@@ -254,14 +253,13 @@ const productProcessor: DataProcessor<{ id: number; price: number }> = (
 });
 
 // 使用示例
-const processedUser = userProcessor({ name: "typescript", age: 5 });
+const processedUser = userProcessor({ name: 'typescript', age: 5 });
 const processedProduct = productProcessor({ id: 1, price: 99.99 });
 ```
 
 这两种方式的区别在实际应用中的体现：
 
 - **调用时确定的泛型**：
-
   - 适合处理多种类型的数据
   - 类型推断更灵活
   - 不需要预先知道具体类型
@@ -313,7 +311,7 @@ numberQueue.enqueue(4);
 const firstNumber = numberQueue.dequeue(); // number | undefined
 
 const stringQueue = new Queue<string>();
-stringQueue.enqueue("hello");
+stringQueue.enqueue('hello');
 const firstString = stringQueue.dequeue(); // string | undefined
 ```
 
@@ -331,7 +329,7 @@ type ReadonlyUser = Readonly<UserInfo>;
 // { readonly id: number; readonly name: string; readonly email: string; }
 
 // Pick<T, K> - 从类型中选择部分属性
-type UserName = Pick<UserInfo, "name">;
+type UserName = Pick<UserInfo, 'name'>;
 // { name: string; }
 
 // Record<K, T> - 创建键值对类型
@@ -342,22 +340,18 @@ type UserMap = Record<string, UserInfo>;
 ## 最佳实践与总结 🎯
 
 1. **优先使用泛型而非 any**：
-
    - 泛型提供了类型安全，而 any 会失去类型检查
    - 使用泛型可以让代码更可维护和可预测
 
 2. **合理使用泛型约束**：
-
    - 使用 extends 关键字添加必要的约束
    - 避免过度约束，保持灵活性
 
 3. **注意泛型推断**：
-
    - TypeScript 会自动推断泛型类型
    - 在必要时显式指定泛型类型
 
 4. **避免泛型滥用**：
-
    - 只在真正需要类型参数化时使用泛型
    - 不要为了使用泛型而使用泛型
 

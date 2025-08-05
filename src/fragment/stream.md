@@ -7,43 +7,43 @@
 ## 💻 server.js 示例代码
 
 ```js
-const express = require('express')
+const express = require('express');
 
-const PORT = 3000
+const PORT = 3000;
 
-const app = express()
+const app = express();
 
-app.use(express.json())
-app.use(express.static('public'))
+app.use(express.json());
+app.use(express.static('public'));
 
 app.post('/api/chat', (req, res) => {
-  const { message } = req.body
+  const { message } = req.body;
 
-  res.setHeader('Content-Type', 'text/event-stream')
-  res.setHeader('Cache-Control', 'no-cache')
-  res.setHeader('Connection', 'keep-alive')
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
 
   // 模拟 AI 回复：这里直接使用用户输入作为回复
-  const simulatedReply = message.split('').join('')
+  const simulatedReply = message.split('').join('');
 
-  let i = 0
+  let i = 0;
 
   const interval = setInterval(() => {
     if (i < simulatedReply.length) {
-      const char = simulatedReply[i]
-      res.write(`data: ${char}\n\n`)
-      i++
+      const char = simulatedReply[i];
+      res.write(`data: ${char}\n\n`);
+      i++;
     } else {
-      clearInterval(interval)
-      res.write(`data: [DONE]\n\n`)
-      res.end()
+      clearInterval(interval);
+      res.write(`data: [DONE]\n\n`);
+      res.end();
     }
-  }, 100) // 每 100ms 输出一个字
-})
+  }, 100); // 每 100ms 输出一个字
+});
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`)
-})
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
 ```
 
 ## 💻 前端请求方式
@@ -55,33 +55,33 @@ app.listen(PORT, () => {
 
 <script>
   async function send() {
-    const output = document.getElementById('output')
-    output.textContent = '' // 清空上次内容
-    const input = document.getElementById('input').value
+    const output = document.getElementById('output');
+    output.textContent = ''; // 清空上次内容
+    const input = document.getElementById('input').value;
 
     const res = await fetch('http://localhost:3000/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: input }),
-    })
+    });
 
-    const reader = res.body.getReader()
-    const decoder = new TextDecoder('utf-8')
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder('utf-8');
 
     while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
+      const { done, value } = await reader.read();
+      if (done) break;
 
-      const text = decoder.decode(value)
+      const text = decoder.decode(value);
 
-      const lines = text.split('\n').filter((line) => line.startsWith('data:'))
+      const lines = text.split('\n').filter((line) => line.startsWith('data:'));
       for (const line of lines) {
-        const content = line.replace('data: ', '')
+        const content = line.replace('data: ', '');
         if (content === '[DONE]') {
-          reader.cancel()
-          break
+          reader.cancel();
+          break;
         }
-        output.textContent += content
+        output.textContent += content;
       }
     }
   }

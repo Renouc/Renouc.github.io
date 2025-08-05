@@ -11,7 +11,6 @@
 ### 堆的分类
 
 1. **最小堆（小顶堆）**
-
    - 每个节点的值都小于等于其子节点的值
    - 根节点是整个堆中的最小值
 
@@ -158,34 +157,32 @@ minHeap.push(1);
 minHeap.push(5);
 minHeap.push(9);
 
-console.log("初始堆:", minHeap.getHeap());
+console.log('初始堆:', minHeap.getHeap());
 // 输出: [1, 1, 4, 3, 5, 9]
 
 // 移除最小元素
-console.log("移除的最小元素:", minHeap.pop()); // 1
-console.log("移除后的堆:", minHeap.getHeap());
+console.log('移除的最小元素:', minHeap.pop()); // 1
+console.log('移除后的堆:', minHeap.getHeap());
 // 输出: [1, 3, 4, 9, 5]
 
 // 查看堆顶元素
-console.log("当前堆顶元素:", minHeap.peek()); // 1
+console.log('当前堆顶元素:', minHeap.peek()); // 1
 
 // 检查堆的大小
-console.log("堆的大小:", minHeap.size()); // 5
+console.log('堆的大小:', minHeap.size()); // 5
 
 // 检查堆是否为空
-console.log("堆是否为空:", minHeap.isEmpty()); // false
+console.log('堆是否为空:', minHeap.isEmpty()); // false
 ```
 
 ## 应用场景
 
 1. **优先队列**
-
    - 任务调度系统
    - 事件处理系统
    - 网络请求优先级处理
 
 2. **排序算法**
-
    - 堆排序
    - 获取第 K 大/小的元素
 

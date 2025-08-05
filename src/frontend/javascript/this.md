@@ -19,7 +19,7 @@ foo(); // window
 严格模式下，直接调用函数 `this` 绑定为 `undefined`。
 
 ```js
-"use strict";
+'use strict';
 function foo() {
   console.log(this);
 }
@@ -37,7 +37,7 @@ function foo1() {
 }
 
 (function () {
-  "use strict";
+  'use strict';
   function foo2() {
     console.log(this);
   }
@@ -183,24 +183,26 @@ new bar(); // undefined
 ```
 
 `bind` 具有函数柯里化的功能。
+
 ```js
 function foo(a, b) {
-    console.log(this.num + a + b);
+  console.log(this.num + a + b);
 }
 
 const obj = {
-    num: 1,
-}
+  num: 1,
+};
 
-const bar = foo.bind(obj, 1)
-bar(2) // 4
+const bar = foo.bind(obj, 1);
+bar(2); // 4
 ```
+
 > [!info] 注意：
 > 当 不需要使用this，而只是想使用 `apply` 的参数展开或者 `bind` 的柯里化功能时，可以使用 `null` 来进行占位。
 > 不过此时的绑定是默认绑定，将 `this` 指向全局对象。
 
-
 ## new 绑定
+
 > [!info]
 > 在 JavaScript 中，构造函数与传统面向对象语言有所不同。构造函数只是一些使用 `new` 操作符时被调用的函数。并不属于某个类，也不会实例化一个类。
 > 他们甚至不能说是一种特殊的函数类型，它们只是被 `new` 操作符调用的普通函数而已。
@@ -248,14 +250,14 @@ bar.call(obj2); // 1
 
 ```js
 function fn1() {
-  console.log("fn1", this);
+  console.log('fn1', this);
 
   function fn2() {
-    console.log("fn2", this);
+    console.log('fn2', this);
   }
 
   const fn3 = () => {
-    console.log("fn3", this);
+    console.log('fn3', this);
   };
 
   fn2();

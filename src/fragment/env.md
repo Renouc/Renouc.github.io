@@ -66,14 +66,14 @@ DB_URL=mongodb://localhost:27017/devdb
 在入口文件加载它：
 
 ```js
-require("dotenv").config();
+require('dotenv').config();
 console.log(process.env.PORT); // 输出 4000
 ```
 
 支持自定义路径：
 
 ```js
-require("dotenv").config({ path: "./env/.env.production" });
+require('dotenv').config({ path: './env/.env.production' });
 ```
 
 ## 🛠 使用 cross-env 跨平台设置变量
@@ -115,10 +115,10 @@ npm run dev
 
 ```js
 // config/env.js
-const path = require("path");
-const dotenv = require("dotenv");
+const path = require('path');
+const dotenv = require('dotenv');
 
-const env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV || 'development';
 
 dotenv.config({
   path: path.resolve(__dirname, `../.env.${env}`),
@@ -135,10 +135,10 @@ module.exports = {
 使用示例：
 
 ```js
-const config = require("./config/env");
+const config = require('./config/env');
 
-console.log("当前环境:", config.NODE_ENV);
-console.log("数据库地址:", config.DB_URL);
+console.log('当前环境:', config.NODE_ENV);
+console.log('数据库地址:', config.DB_URL);
 ```
 
 ## 📦 启动脚本建议配置

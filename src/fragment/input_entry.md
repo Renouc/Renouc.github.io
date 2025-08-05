@@ -9,14 +9,14 @@
 ## ✅ 正确做法：使用 `onKeyDown` + Composition 事件判断
 
 ```tsx
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 function SearchInput() {
   const [isComposing, setIsComposing] = useState(false);
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !isComposing) {
-      console.log("触发搜索：", e.target.value);
+    if (e.key === 'Enter' && !isComposing) {
+      console.log('触发搜索：', e.target.value);
       // 执行搜索逻辑
     }
   };
@@ -66,14 +66,14 @@ function SearchInput() {
 为了提升复用性与可读性，可将该逻辑封装为一个 React 自定义 Hook：
 
 ```tsx
-import { useState, useCallback } from "react";
+import { useState, useCallback } from 'react';
 
 export function useEnterSearch(callback: () => void) {
   const [isComposing, setIsComposing] = useState(false);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter" && !isComposing) {
+      if (e.key === 'Enter' && !isComposing) {
         callback();
       }
     },
@@ -93,7 +93,7 @@ export function useEnterSearch(callback: () => void) {
 ```tsx
 const { onKeyDown, onCompositionStart, onCompositionEnd } = useEnterSearch(
   () => {
-    console.log("搜索被触发");
+    console.log('搜索被触发');
   }
 );
 

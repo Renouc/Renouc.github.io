@@ -43,18 +43,18 @@
 ## ✅ 正确示例
 
 ```ts
-import { rm } from "fs/promises";
+import { rm } from 'fs/promises';
 
-await rm("output/logs", {
+await rm('output/logs', {
   recursive: true,
   force: true,
 });
 ```
 
 ```ts
-import fs from "fs";
+import fs from 'fs';
 
-fs.rmSync("build", {
+fs.rmSync('build', {
   recursive: true,
   force: true,
 });
@@ -64,10 +64,10 @@ fs.rmSync("build", {
 
 ```ts
 // rmdir 不支持 force，传入会抛错
-fs.rmdirSync("some-dir", { recursive: true, force: true });
+fs.rmdirSync('some-dir', { recursive: true, force: true });
 
 // unlink 不支持 options 参数
-fs.unlink("file.txt", { force: true });
+fs.unlink('file.txt', { force: true });
 ```
 
 ## ❗️ 可能仍会抛出的错误（即使使用 force: true）
@@ -83,7 +83,7 @@ fs.unlink("file.txt", { force: true });
 ## 🧪 实用工具函数示例
 
 ```ts
-import { rm } from "fs/promises";
+import { rm } from 'fs/promises';
 
 export async function safeRemove(path: string) {
   try {
