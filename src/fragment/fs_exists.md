@@ -31,7 +31,7 @@ try {
   const stats = fs.statSync("somePath");
   console.log(stats.isDirectory() ? "目录" : "文件");
 } catch (err) {
-  console.log("❌ 路径不存在");
+  if (err.code === 'ENOENT') console.log('❌ 路径不存在');
 }
 ```
 
