@@ -22,6 +22,7 @@ const sidebar: DefaultTheme.Sidebar = {
         { text: '前端库开发', link: '/fragment/library_development' },
         { text: 'Node.js 判断文件是否存在', link: '/fragment/fs_exists' },
         { text: '使用 SSE 实现流式 AI 回复', link: '/fragment/stream' },
+        { text: 'Node.js 标准输入输出流', link: '/fragment/stdio' },
       ],
     },
   ],
