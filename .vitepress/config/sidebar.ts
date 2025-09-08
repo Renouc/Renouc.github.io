@@ -114,6 +114,7 @@ const sidebar: DefaultTheme.Sidebar = {
     },
   ],
   '/frontend/react/': [
+    { text: '前端框架的理解', link: '/frontend/react/前端框架的理解' },
     { text: 'JSX 转换', link: '/frontend/react/jsx' },
     { text: 'useState 原理', link: '/frontend/react/useState' },
     { text: 'Fiber 结构', link: '/frontend/react/fiber' },
