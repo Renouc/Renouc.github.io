@@ -18,17 +18,17 @@ hero:
       link: /fragment/
 
 features:
-  - title: 天气好
-    icon: 😎
-    details: 天气好不敲代码
-  - title: 不开心
-    icon: 😔
-    details: 不开心不敲代码
-  - title: 睡不醒
-    icon: 😴
-    details: 睡不醒不敲代码
+  - title: 移动端开发
+    icon: 📱
+    details: 记录一些移动端开发知识
+  - title: 客户端开发
+    icon: 💻️
+    details: 记录一些客户端开发知识
+  - title: 开发经验
+    icon: 🤔
+    details: 记录一些开发经验
   - title: 图床
     icon: 📷
-    details: 我的图床
+    details: 免费的图床
     link: https://img-bed.renouc.cn
 ---
