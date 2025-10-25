@@ -41,8 +41,8 @@ const sidebar: DefaultTheme.Sidebar = {
       text: 'Rollup 笔记',
       items: [
         {
-          text: 'Rollup 配置文件',
-          link: '/frontend/engineering/rollup/config',
+          text: '类型提示',
+          link: '/frontend/engineering/rollup/type_hint',
         },
       ],
     },
