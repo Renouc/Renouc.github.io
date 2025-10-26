@@ -44,6 +44,10 @@ const sidebar: DefaultTheme.Sidebar = {
           text: '类型提示',
           link: '/frontend/engineering/rollup/type_hint',
         },
+        {
+          text: '模块解析',
+          link: '/frontend/engineering/rollup/module_resolve',
+        },
       ],
     },
     {
