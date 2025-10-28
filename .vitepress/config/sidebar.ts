@@ -48,6 +48,10 @@ const sidebar: DefaultTheme.Sidebar = {
           text: '模块解析',
           link: '/frontend/engineering/rollup/module_resolve',
         },
+        {
+          text: '代码分割',
+          link: '/frontend/engineering/rollup/code_split',
+        },
       ],
     },
     {
