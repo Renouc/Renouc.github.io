@@ -85,3 +85,37 @@ export default {
   external: ['react'],
 };
 ```
+
+## 外部依赖映射路径
+
+`output.paths` 该选项用于将外部依赖 ID 映射为路径。
+
+其中，外部依赖 ID 是指该选项 无法解析 的模块或者通过 external 选项明确指定的模块。
+
+`output.paths` 提供的路径会取代模块 ID，在生成的 bundle 中使用，比如你可以从 CDN 中加载依赖：
+
+```js
+// app.js
+import { selectAll } from 'd3';
+selectAll('p').style('color', 'purple');
+// ...
+
+// rollup.config.js
+export default {
+  input: 'app.js',
+  external: ['d3'],
+  output: {
+    file: 'bundle.js',
+    format: 'amd',
+    paths: {
+      d3: 'https://d3js.org/d3.v4.min',
+    },
+  },
+};
+
+// bundle.js
+define(['https://d3js.org/d3.v4.min'], function (d3) {
+  d3.selectAll('p').style('color', 'purple');
+  // ...
+});
+```
