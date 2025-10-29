@@ -52,6 +52,10 @@ const sidebar: DefaultTheme.Sidebar = {
           text: '代码分割',
           link: '/frontend/engineering/rollup/code_split',
         },
+        {
+          text: 'Tree Shaking',
+          link: '/frontend/engineering/rollup/tree_shaking',
+        },
       ],
     },
     {
