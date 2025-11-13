@@ -67,6 +67,15 @@ const sidebar: DefaultTheme.Sidebar = {
         },
       ],
     },
+    {
+      text: 'Babel 笔记',
+      items: [
+        {
+          text: 'Babel 的基本使用',
+          link: '/frontend/engineering/babel/basic',
+        },
+      ],
+    },
   ],
   '/frontend/typescript/': [
     {
