@@ -149,6 +149,12 @@ const sidebar: DefaultTheme.Sidebar = {
     { text: 'Zustand', link: '/frontend/react/zustand' },
   ],
   '/frontend/next/': [{ text: '文件系统', link: '/frontend/next/file-system' }],
+  '/ai': [
+    {
+      text: 'ollama',
+      link: '/ai/ollama',
+    },
+  ],
 };
 
 export default sidebar;
