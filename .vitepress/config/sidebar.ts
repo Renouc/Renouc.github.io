@@ -151,6 +151,10 @@ const sidebar: DefaultTheme.Sidebar = {
   '/frontend/next/': [{ text: '文件系统', link: '/frontend/next/file-system' }],
   '/ai': [
     {
+      text: '从 LLM 到 Agent',
+      link: '/ai/ai-agent',
+    },
+    {
       text: 'ollama',
       link: '/ai/ollama',
     },

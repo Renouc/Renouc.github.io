@@ -28,7 +28,7 @@ const nav: DefaultTheme.NavItem[] = [
   },
   {
     text: 'AI',
-    link: '/ai/ollama',
+    link: '/ai/ai-agent',
   },
   {
     text: 'DevOps',
