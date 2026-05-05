@@ -364,7 +364,7 @@ const user = {
    }
    ```
 
-3. **优先使用常量枚举减少生成的代码**
+3. **谨慎使用常量枚举**
 
    ```ts
    const enum Direction {
@@ -373,6 +373,19 @@ const user = {
      Left,
      Right,
    }
+   ```
+
+   `const enum` 会内联枚举值，生成代码更少，但在 `isolatedModules`、跨包发布和 `.d.ts` 声明文件场景中容易踩坑。只在内部应用代码、构建链路明确支持时使用它；如果只是管理一组常量，很多时候可以用 `as const` 对象加联合类型：
+
+   ```ts
+   const Direction = {
+     Up: 'UP',
+     Down: 'DOWN',
+     Left: 'LEFT',
+     Right: 'RIGHT',
+   } as const;
+
+   type Direction = (typeof Direction)[keyof typeof Direction];
    ```
 
 4. **根据数据类型选择合适的枚举类型**

@@ -508,9 +508,9 @@ const tupleArr = ['a', 'b', 'c'] as const;
 
 `as const` 在处理不可变数据、字面量类型和元组时特别有用，让你的类型更精确，代码更安全。🔐
 
-### 断言作为类型提示 📝
+### 不要用断言伪造完整结构 📝
 
-类型断言还有个实用功能：帮助你在实现复杂接口时偷懒 😉：
+类型断言可以临时告诉编译器某个值的类型，但它不会补齐运行时缺失的字段。不要把断言当成实现复杂接口的捷径：
 
 ```ts
 interface IStruct {
@@ -525,11 +525,45 @@ interface IStruct {
   };
 }
 
-// ❌ 如果直接这样写，要实现所有属性，太麻烦了
-const obj: IStruct = {}; // 报错
+// ❌ 危险：绕过了必填属性检查
+const unsafeObj = {
+  bar: {
+    baz: {},
+  },
+} as IStruct;
 
-// ✅ 使用类型断言，可以只实现部分结构，还能保留类型提示
-const obj = <IStruct>{
+// 编译可能通过，但运行时会报错
+unsafeObj.bar.baz.handler();
+```
+
+如果对象最终必须满足完整结构，应该让 TypeScript 正常检查它：
+
+```ts
+const obj = {
+  foo: 'ready',
+  bar: {
+    barPropA: 'a',
+    barPropB: 1,
+    barMethod: () => {},
+    baz: {
+      handler: async () => {},
+    },
+  },
+} satisfies IStruct;
+```
+
+如果只是分阶段构建草稿，就给草稿定义更贴近当前状态的类型，而不是直接断言成最终类型：
+
+```ts
+type StructDraft = {
+  bar?: {
+    baz?: {
+      handler?: () => Promise<void>;
+    };
+  };
+};
+
+const draft: StructDraft = {
   bar: {
     baz: {},
   },

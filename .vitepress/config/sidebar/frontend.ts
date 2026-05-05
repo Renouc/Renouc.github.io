@@ -8,7 +8,7 @@ const frontendSidebar = {
       ],
     },
     {
-      text: 'TypeScript 类型基础',
+      text: 'TypeScript',
       items: [
         {
           text: '原始类型和对象类型',
@@ -26,11 +26,6 @@ const frontendSidebar = {
           text: '内置类型与类型断言',
           link: '/frontend/typescript/base/built_in_types',
         },
-      ],
-    },
-    {
-      text: 'TypeScript 类型工具',
-      items: [
         {
           text: '创建与组合',
           link: '/frontend/typescript/tool/type_create',
@@ -55,11 +50,6 @@ const frontendSidebar = {
           text: '条件类型与 infer',
           link: '/frontend/typescript/tool/conditional_type_infer',
         },
-      ],
-    },
-    {
-      text: 'TypeScript 类型小知识',
-      items: [
         {
           text: '对象字面量额外属性检查',
           link: '/frontend/typescript/tips/extra_property_check',

@@ -187,7 +187,7 @@ type ArrayItemTypeResult2 = ArrayItemType<string[]>; // string
 type ArrayItemTypeResult3 = ArrayItemType<[string, number]>; // string | number
 ```
 
-原理即是这里的 `[string, number]` 实际上等价于 `(string | number)[]`。
+这里并不是说 `[string, number]` 等价于 `(string | number)[]`。元组仍然保留长度和位置约束，只是在匹配 `Array<infer ElementType>` 时，TypeScript 会把各个元素位置的类型提取并合并为 `string | number`。
 
 ### 提取对象属性类型
 

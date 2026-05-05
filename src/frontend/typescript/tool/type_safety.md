@@ -165,14 +165,21 @@ function process(input: string | number) {
 类型守卫非常灵活，可以用于各种复杂类型：
 
 ```typescript
-// 判断是否为空值（false、""、0、null、undefined）
-export type Falsy = false | '' | 0 | null | undefined;
-export const isFalsy = (val: unknown): val is Falsy => !val;
+// 判断是否为 null 或 undefined
+export type Nullish = null | undefined;
+export const isNullish = (val: unknown): val is Nullish => val == null;
 
 // 判断是否为原始类型
-export type Primitive = string | number | boolean | undefined;
+export type Primitive =
+  | string
+  | number
+  | bigint
+  | boolean
+  | symbol
+  | null
+  | undefined;
 export const isPrimitive = (val: unknown): val is Primitive =>
-  ['string', 'number', 'boolean', 'undefined'].includes(typeof val);
+  val === null || (typeof val !== 'object' && typeof val !== 'function');
 ```
 
 ### 基于 in 的类型守卫

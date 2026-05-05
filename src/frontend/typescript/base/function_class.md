@@ -419,7 +419,7 @@ class Account {
   // 私有成员 - 仅在类内部可访问
   private transactions: string[];
 
-  // TypeScript 4.0+的私有字段 - 真正的运行时私有，不仅是类型检查
+  // TypeScript 3.8+ 支持的 ECMAScript 私有字段 - 真正的运行时私有
   #secretKey: string;
 
   // 受保护成员 - 在类和子类中可访问，实例不可直接访问
@@ -812,7 +812,12 @@ console.log(myShape.color); // "blue"
 
 ### 装饰器
 
-TypeScript 实验性地支持装饰器，可用于修改类、方法、属性或参数的行为：
+TypeScript 中的装饰器需要区分两套模型：
+
+- TypeScript 5.0+ 支持新的标准装饰器语法，类型签名和运行时行为与旧装饰器不同。
+- `experimentalDecorators` 启用的是旧版实验性装饰器，常见于旧项目和依赖 `emitDecoratorMetadata` 的框架。
+
+下面示例使用旧版实验性装饰器模型：
 
 ```typescript
 // 启用experimentalDecorators编译选项后可用
@@ -851,5 +856,7 @@ example.multiply(2, 3);
 // Calling multiply with: [2, 3]
 // Result: 6
 ```
+
+如果新项目没有历史框架约束，应优先确认使用的是标准装饰器还是旧版装饰器；两者的函数签名、参数装饰器支持和元数据行为并不兼容。
 
 通过接口和抽象类，TypeScript 提供了灵活而强大的方式来定义和实现类之间的关系。

@@ -45,7 +45,7 @@ type InvalidStatus = StatusCode<999>; // "invalid"
 - 联合类型的子集是其父集的子类型（如 `1 | 2 extends 1 | 2 | 3`）
 - 更具体的对象类型是更抽象类型的子类型（如 `{ name: string } extends {}`）
 
-在 TypeScript 中，泛型参数存在默认约束。在 TypeScript 3.9 版本以前，这个默认约束是 `any`，而在 3.9 版本以后则为 `unknown`。这意味着当你声明泛型参数时，如果没有指定约束，它会自动具有 `unknown` 的约束。
+在 TypeScript 中，泛型参数存在默认约束。TypeScript 3.5 起，未显式声明约束的泛型参数会被隐式约束为 `unknown`；更早版本使用的是空对象类型 `{}`。这意味着当你声明 `T` 时，如果没有写 `T extends SomeType`，就不能假设它一定拥有某个属性或方法，除非先添加约束或做类型收窄。
 
 为了避免不必要的类型约束，TypeScript ESLint 提供了 [no-unnecessary-type-constraint](https://typescript-eslint.io/rules/no-unnecessary-type-constraint/) 规则。这个规则可以帮助你避免声明与默认约束相同的泛型约束。例如：
 
