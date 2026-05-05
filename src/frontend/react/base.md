@@ -1,3 +1,16 @@
-# React 的基本使用
+---
+layout: doc
+title: 页面已迁移
+---
 
-React 是一个用于构建用户界面的 JavaScript 库。
+# 页面已迁移
+
+本文已迁移到：[React](/frontend/react/)
+
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  window.location.replace('/frontend/react/')
+})
+</script>

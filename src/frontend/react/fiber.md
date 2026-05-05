@@ -1,7 +1,16 @@
-# Fiber 结构
+---
+layout: doc
+title: 页面已迁移
+---
 
-## Fiber 对象的结构
+# 页面已迁移
 
-- elementType 原始类型，如高阶组件React.memo(App)等，直接返回包装后的组件
+本文已迁移到：[React 渲染机制](/frontend/react/rendering)
 
-- type 被解析过后的类型，通过elementType解析得到
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  window.location.replace('/frontend/react/rendering')
+})
+</script>

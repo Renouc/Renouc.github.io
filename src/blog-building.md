@@ -1,17 +1,16 @@
-# 博客搭建
+---
+layout: doc
+title: 页面已迁移
+---
 
-## 初始化项目
+# 页面已迁移
 
-```bash
-npx vitepress init
-```
+本文已迁移到：[博客搭建](/meta/site-building)
 
-## 更改配置
+<script setup>
+import { onMounted } from 'vue'
 
-1. 修改文件映射路径
-
-config.ts
-
-```ts
-srcDir: 'src';
-```
+onMounted(() => {
+  window.location.replace('/meta/site-building')
+})
+</script>

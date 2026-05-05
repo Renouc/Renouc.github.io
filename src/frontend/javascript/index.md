@@ -1,3 +1,4 @@
-# Javascript
+# JavaScript
 
-这里记录 javascript 相关的一些知识。
+- [类型和值](/frontend/javascript/type_value)
+- [this 的绑定](/frontend/javascript/this)

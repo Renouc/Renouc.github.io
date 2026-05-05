@@ -1,3 +1,11 @@
-# 碎片化记录
+# 分类已迁移
 
-这里记录着平时的碎片化记录，包括技术、生活、随笔等。
+知识碎片分类已经拆分到新的主题入口，请从[首页](/)进入对应分类。
+
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  window.location.replace('/')
+})
+</script>

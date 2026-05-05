@@ -5,7 +5,7 @@ import { defineConfig } from 'vitepress';
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Renouc',
-  description: '积累知识碎片',
+  description: '前端、后端、工程化与 AI 学习笔记',
   cleanUrls: true,
   srcDir: 'src',
   head: [['link', { rel: 'icon', href: '/logo.svg' }]],
