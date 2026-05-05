@@ -118,7 +118,7 @@ LangChain v1 中可以用 `createAgent` 创建一个简单 agent：
 import { createAgent } from 'langchain';
 
 const agent = createAgent({
-  model: '<model-name>',
+  model: 'openai:<model-name>',
   tools: [getTextLength],
   systemPrompt: '你是一个严谨的助手，需要时可以调用工具。',
 });
@@ -136,6 +136,64 @@ const result = await agent.invoke({
 - `messages` 提供当前任务上下文
 - `agent.invoke` 启动一次 agent 执行
 
+### Agent 的 Model
+
+`createAgent` 的 `model` 可以接收两类值。
+
+第一类是模型标识字符串：
+
+```ts
+const agent = createAgent({
+  model: 'openai:<model-name>',
+  tools: [getTextLength],
+});
+```
+
+在 agent 中，模型字符串建议使用 `provider:model` 格式，例如 `openai:<model-name>`、`anthropic:<model-name>`。这和普通 `initChatModel('<model-name>')` 不完全一样：agent 需要更明确地知道用哪个 provider 初始化模型。
+
+第二类是已经创建好的 chat model 实例：
+
+```ts
+import { ChatOpenAI } from '@langchain/openai';
+import { createAgent } from 'langchain';
+
+const model = new ChatOpenAI({
+  model: '<openai-model-name>',
+  temperature: 0,
+  maxRetries: 2,
+});
+
+const agent = createAgent({
+  model,
+  tools: [getTextLength],
+});
+```
+
+也可以把 `initChatModel` 创建出的模型传给 agent：
+
+```ts
+import { initChatModel } from 'langchain';
+
+const model = await initChatModel('<openai-model-name>', {
+  temperature: 0,
+});
+
+const agent = createAgent({
+  model,
+  tools: [getTextLength],
+});
+```
+
+判断方式：
+
+| 写法             | 适合场景                                 |
+| ---------------- | ---------------------------------------- |
+| 模型字符串       | 简单 agent，配置少，能明确 provider      |
+| `ChatOpenAI` 等  | 需要控制 API key、baseURL、timeout 等参数 |
+| `initChatModel`  | 需要动态选择 provider 或复用统一初始化逻辑 |
+
+agent 使用的模型通常需要支持 tool calling。否则模型即使能普通对话，也可能无法稳定驱动工具调用。
+
 如果工具需要读取运行时上下文，例如当前用户 ID，可以通过 `contextSchema` 和调用配置传入：
 
 ```ts
@@ -150,7 +208,7 @@ const contextSchema = z.object({
 });
 
 const agent = createAgent({
-  model: '<model-name>',
+  model: 'openai:<model-name>',
   tools: [getCurrentUser],
   contextSchema,
 });

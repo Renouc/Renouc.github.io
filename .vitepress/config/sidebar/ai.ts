@@ -9,6 +9,7 @@ const aiSidebar = {
             { text: '定位与边界', link: '/ai/langchain/01-langchain-positioning' },
             { text: '模型、消息与提示词', link: '/ai/langchain/02-model-message-prompt' },
             { text: 'Tools 与 Agent', link: '/ai/langchain/03-tools-and-agent' },
+            { text: 'Streaming', link: '/ai/langchain/04-streaming' },
           ],
         },
         { text: 'Ollama', link: '/ai/local-models/ollama' },
