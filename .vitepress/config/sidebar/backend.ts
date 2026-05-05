@@ -13,7 +13,6 @@ const backendSidebar = {
       text: '服务端框架与接口',
       items: [
         { text: 'Koa', link: '/backend/koa/' },
-        { text: 'GraphQL', link: '/backend/graphql/' },
       ],
     },
   ],

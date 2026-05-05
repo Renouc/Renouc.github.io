@@ -88,24 +88,40 @@ window.addEventListener(
 - **FP (First Paint - 首次绘制)**: 浏览器首次在屏幕上渲染任何像素的时间点。
 - **FCP (First Contentful Paint - 首次内容绘制)**: 浏览器首次渲染 DOM 内容（文本、图片等）的时间点。
 - **LCP (Largest Contentful Paint - 最大内容绘制)**: 视口中最大可见内容元素渲染完成的时间。
-- **FID (First Input Delay - 首次输入延迟)**: 用户首次与页面交互（点击、输入等）到浏览器实际响应该交互的时间。
+- **INP (Interaction to Next Paint - 交互到下一次绘制)**: 衡量页面对用户交互的整体响应速度，已经取代 FID 成为核心指标。
 - **CLS (Cumulative Layout Shift - 累积布局偏移)**: 页面加载过程中所有意外布局偏移的累积分数。
 - **TTFB (Time to First Byte - 首字节时间)**: 浏览器从发起请求到接收到第一个字节响应的时间。
 
 ### 如何采集性能数据
 
-可以使用 `PerformanceObserver` API 来监听和采集这些指标，比手动计算更准确。
+可以使用 `PerformanceObserver` API 采集底层性能条目。Web Vitals 的最终计算有不少边界，生产项目更推荐使用 `web-vitals` 库。
 
 ```javascript
-const observer = new PerformanceObserver((list) => {
+const paintObserver = new PerformanceObserver((list) => {
   for (const entry of list.getEntries()) {
-    console.log(entry.name, entry.startTime);
-    // entry.name 可能是 'first-paint', 'first-contentful-paint', 'largest-contentful-paint' 等
-    // 在这里上报性能数据
+    console.log(entry.name, entry.startTime); // first-paint / first-contentful-paint
   }
 });
-// 订阅需要观察的性能指标
-observer.observe({ entryTypes: ['paint', 'lcp', 'fid', 'cls'] });
+
+paintObserver.observe({ type: 'paint', buffered: true });
+
+const lcpObserver = new PerformanceObserver((list) => {
+  const entries = list.getEntries();
+  const lastEntry = entries[entries.length - 1];
+  console.log('LCP:', lastEntry.startTime);
+});
+
+lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
+
+const clsObserver = new PerformanceObserver((list) => {
+  for (const entry of list.getEntries()) {
+    if (!entry.hadRecentInput) {
+      console.log('layout shift:', entry.value);
+    }
+  }
+});
+
+clsObserver.observe({ type: 'layout-shift', buffered: true });
 ```
 
 ## 用户行为监控

@@ -2,7 +2,7 @@
 
 ## 原始类型 🧱
 
-嘿！JavaScript 的原始类型有 8 种（感谢 ES2020 给我们带来的 BigInt 👏），这些类型在 TypeScript 中都有对应的类型注解。除了 `null` 和 `undefined` 这两个"特殊宝贝"外，其他类型基本上与 JavaScript 中的数据类型概念一一对应。
+嘿！JavaScript 的原始类型有 7 种（感谢 ES2020 给我们带来的 BigInt 👏），这些类型在 TypeScript 中都有对应的类型注解。除了 `null` 和 `undefined` 这两个"特殊宝贝"外，其他类型基本上与 JavaScript 中的数据类型概念一一对应。
 
 ```ts
 const name: string = 'renouc'; // 字符串，你好呀~ 👋
@@ -10,11 +10,12 @@ const age: number = 24; // 数字，计算必备 🔢
 const male: boolean = false; // 布尔值，不是 true 就是 false 🤔
 const undef: undefined = undefined; // 未定义，空空如也 🌫️
 const nul: null = null; // 空值，有盒子但没东西 📦
-const obj: object = { name, age, male }; // 对象，万物皆对象 🧰
 const bigintVar1: bigint = 9007199254740991n; // 超大整数，大到天花板都不够高 🚀
 const bigintVar2: bigint = BigInt(9007199254740991);
 const symbolVar: symbol = Symbol('unique'); // 独一无二的值 ✨
 ```
+
+`object` 不是原始类型，它表示非原始值，例如对象、数组和函数。
 
 ## null 和 undefined 🤷‍♂️
 
@@ -294,7 +295,7 @@ const tmp15: String = { name: '王富贵' }; // 错误！
 3. **object**（小写o）：专门表示非原始类型，也就是对象、数组、函数这一家子：
 
 ```ts
-// 原始类型统统拒绝！（关闭 strictNullChecks 后可以）
+// 原始类型统统拒绝！
 const tmp20: object = '王富贵'; // 错误！
 const tmp21: object = 599; // 错误！
 const tmp22: object = true; // 错误！

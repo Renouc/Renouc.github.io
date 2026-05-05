@@ -159,18 +159,37 @@ let animal: Animal = new Dog(); // OK
 泛型类型之间的关系比较复杂，需要考虑协变、逆变和不变性。
 
 ```ts
-type Covariant<T> = T;
-type Contravariant<T> = (x: T) => void;
-type Invariant<T> = { value: T };
+class Animal {
+  name = '';
+}
 
-let x: Covariant<string> = 'hello';
-let y: Covariant<any> = x; // OK，协变
+class Dog extends Animal {
+  bark() {}
+}
 
-let f: Contravariant<any> = (x: any) => {};
-let g: Contravariant<string> = f; // OK，逆变
+type Covariant<T> = {
+  readonly value: T;
+};
 
-let a: Invariant<string> = { value: 'hello' };
-// let b: Invariant<any> = a; // Error，不变
+type Contravariant<T> = (value: T) => void;
+
+type Invariant<T> = {
+  get: () => T;
+  set: (value: T) => void;
+};
+
+const dogBox: Covariant<Dog> = { value: new Dog() };
+const animalBox: Covariant<Animal> = dogBox; // OK，Dog 可以作为 Animal 读取
+
+const animalHandler: Contravariant<Animal> = (value) => {};
+const dogHandler: Contravariant<Dog> = animalHandler; // OK，能处理 Animal 的函数也能处理 Dog
+
+const dogState: Invariant<Dog> = {
+  get: () => new Dog(),
+  set: (value) => {},
+};
+
+// const animalState: Invariant<Animal> = dogState; // Error，同时读写时通常是不变的
 ```
 
 ### 数组与元组关系 📊

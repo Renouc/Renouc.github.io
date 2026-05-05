@@ -1,7 +1,6 @@
 import { DefaultTheme } from 'vitepress';
 import aiSidebar from './ai';
 import backendSidebar from './backend';
-import devopsSidebar from './devops';
 import engineeringSidebar from './engineering';
 import frontendSidebar from './frontend';
 import principlesSidebar from './principles';
@@ -13,7 +12,6 @@ const sidebar: DefaultTheme.Sidebar = {
   ...backendSidebar,
   ...aiSidebar,
   ...engineeringSidebar,
-  ...devopsSidebar,
   ...principlesSidebar,
 };
 

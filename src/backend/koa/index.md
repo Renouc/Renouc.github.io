@@ -62,8 +62,8 @@ const middleware4 = async (ctx, next) => {
     message: 'Hello World',
   };
   console.log('----middleware4 body end----');
+  await next();
   console.log('----middleware4 end----');
-  next();
 };
 
 const middleware5 = async (ctx, next) => {
@@ -84,16 +84,16 @@ app.listen(3000, () => {
 
 上面例子的打印结果为:
 
-```p
+```text
 ----middleware1 start----
 ----middleware2 start----
 ----middleware3 start----
 ----middleware4 start----
 ----middleware4 body start----
 ----middleware4 body end----
-----middleware4 end----
 ----middleware5 start----
 ----middleware5 end----
+----middleware4 end----
 ----middleware3 end----
 ----middleware2 end----
 ----middleware1 end----

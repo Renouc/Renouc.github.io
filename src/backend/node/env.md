@@ -57,7 +57,7 @@ npm install dotenv
 
 创建 `.env` 文件：
 
-```env
+```text
 NODE_ENV=development
 PORT=4000
 DB_URL=mongodb://localhost:27017/devdb

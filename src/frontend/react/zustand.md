@@ -120,21 +120,18 @@ function UserProfile() {
 
 ### 3. 使用浅比较优化性能
 
-**方法一：使用 `useStoreWithEqualityFn`**
+**方法一：使用 `useShallow`**
 
 ```tsx
-import { useStoreWithEqualityFn } from 'zustand/traditional';
-import { shallow } from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 function TodoList() {
-  const { todos, addTodo, removeTodo } = useStoreWithEqualityFn(
-    useTodoStore,
-    (state) => ({
+  const { todos, addTodo, removeTodo } = useTodoStore(
+    useShallow((state) => ({
       todos: state.todos,
       addTodo: state.addTodo,
       removeTodo: state.removeTodo,
-    }),
-    shallow
+    }))
   );
 
   return (
@@ -151,14 +148,27 @@ function TodoList() {
 }
 ```
 
-**方法二：使用 `subscribeWithSelector` 中间件**
+**方法二：使用 `createWithEqualityFn`**
+
+如果希望创建 store 时就支持自定义比较函数，可以使用 `createWithEqualityFn`。
 
 ```tsx
-import { subscribeWithSelector } from 'zustand/middleware';
+import { createWithEqualityFn } from 'zustand/traditional';
 import { shallow } from 'zustand/shallow';
 
-const useTodoStore = create(
-  subscribeWithSelector((set) => ({
+type Todo = {
+  id: number;
+  text: string;
+};
+
+interface TodoStore {
+  todos: Todo[];
+  addTodo: (text: string) => void;
+  removeTodo: (id: number) => void;
+}
+
+const useTodoStore = createWithEqualityFn<TodoStore>()(
+  (set) => ({
     todos: [],
     addTodo: (text) =>
       set((state) => ({
@@ -168,7 +178,8 @@ const useTodoStore = create(
       set((state) => ({
         todos: state.todos.filter((todo) => todo.id !== id),
       })),
-  }))
+  }),
+  shallow
 );
 
 function TodoList() {
@@ -197,10 +208,11 @@ function TodoList() {
 
 **说明：**
 
-- 在 Zustand v4+ 中，默认的 store hook 不再接受第二个相等性函数参数
+- 不要假设默认 store hook 一定支持第二个相等性函数参数，按项目使用的 Zustand 版本选择对应 API
 - 如果需要使用自定义相等性函数，有两种方式：
-  1. 使用 `useStoreWithEqualityFn` from `zustand/traditional`
-  2. 在创建 store 时使用 `subscribeWithSelector` 中间件
+  1. 使用 `useShallow` 包装 selector
+  2. 创建 store 时使用 `createWithEqualityFn`
+- `subscribeWithSelector` 主要用于 store 的外部订阅，不是组件内 selector 浅比较的替代方案
 - `shallow` 用于浅比较 selector 返回的对象，避免因为对象引用变化导致的不必要重新渲染
 
 **最佳实践（推荐）：**

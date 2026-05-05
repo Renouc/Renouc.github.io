@@ -125,4 +125,4 @@ function BadComponent() {
 - 使用多个 useState 而非单个复杂对象管理相关状态
 - 对于复杂状态逻辑，考虑使用 useReducer
 - 使用函数式更新 (setState(prev => prev + 1)) 避免依赖旧状态值的问题
-- 记住 useState 的更新是异步的，不要依赖即时更新
+- 记住 useState 更新是被调度和批处理的，不要在同一次渲染里假设能立刻读到新状态

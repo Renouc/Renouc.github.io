@@ -1,10 +1,10 @@
 # Next.js 中间件
 
-Middleware 在请求进入页面或 API 之前运行，适合处理重定向、重写、简单鉴权、语言识别和请求头改写。它不适合承载复杂业务逻辑。
+Middleware 在请求进入页面或 API 之前运行，适合处理重定向、重写、简单鉴权、语言识别和请求头改写。它不适合承载复杂业务逻辑。Next.js 新版本正在把这类入口迁移为 `proxy.ts` 命名，维护旧项目时仍会遇到 `middleware.ts`。
 
 ## 基本用法
 
-在项目根目录或 `src` 目录下创建 `middleware.ts`。
+在项目根目录或 `src` 目录下创建 `middleware.ts`。如果项目已经使用新版 `proxy.ts`，下面的 `middleware` 函数可以对应迁移为 `proxy` 函数。
 
 ```ts
 import { NextResponse, type NextRequest } from 'next/server';
@@ -242,7 +242,7 @@ export function middleware(request: NextRequest) {
 
 ## 注意事项
 
-- Middleware 运行在 Edge Runtime，不能依赖 Node.js 专属 API。
+- Middleware/Proxy 默认运行在轻量请求拦截环境中，旧版 Middleware 不能依赖 Node.js 专属 API；使用新版运行时能力时要先确认当前 Next.js 版本支持范围。
 - 不要在中间件里执行重型计算或复杂数据库查询。
 - 认证逻辑可以做“是否有 token”的快速判断，完整权限校验应放在服务端业务层。
 - `matcher` 要避开 `_next/static`、图片、favicon 等静态资源。

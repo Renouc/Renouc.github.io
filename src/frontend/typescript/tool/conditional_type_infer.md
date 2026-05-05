@@ -406,13 +406,14 @@ for(const input of [number, boolean]){
 
 ### 禁用分布式特性
 
-而这里的裸类型参数，其实指的就是泛型参数是否完全裸露，我们上面使用数组包裹泛型参数只是其中一种方式，比如还可以这么做：
+而这里的裸类型参数，其实指的就是泛型参数是否完全裸露。最稳定的禁用方式是把判断两侧都包进元组：
 
 ```ts
-// 使用交叉类型包装泛型参数，也能禁用分布式特性
-export type NoDistribute<T> = T & {};
+type Naked<T> = T extends boolean ? 'Y' : 'N';
+type Wrapped<T> = [T] extends [boolean] ? 'Y' : 'N';
 
-type Wrapped<T> = NoDistribute<T> extends [boolean] ? 'Y' : 'N';
+type NakedResult = Naked<number | boolean>; // "N" | "Y"
+type WrappedResult = Wrapped<number | boolean>; // "N"
 ```
 
 需要注意的是，我们并不是只会通过裸露泛型参数，来确保分布式特性能够发生。在某些情况下，我们也会需要包裹泛型参数来禁用掉分布式特性。最常见的场景也许还是联合类型的判断，即我们不希望进行联合类型成员的分布判断，而是希望直接判断这两个联合类型的兼容性判断，就像在最初的 Res2 中那样：
@@ -495,8 +496,8 @@ type Union<A, B> = A | B;
 // 差集：从A中去除存在于B中的类型
 type Diff<A, B> = A extends B ? never : A;
 
-// A相对于B的补集：从整体U中去除B，再取A与结果的交集
-type Complement<A, B, U = unknown> = Intersection<A, Diff<U, B>>;
+// A 相对于 B 的差集，也可以理解为从 A 中移除 B
+type Complement<A, B> = Diff<A, B>;
 
 type DiffRes = Diff<1 | 2 | 3, 2 | 3 | 4>; // 1
 type ComplementRes = Complement<1 | 2 | 3 | 5, 2 | 3 | 4>; // 1 | 5
@@ -552,6 +553,6 @@ type PersonWithoutName = ObjectDiff<Person, { name: string }>;
 // { age: number; }
 ```
 
-除此以外，还有许多相对复杂的场景可以降维到类型集合，即联合类型的层面，然后我们就可以愉快地使用分布式条件类型进行各种处理了。关于类型层面的集合运算、对象结构集合运算，我们都会在小册的后续章节有更详细的讲解。
+除此以外，还有许多相对复杂的场景可以降维到类型集合，即联合类型的层面，然后使用分布式条件类型进行处理。
 
 > **小结**：分布式条件类型是 TypeScript 中一个强大而独特的特性，它允许条件类型"分发"到联合类型的每个成员上。通过这种特性，我们可以实现类型集合运算、类型过滤等高级类型操作，为 TypeScript 的类型编程提供了强大的工具。理解其行为规则和使用场景，是掌握高级类型编程的关键一步。

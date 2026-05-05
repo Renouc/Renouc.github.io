@@ -1,3 +1,0 @@
-# DevOps
-
-- [Docker](/devops/docker/)

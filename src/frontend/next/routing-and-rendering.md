@@ -15,7 +15,7 @@ App Router 以 `app` 目录为核心，目录结构就是路由结构。
 | `error.tsx` | 当前路由段的错误边界，必须是客户端组件 |
 | `not-found.tsx` | 当前路由段的 404 UI |
 
-页面组件接收 `params` 和 `searchParams`。在服务端组件中可以直接 `await`。
+页面组件接收 `params` 和 `searchParams`。Next.js 15+ 中它们是 Promise，在服务端组件中可以直接 `await`；Next.js 13/14 中通常是普通对象，老项目迁移时要按当前版本写法处理。
 
 ```tsx
 export default async function Page({

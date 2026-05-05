@@ -9,14 +9,17 @@
 ## ✅ 正确做法：使用 `onKeyDown` + Composition 事件判断
 
 ```tsx
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 
 function SearchInput() {
-  const [isComposing, setIsComposing] = useState(false);
+  const isComposingRef = useRef(false);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const isComposing =
+      isComposingRef.current || e.nativeEvent.isComposing;
+
     if (e.key === 'Enter' && !isComposing) {
-      console.log('触发搜索：', e.target.value);
+      console.log('触发搜索：', e.currentTarget.value);
       // 执行搜索逻辑
     }
   };
@@ -25,8 +28,12 @@ function SearchInput() {
     <input
       type="text"
       onKeyDown={handleKeyDown}
-      onCompositionStart={() => setIsComposing(true)} // 开始拼音输入
-      onCompositionEnd={() => setIsComposing(false)} // 完成输入，关闭拼音
+      onCompositionStart={() => {
+        isComposingRef.current = true;
+      }}
+      onCompositionEnd={() => {
+        isComposingRef.current = false;
+      }}
     />
   );
 }
@@ -66,24 +73,31 @@ function SearchInput() {
 为了提升复用性与可读性，可将该逻辑封装为一个 React 自定义 Hook：
 
 ```tsx
-import { useState, useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 
 export function useEnterSearch(callback: () => void) {
-  const [isComposing, setIsComposing] = useState(false);
+  const isComposingRef = useRef(false);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
+      const isComposing =
+        isComposingRef.current || e.nativeEvent.isComposing;
+
       if (e.key === 'Enter' && !isComposing) {
         callback();
       }
     },
-    [isComposing, callback]
+    [callback]
   );
 
   return {
     onKeyDown: handleKeyDown,
-    onCompositionStart: () => setIsComposing(true),
-    onCompositionEnd: () => setIsComposing(false),
+    onCompositionStart: () => {
+      isComposingRef.current = true;
+    },
+    onCompositionEnd: () => {
+      isComposingRef.current = false;
+    },
   };
 }
 ```

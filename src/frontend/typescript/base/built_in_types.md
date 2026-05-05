@@ -142,11 +142,16 @@ interface Product {
   price: number;
 }
 
-function isProduct(value: any): value is Product {
+function isProduct(value: unknown): value is Product {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const product = value as Record<string, unknown>;
+
   return (
-    value != null &&
-    typeof value.name === 'string' &&
-    typeof value.price === 'number'
+    typeof product.name === 'string' &&
+    typeof product.price === 'number'
   );
 }
 ```
@@ -250,15 +255,17 @@ function processEvent(event: 'click' | 'scroll' | 'mousemove') {
 }
 ```
 
-有时你会无意中遇到 `never`，例如：
+有时你会无意中遇到 `never`。例如空数组出现在对象属性或缺少上下文类型的位置时，TypeScript 可能无法推断元素类型：
 
 ```ts
-const arr = [];
+const state = {
+  items: [],
+};
 
-arr.push('hello'); // ❌ 类型"string"的参数不能赋给类型"never"的参数
+state.items.push('hello'); // ❌ 类型"string"的参数不能赋给类型"never"的参数
 ```
 
-这里空数组被推导为 `never[]` 类型。解决方法很简单：给数组声明一个具体类型就好了 👍。
+这里 `items` 可能被推导为 `never[]`。解决方法很简单：给数组声明一个具体类型就好了 👍。
 
 #### 类型运算中的 never 类型 🧮
 

@@ -23,7 +23,7 @@ features:
     link: /frontend/
   - title: 后端 / Node
     icon: 🧩
-    details: Node.js 基础 API、Koa、GraphQL 和服务端接口相关笔记。
+    details: Node.js 基础 API、Koa 和服务端接口相关笔记。
     link: /backend/
   - title: AI
     icon: 🤖

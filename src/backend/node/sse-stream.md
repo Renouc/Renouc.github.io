@@ -4,6 +4,8 @@
 
 实现流式输出有多种方式：`WebSocket`、`HTTP Chunked`、`SSE` 等。其中 SSE（Server-Sent Events） 是一种轻量、基于 HTTP 的单向流技术，非常适合实现流式 AI 回复。
 
+下面示例使用的是 `fetch POST + text/event-stream`：服务端输出 SSE 数据格式，前端手动读取流。它不是传统 `EventSource` 用法，因为 `EventSource` 只支持 GET 请求。
+
 ## 💻 server.js 示例代码
 
 ```js
@@ -39,6 +41,10 @@ app.post('/api/chat', (req, res) => {
       res.end();
     }
   }, 100); // 每 100ms 输出一个字
+
+  req.on('close', () => {
+    clearInterval(interval);
+  });
 });
 
 app.listen(PORT, () => {
@@ -67,20 +73,28 @@ app.listen(PORT, () => {
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder('utf-8');
+    let buffer = '';
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
 
-      const text = decoder.decode(value);
+      buffer += decoder.decode(value, { stream: true });
+      const events = buffer.split('\n\n');
+      buffer = events.pop() || '';
 
-      const lines = text.split('\n').filter((line) => line.startsWith('data:'));
-      for (const line of lines) {
-        const content = line.replace('data: ', '');
+      for (const event of events) {
+        const content = event
+          .split('\n')
+          .filter((line) => line.startsWith('data:'))
+          .map((line) => line.slice(5).trimStart())
+          .join('\n');
+
         if (content === '[DONE]') {
           reader.cancel();
-          break;
+          return;
         }
+
         output.textContent += content;
       }
     }

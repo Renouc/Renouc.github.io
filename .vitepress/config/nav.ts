@@ -5,7 +5,6 @@ const nav: DefaultTheme.NavItem[] = [
   { text: '后端 / Node', link: '/backend/' },
   { text: 'AI', link: '/ai/' },
   { text: '工程化', link: '/engineering/' },
-  { text: 'DevOps', link: '/devops/' },
   { text: '原则', link: '/principles/' },
   { text: '导航', link: 'https://site-atlas.ohyoumi.com/' },
 ];

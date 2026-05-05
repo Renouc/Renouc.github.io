@@ -120,8 +120,9 @@ import path from 'node:path';
 function assertInsideWorkspace(target: string, workspace: string) {
   const absoluteTarget = path.resolve(target);
   const absoluteWorkspace = path.resolve(workspace);
+  const relative = path.relative(absoluteWorkspace, absoluteTarget);
 
-  if (!absoluteTarget.startsWith(absoluteWorkspace + path.sep)) {
+  if (relative === '' || relative.startsWith('..') || path.isAbsolute(relative)) {
     throw new Error(`Refuse to remove outside workspace: ${target}`);
   }
 }

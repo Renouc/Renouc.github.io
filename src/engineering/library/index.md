@@ -2,11 +2,11 @@
 
 ## 模块化
 
-现代前端库通常支持多种模块规范（CommonJS、ESM、UMD）以保证兼容性。
+现代前端库通常优先提供 ESM 和 CommonJS。只有需要 `<script>` 标签或 CDN 直接加载时，才额外提供 UMD/IIFE 产物。
 
-打包工具（如 Rollup、Webpack）会依据 package.json 中的 mainFields 字段优先级解析依赖入口。
+打包工具（如 Rollup、Webpack）会依据自身的 `mainFields` / `conditionNames` 配置解析 `package.json` 中的入口字段。
 
-推荐同时提供 main (CommonJS)、module (ESM)、browser (UMD) 三种入口，方便不同环境加载。
+推荐通过 `exports` 明确声明导出入口，并保留 `main`、`module`、`types` 兼容旧工具。`browser` 不等同于 UMD，它通常表示浏览器环境入口或替换规则。
 
 ## 兼容性
 
@@ -25,8 +25,6 @@ Polyfill 和转译（如 Babel）确保新语法在旧环境可运行。
 - 🧪 端到端测试（E2E）：模拟用户行为验证整体功能。
 
 ## 开源协议
-
-<!-- TODO 待完善 -->
 
 寻找符合要求的协议：https://choosealicense.com/
 
@@ -106,16 +104,16 @@ npm install your-package@beta
 {
   "name": "@renouc/cookie-util",
   "version": "0.0.2",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "browser": "dist/index.umd.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "unpkg": "dist/index.umd.js",
+  "browser": "dist/index.browser.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.cjs.js",
-      "types": "./dist/types/index.d.ts",
-      "browser": "./dist/index.umd.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     }
   },
   "publishConfig": {
@@ -130,7 +128,7 @@ npm install your-package@beta
 }
 ```
 
-> `exports` 提供更精细的导出控制，可覆盖 `main/module/browser`。
+> `exports` 提供更精细的导出控制。现代工具会优先读取 `exports`，`main/module/browser` 主要用于兼容旧解析器或浏览器构建约定。
 
 ## 推荐实践小结
 

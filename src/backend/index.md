@@ -2,4 +2,3 @@
 
 - [Node.js](/backend/node/)
 - [Koa](/backend/koa/)
-- [GraphQL](/backend/graphql/)

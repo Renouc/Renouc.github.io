@@ -110,7 +110,10 @@ interface Point {
 }
 
 const point: Point = { x: 1, y: 2 }; // ✅ 可以
-const point2: Point = { x: 1, y: 2, z: 3 }; // ✅ 可以，额外属性不影响
+const point2: Point = { x: 1, y: 2, z: 3 }; // ❌ 对象字面量会触发额外属性检查
+
+const pointLike = { x: 1, y: 2, z: 3 };
+const point3: Point = pointLike; // ✅ 变量赋值按结构兼容性检查，额外属性不影响
 ```
 
 3. **函数参数**：
@@ -125,7 +128,10 @@ function request(config: Config) {
   // ...
 }
 
-request({ url: '/api', method: 'GET', headers: {} }); // ✅ 可以
+request({ url: '/api', method: 'GET', headers: {} }); // ❌ 直接传对象字面量会触发额外属性检查
+
+const config = { url: '/api', method: 'GET', headers: {} };
+request(config); // ✅ 变量只要结构兼容即可
 ```
 
 ## 标称类型系统
