@@ -3,11 +3,11 @@
 layout: home
 
 hero:
-  name: 'Renouc'
-  text: '前端、后端、工程化与 AI 学习笔记'
+  name: 'Youmi'
+  text: '把技术学习沉淀为可复用的工程笔记'
   image:
     src: /avatar.png
-    alt: Renouc
+    alt: Youmi
   actions:
     - theme: brand
       text: 前端
@@ -33,16 +33,4 @@ features:
     icon: 🛠️
     details: Git、npm、Monorepo、库开发等工程协作与发布流程。
     link: /engineering/
-  - title: DevOps
-    icon: 🐳
-    details: Docker 与部署运维相关基础知识。
-    link: /devops/
-  - title: 原则
-    icon: 📐
-    details: SOLID 等设计原则和架构思考。
-    link: /principles/
-  - title: 站点建设
-    icon: 📝
-    details: 个人网站搭建和站点维护记录。
-    link: /meta/
 ---

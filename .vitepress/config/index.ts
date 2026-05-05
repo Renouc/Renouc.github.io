@@ -4,7 +4,7 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'Renouc',
+  title: 'Youmi',
   description: '前端、后端、工程化与 AI 学习笔记',
   cleanUrls: true,
   srcDir: 'src',
