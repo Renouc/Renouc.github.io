@@ -28,12 +28,16 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     await nextTick();
   }).ready;
 
+  const isDarkAfter = isDark.value;
+  const transitionClipPath = isDarkAfter ? [...clipPath].reverse() : clipPath;
+
   document.documentElement.animate(
-    { clipPath: isDark.value ? clipPath.reverse() : clipPath },
+    { clipPath: transitionClipPath },
     {
       duration: 300,
       easing: 'ease-in',
-      pseudoElement: `::view-transition-${isDark.value ? 'old' : 'new'}(root)`,
+      fill: 'both',
+      pseudoElement: `::view-transition-${isDarkAfter ? 'old' : 'new'}(root)`,
     }
   );
 });
