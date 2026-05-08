@@ -5,7 +5,7 @@ import { defineConfig } from 'vitepress';
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Youmi',
-  description: '前端、后端、工程化与 AI 学习笔记',
+  description: '前端、Python、后端、工程化与 AI 学习笔记',
   cleanUrls: true,
   srcDir: 'src',
   head: [['link', { rel: 'icon', href: '/logo.svg' }]],

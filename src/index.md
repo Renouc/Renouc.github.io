@@ -13,6 +13,9 @@ hero:
       text: 前端
       link: /frontend/
     - theme: alt
+      text: Python
+      link: /python/
+    - theme: alt
       text: 工程化
       link: /engineering/
 
@@ -21,6 +24,10 @@ features:
     icon: 💻
     details: JavaScript、TypeScript、React、Next.js、前端工程化和实践问题。
     link: /frontend/
+  - title: Python
+    icon: 🐍
+    details: Python 运行环境、依赖管理、工程实践和常用工具链记录。
+    link: /python/
   - title: 后端 / Node
     icon: 🧩
     details: Node.js 基础 API、Koa 和服务端接口相关笔记。
