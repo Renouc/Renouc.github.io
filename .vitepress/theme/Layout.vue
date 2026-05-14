@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { computed, nextTick, onMounted, onUnmounted, provide, ref } from 'vue';
 import { useData } from 'vitepress';
 import DefaultTheme from 'vitepress/theme';
-import { nextTick, provide } from 'vue';
 
-const { isDark } = useData();
+const { isDark, frontmatter } = useData();
 
 const enableTransitions = () =>
   'startViewTransition' in document &&
@@ -41,9 +41,21 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
     }
   );
 });
+
+const progress = ref(0);
+const isDoc = computed(() => frontmatter.value.layout !== 'home');
+
+function updateProgress() {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  progress.value = total > 0 ? Math.min(100, (window.scrollY / total) * 100) : 0;
+}
+
+onMounted(() => window.addEventListener('scroll', updateProgress, { passive: true }));
+onUnmounted(() => window.removeEventListener('scroll', updateProgress));
 </script>
 
 <template>
+  <div v-show="isDoc" class="reading-progress" :style="{ width: progress + '%' }" />
   <DefaultTheme.Layout />
 </template>
 
@@ -70,5 +82,16 @@ provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
 
 .VPSwitchAppearance .check {
   transform: none !important;
+}
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  height: 2px;
+  background: linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-next));
+  transition: width 0.08s linear;
+  pointer-events: none;
 }
 </style>

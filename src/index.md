@@ -5,39 +5,33 @@ layout: home
 hero:
   name: 'Youmi'
   text: '把技术学习沉淀为可复用的工程笔记'
+  tagline: '围绕前端架构、Python 工程、Node 服务、AI 应用与长期主义原则，整理能反复复用的实践路径。'
   image:
-    src: /avatar.png
-    alt: Youmi
+    src: /youmi-mascot.png
+    alt: Youmi 3D mascot
+    draggable: 'false'
   actions:
     - theme: brand
-      text: 前端
+      text: 进入前端
       link: /frontend/
     - theme: alt
-      text: Python
-      link: /python/
-    - theme: alt
-      text: 工程化
-      link: /engineering/
+      text: AI 笔记
+      link: /ai/
 
 features:
   - title: 前端
     icon: 💻
-    details: JavaScript、TypeScript、React、Next.js、前端工程化和实践问题。
+    details: JavaScript、TypeScript、React、Next.js 与前端工程实践。
     link: /frontend/
-  - title: Python
-    icon: 🐍
-    details: Python 运行环境、依赖管理、工程实践和常用工具链记录。
-    link: /python/
-  - title: 后端 / Node
-    icon: 🧩
-    details: Node.js 基础 API、Koa 和服务端接口相关笔记。
-    link: /backend/
+    linkText: 查看路线
   - title: AI
     icon: 🤖
-    details: Agent 架构、本地模型和 AI 应用开发相关记录。
+    details: Agent 架构、本地模型、LangChain 与 AI 应用开发。
     link: /ai/
-  - title: 工程化
-    icon: 🛠️
-    details: Git、npm、Monorepo、库开发等工程协作与发布流程。
-    link: /engineering/
+    linkText: 查看实验
+  - title: 后端 / Node
+    icon: 🧩
+    details: Node.js 基础 API、Koa、接口和服务端能力沉淀。
+    link: /backend/
+    linkText: 查看专题
 ---
