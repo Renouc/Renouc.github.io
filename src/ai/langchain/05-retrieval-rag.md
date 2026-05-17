@@ -22,30 +22,42 @@ Retrieval 解决的是模型无法直接看到外部知识的问题。RAG 的核
 
 这些组件可以替换。业务代码应依赖 retriever，而不是绑定某个具体向量库。
 
-## 创建 Retriever
+## 从文档到 Retriever
 
-在后面的示例里，`retriever` 指的是一个已经创建好的检索器。它负责接收用户问题，并返回相关 `Document[]`。
+LangChain 提供 loader 和 splitter。loader 负责把外部资料加载成 `Document[]`，splitter 负责把长文档切成适合检索的小片段。
 
-最常见的创建方式是先把文档写入 vector store，再从 vector store 创建 retriever：
+一个最小流程是：加载文档，切分文档，写入 vector store，再创建 retriever。
 
 ```ts
+import { TextLoader } from '@langchain/classic/document_loaders/fs/text';
 import { OpenAIEmbeddings } from '@langchain/openai';
-import { MemoryVectorStore } from 'langchain/vectorstores/memory';
+import { MemoryVectorStore } from '@langchain/classic/vectorstores/memory';
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 
-// documents 是 loader / splitter 处理后的 Document[]
-const vectorStore = await MemoryVectorStore.fromDocuments(
-  documents,
+const loader = new TextLoader('./docs/langchain.txt');
+const rawDocs = await loader.load();
+
+const splitter = new RecursiveCharacterTextSplitter({
+  chunkSize: 1000,
+  chunkOverlap: 150,
+});
+
+const documents = await splitter.splitDocuments(rawDocs);
+
+const vectorStore = new MemoryVectorStore(
   new OpenAIEmbeddings({
     model: 'text-embedding-3-small',
   }),
 );
+
+await vectorStore.addDocuments(documents);
 
 const retriever = vectorStore.asRetriever({
   k: 4,
 });
 ```
 
-这里的 `k: 4` 表示每次最多取回 4 个相关片段。
+这里的 `retriever` 就是后面 2-Step RAG 示例里使用的检索器。`k: 4` 表示每次最多取回 4 个相关片段。
 
 如果项目已经有搜索服务、数据库或内部知识库，也可以把查询逻辑包装成同样的检索接口。后面的 RAG 代码只关心一件事：`retriever.invoke(question)` 能返回和问题相关的文档。
 
@@ -128,3 +140,6 @@ const agent = createAgent({
 参考：
 
 - [LangChain Retrieval](https://docs.langchain.com/oss/javascript/langchain/retrieval)
+- [Document loaders](https://docs.langchain.com/oss/javascript/integrations/document_loaders)
+- [Text splitters](https://docs.langchain.com/oss/javascript/integrations/splitters)
+- [Vector stores](https://docs.langchain.com/oss/javascript/integrations/vectorstores)
