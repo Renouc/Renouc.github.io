@@ -22,6 +22,33 @@ Retrieval 解决的是模型无法直接看到外部知识的问题。RAG 的核
 
 这些组件可以替换。业务代码应依赖 retriever，而不是绑定某个具体向量库。
 
+## 创建 Retriever
+
+在后面的示例里，`retriever` 指的是一个已经创建好的检索器。它负责接收用户问题，并返回相关 `Document[]`。
+
+最常见的创建方式是先把文档写入 vector store，再从 vector store 创建 retriever：
+
+```ts
+import { OpenAIEmbeddings } from '@langchain/openai';
+import { MemoryVectorStore } from 'langchain/vectorstores/memory';
+
+// documents 是 loader / splitter 处理后的 Document[]
+const vectorStore = await MemoryVectorStore.fromDocuments(
+  documents,
+  new OpenAIEmbeddings({
+    model: 'text-embedding-3-small',
+  }),
+);
+
+const retriever = vectorStore.asRetriever({
+  k: 4,
+});
+```
+
+这里的 `k: 4` 表示每次最多取回 4 个相关片段。
+
+如果项目已经有搜索服务、数据库或内部知识库，也可以把查询逻辑包装成同样的检索接口。后面的 RAG 代码只关心一件事：`retriever.invoke(question)` 能返回和问题相关的文档。
+
 ## 2-Step RAG
 
 2-Step RAG 是最可控的形态：每次都先检索，再生成。
