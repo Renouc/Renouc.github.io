@@ -120,6 +120,83 @@ const agent = createAgent({
 
 这种方式适合问题不稳定、资料来源较多、需要多轮查询的场景。代价是执行路径更不确定，必须设置工具权限、调用次数和 tracing。
 
+## Hybrid RAG
+
+Hybrid RAG 介于固定流程和 agent 自主检索之间。它通常仍然有明确流程，但会加入查询改写、检索结果校验、答案校验等中间步骤。
+
+典型流程：
+
+```text
+用户问题
+→ 改写或扩展 query
+→ 检索文档
+→ 判断文档是否足够
+→ 生成答案
+→ 校验答案是否基于来源
+```
+
+它适合这些情况：
+
+- 用户问题经常模糊，需要先改写 query
+- 检索结果可能不足，需要二次检索
+- 答案必须经过引用、事实或格式校验
+
+最小示例：
+
+```ts
+async function hybridRag(question: string) {
+  const rewritten = await model.invoke([
+    {
+      role: 'system',
+      content: '把用户问题改写成适合检索的简洁 query。只返回 query。',
+    },
+    { role: 'user', content: question },
+  ]);
+
+  let docs = await retriever.invoke(String(rewritten.content));
+
+  if (docs.length < 2) {
+    docs = await retriever.invoke(question);
+  }
+
+  const context = docs
+    .map((doc, index) => `[${index + 1}] ${doc.pageContent}`)
+    .join('\n\n');
+
+  const answer = await model.invoke([
+    {
+      role: 'system',
+      content: '只根据给定上下文回答，并在必要时引用来源编号。',
+    },
+    {
+      role: 'user',
+      content: `上下文：\n${context}\n\n问题：${question}`,
+    },
+  ]);
+
+  const check = await model.invoke([
+    {
+      role: 'system',
+      content: '判断答案是否完全基于上下文。只返回 PASS 或 FAIL。',
+    },
+    {
+      role: 'user',
+      content: `上下文：\n${context}\n\n答案：${answer.content}`,
+    },
+  ]);
+
+  if (String(check.content).trim() !== 'PASS') {
+    return '当前资料不足，无法给出可靠答案。';
+  }
+
+  return answer.content;
+}
+```
+
+这个例子仍然是固定 workflow：模型只参与 query 改写、答案生成和答案校验，不负责自主决定整个执行路径。
+
+如果流程开始出现多次循环、分支和状态恢复，就应考虑用 LangGraph 表达，而不是继续堆普通函数。
+
 ## 选择方式
 
 | 场景                         | 更适合             |
